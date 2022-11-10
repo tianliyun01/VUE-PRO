@@ -1,7 +1,7 @@
 <template>
   <div class="menutree" :class="meneClass">
     <template v-for="(item,index) in menuData">
-      <el-menu-item v-if="!item.menuList || !item.menuList.length" :key="index" :index="String(item.menuID)" @click="jump(item)">
+      <el-menu-item v-if="!item.menuList || !item.menuList.length" :key="index" :index="String(item.url)" @click="jump(item)">
         <!-- <i v-if="!item.imgcode&&item.menuIcon" class="el-icon-location" /> -->
         <svg-icon
           v-if="item.menuIcon"
@@ -17,7 +17,7 @@
         />
         <span slot="title">{{ item.menuCName }}</span>
       </el-menu-item>
-      <el-submenu v-if="item.menuList && item.menuList.length" :key="index" :index="String(item.menuID)">
+      <el-submenu v-if="item.menuList && item.menuList.length" :key="index" :index="String(item.url)">
         <template slot="title">
           <!-- <i v-if="!item.imgcode&&item.menuIcon" class="el-icon-menu" /> -->
           <svg-icon

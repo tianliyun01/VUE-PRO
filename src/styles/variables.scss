@@ -14,12 +14,84 @@ $menuActiveText:#409EFF;
 $subMenuActiveText:#f4f4f5; // https://github.com/ElemeFE/element/issues/12951
 
 $menuBg:#304156;
-$menuHover:#263445;
 
 $subMenuBg:#1f2d3d;
 $subMenuHover:#001528;
+$main-orange: #228BF0;//项目主色调按钮控件
+$buttonHover:#3EA0FB;// 按钮鼠标悬浮
+$mc-t : #3894FF; //项目头部渐变上
+$mc-b : #0369E0; //项目头部渐变下
+$navbabg:#216BD4;//项目右侧背景
+$navbabg-fgx:#83C4FF;//项目右侧背景分割线
+$menuHover:#228bf0;//侧边栏鼠标经过
+$subMenuHover:#228bf0;//侧边栏鼠标经过
+$tagBtn-bg:#E3EFF9;//标签按钮背景
+$tagBtn-border:#78B7F4;//标签按钮边框
+$required-bg: #E3F1FF;
+$required-border: #8EAEFF;
+$disabled-bg:#F5F7FA;
+$btn-hover:#3EA0FB;//鼠标滑过按钮
+$btn-active:#1784EA;//鼠标按下
 
 $sideBarWidth: 210px;
+
+// 辅助色除了主色之外页面需要的其他颜色。
+$required-border: #8EAEFF;
+$disabled-bg:#F5F7FA;
+$disable-input-color:#303133;
+$required-bg: #E3F1FF;
+$success: #4DC61B;
+$danger: #FE6E65;
+$warning: #FEB661;
+$info: #3BA1FF;
+$link : #4C98FF;
+$select-orange : #ff8a00;
+$select-grey : #505159;
+$must : #FF1200;
+// 中性色用于文本、背景和边框颜色。通过运用不同的中性色，来表现层次结构。
+$text-3:#333333;
+$text-6:#666666;
+$text-9:#999999;
+$disable-d:#DDDDDD;
+$disable-input-color:#606266;
+$disable-input-bg:#EFF0F2;
+$bg-1:#E8ECEE;
+$bg-2:#D8DDDF;
+$bg-3:#EBEBEB;
+$border-1:#CCCCCC;
+$border-2:#E5E5E5;
+$border-3:#DDDFE1;
+$border-4:#EAE8E5;
+$table-1:#F7F6F5;
+$table-2:#D7D7D7;
+// 字号
+$h1:20px;//大标题
+$h2:18px;//标题
+$h3:16px;//小标题
+$h4:14px;//正文
+$h5:12px;//正文
+$h6:10px;//辅助说明
+// 圆角
+$radius-s:2px;
+$radius-l:4px;
+// 外间距
+$margin14:14px;
+// 内容页 按钮组高度
+$btnGroupHight:46px;
+// sidebar
+$menuText:#666666;
+$menuActiveText:#666666;
+$subMenuActiveText:#1890ff; // https://github.com/ElemeFE/element/issues/12951
+
+$menuBg:#fff;
+$subMenuBg:#F1f7fd;
+$sideBarWidth: 226px;
+$sideBaHight: 40px;
+
+$sideBarMiniWidth: 54px;
+$headerHight: 42px;
+$navHight: 42px;
+$tagsViewHight: 40px;
 
 // the :export directive is the magic sauce for webpack
 // https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass

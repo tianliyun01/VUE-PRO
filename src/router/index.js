@@ -95,6 +95,72 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/menu-manage',
+    component: Layout,
+    redirect: '/menu-manage/index',
+    alwaysShow: true,
+    name: 'MenuManage',
+    meta: { title: 'MenuManage', icon: 'menu' },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/menu-manage/index'),
+        name: 'MenuManageIndex',
+        meta: { title: '菜单管理', keepAlive: true }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/menu-manage/edit'),
+        name: 'MenuManageEdie',
+        meta: { title: '菜单管理', keepAlive: true }
+      }
+    ]
+  },
+  {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/index',
+    alwaysShow: true,
+    name: '',
+    meta: { title: 'User', icon: 'menu' },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/user/index'),
+        name: 'UserIndex',
+        meta: { title: '用户管理', keepAlive: true }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/user/edit'),
+        name: 'UserEdie',
+        meta: { title: '用户管理', keepAlive: true }
+      }
+    ]
+  },
+  {
+    path: '/role',
+    component: Layout,
+    redirect: '/role/index',
+    alwaysShow: true,
+    name: '',
+    meta: { title: 'Role', icon: 'menu' },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/role/index'),
+        name: 'RoleIndex',
+        meta: { title: '角色管理', keepAlive: true }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/role/edit'),
+        name: 'RoleEdie',
+        meta: { title: '角色管理', keepAlive: true }
+      }
+    ]
+  },
   // {
   //   path: '/documentation',
   //   component: Layout,

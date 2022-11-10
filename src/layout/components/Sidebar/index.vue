@@ -16,7 +16,7 @@
     </div>
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
-        :default-active="activeMenu"
+        :default-active="2"
         :collapse="isCollapse"
         :background-color="variables.menuBg"
         :text-color="variables.menuText"
@@ -68,8 +68,19 @@ export default {
       syetemList: [],
       menuList: [
         {
-          menuCName: '业务管理',
-          url: ''
+          menuCName: '菜单管理',
+          menuIcon: 'documentation',
+          url: '/menu-manage/index'
+        },
+        {
+          menuCName: '用户管理',
+          menuIcon: 'documentation',
+          url: '/user/index'
+        },
+        {
+          menuCName: '角色管理',
+          menuIcon: 'documentation',
+          url: '/role/index'
         }
       ]
     }
@@ -122,7 +133,8 @@ export default {
     },
     jump(e) {
       // 统计菜单
-      this.$router.push({ path: '/menu', query: { url: e.url }})
+      // this.$router.push({ path: '/menu', query: { url: e.url }})
+      this.$router.push({ path: e.url })
     }
   }
 }
