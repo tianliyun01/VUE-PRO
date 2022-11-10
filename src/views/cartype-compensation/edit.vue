@@ -2,7 +2,7 @@
   <div class="app-container white customcard">
     <div>
       <el-tabs v-model="activeName">
-        <el-tab-pane label="车型当前赔付情况分析" name="first">
+        <el-tab-pane label="车型当前赔付情况对比" name="first">
           <div style="overflow-y: auto;height:calc(100vh - 195px)">
             <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
               <el-row class="row-bg">

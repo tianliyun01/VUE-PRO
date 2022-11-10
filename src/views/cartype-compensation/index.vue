@@ -178,17 +178,18 @@
       <div>
         <el-table :data="systemListResult" style="width: 100%">
           <el-table-column type="index" label="序号" width="100" />
-          <el-table-column prop="riskName" label="人员代码" min-width="200" show-overflow-tooltip>
+          <el-table-column prop="riskName" label="品牌" min-width="200" show-overflow-tooltip>
             <template slot-scope="scope">
               <span class="riskcode">{{ scope.row.riskCode }}</span>
               {{ scope.row.riskName }}
             </template>
           </el-table-column>
-          <el-table-column prop="activeType" label="公司" width="120" />
-          <el-table-column prop="activeType" label="姓名" width="320" show-overflow-tooltip />
-          <el-table-column prop="activeType" label="是否启用" width="320" show-overflow-tooltip />
-          <el-table-column prop="activeType" label="手机号码" width="320" show-overflow-tooltip />
-          <el-table-column prop="activeType" label="邮箱" width="320" show-overflow-tooltip />
+          <el-table-column prop="activeType" label="车系" width="120" />
+          <el-table-column prop="activeType" label="车系代码" width="320" show-overflow-tooltip />
+          <el-table-column prop="activeType" label="车组" width="320" show-overflow-tooltip />
+          <el-table-column prop="activeType" label="车型" width="320" show-overflow-tooltip />
+          <el-table-column prop="activeType" label="车型代码" width="320" show-overflow-tooltip />
+          <el-table-column prop="activeType" label="CIRI案均" width="320" show-overflow-tooltip />
           <el-table-column fixed="right" label="操作" width="150">
             <template slot-scope="scope">
               <el-button type="text" size="mini" @click="edit(scope.row)">禁用</el-button>
