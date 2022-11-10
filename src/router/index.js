@@ -161,6 +161,50 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/permission',
+    component: Layout,
+    redirect: '/permission/index',
+    alwaysShow: true,
+    name: '',
+    meta: { title: 'permission', icon: 'menu' },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/permission/index'),
+        name: 'PermissionIndex',
+        meta: { title: '权限管理', keepAlive: true }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/permission/edit'),
+        name: 'PermissionEdie',
+        meta: { title: '权限管理', keepAlive: true }
+      }
+    ]
+  },
+  {
+    path: '/cartype-compensation',
+    component: Layout,
+    redirect: '/cartype-compensation/index',
+    alwaysShow: true,
+    name: '',
+    meta: { title: 'cartype-compensation', icon: 'menu' },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/cartype-compensation/index'),
+        name: 'CartypeCompensationIndex',
+        meta: { title: '车型当前赔付情况分析', keepAlive: true }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/cartype-compensation/edit'),
+        name: 'CartypeCompensationEdie',
+        meta: { title: '车型当前赔付情况分析', keepAlive: true }
+      }
+    ]
+  },
   // {
   //   path: '/documentation',
   //   component: Layout,

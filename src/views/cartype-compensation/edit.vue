@@ -2,12 +2,118 @@
   <div class="app-container white customcard">
     <div>
       <el-tabs v-model="activeName">
-        <el-tab-pane label="角色管理" name="first">
+        <el-tab-pane label="车型当前赔付情况分析" name="first">
           <div style="overflow-y: auto;height:calc(100vh - 195px)">
             <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
               <el-row class="row-bg">
                 <el-col :span="8">
-                  <el-form-item label="角色名称">
+                  <el-form-item label="地域">
+                    <el-select
+                      v-model="type"
+                      class="quick-select"
+                      placeholder="请选择"
+                      filterable
+                      clearable
+                      style="width: 100%"
+                      value-key="productCode"
+                    >
+                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="公司">
+                    <el-select
+                      v-model="type"
+                      class="quick-select"
+                      placeholder="请选择"
+                      filterable
+                      clearable
+                      style="width: 100%"
+                      value-key="productCode"
+                    >
+                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="车辆类型">
+                    <el-select
+                      v-model="type"
+                      class="quick-select"
+                      placeholder="请选择"
+                      filterable
+                      clearable
+                      style="width: 100%"
+                      value-key="productCode"
+                    >
+                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+
+                <el-col :span="8">
+                  <el-form-item label="维度">
+                    <el-select
+                      v-model="type"
+                      class="quick-select"
+                      placeholder="请选择"
+                      filterable
+                      clearable
+                      style="width: 100%"
+                      value-key="productCode"
+                    >
+                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="车系">
+                    <el-select
+                      v-model="type"
+                      class="quick-select"
+                      placeholder="请选择"
+                      filterable
+                      clearable
+                      style="width: 100%"
+                      value-key="productCode"
+                    >
+                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="车组">
+                    <el-select
+                      v-model="type"
+                      class="quick-select"
+                      placeholder="请选择"
+                      filterable
+                      clearable
+                      style="width: 100%"
+                      value-key="productCode"
+                    >
+                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="车型">
+                    <el-select
+                      v-model="type"
+                      class="quick-select"
+                      placeholder="请选择"
+                      filterable
+                      clearable
+                      style="width: 100%"
+                      value-key="productCode"
+                    >
+                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="车系代码">
                     <el-input
                       v-model="comcodes"
                       placeholder="请输入"
@@ -17,40 +123,52 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="角色状态">
-                    <el-radio-group v-model="radio">
-                      <el-radio :label="3">男</el-radio>
-                      <el-radio :label="6">女</el-radio>
-                    </el-radio-group>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="描述">
+                  <el-form-item label="车型代码">
                     <el-input
                       v-model="comcodes"
                       placeholder="请输入"
-                      type="textarea"
-                      :rows="2"
+                      clearable
                       style="width: 100%"
                     />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="品牌">
+                    <el-select
+                      v-model="type"
+                      class="quick-select"
+                      placeholder="请选择"
+                      filterable
+                      clearable
+                      style="width: 100%"
+                      value-key="productCode"
+                    >
+                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="厂商">
+                    <el-select
+                      v-model="type"
+                      class="quick-select"
+                      placeholder="请选择"
+                      filterable
+                      clearable
+                      style="width: 100%"
+                      value-key="productCode"
+                    >
+                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    </el-select>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row class="row-bg" justify="space-around">
                 <div class="blockTitle" style="width:100%">
                   <span />
-                  <div>关联功能菜单</div>
+                  <div>角色设置</div>
                 </div>
-                <el-tree
-                  ref="tree"
-                  :data="data"
-                  style="margin:0 20px;"
-                  show-checkbox
-                  default-expand-all
-                  node-key="id"
-                  highlight-current
-                  :props="defaultProps"
-                />
+                <el-transfer v-model="value" :data="data" />
               </el-row>
             </el-form>
           </div>
@@ -67,9 +185,20 @@
 import { riskUserEditPage, riskUserSaveOrUpdate, getUserInfo, queryRiskUser } from '../../api/user'
 import { mapGetters } from 'vuex'
 export default {
-  name: 'RoleEdie',
+  name: 'CartypeCompensationEdie',
   components: {},
   data() {
+    const generateData = _ => {
+      const data = []
+      for (let i = 1; i <= 15; i++) {
+        data.push({
+          key: i,
+          label: `备选项 ${i}`,
+          disabled: i % 4 === 0
+        })
+      }
+      return data
+    }
     return {
       activeName: 'first',
       editForm: {
@@ -81,45 +210,8 @@ export default {
       riskCodeList: [],
       spreadClassDtoList: [],
       menuTypeList: [],
-      data: [{
-        id: 1,
-        label: '一级 1',
-        children: [{
-          id: 4,
-          label: '二级 1-1',
-          children: [{
-            id: 9,
-            label: '三级 1-1-1'
-          }, {
-            id: 10,
-            label: '三级 1-1-2'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: '一级 2',
-        children: [{
-          id: 5,
-          label: '二级 2-1'
-        }, {
-          id: 6,
-          label: '二级 2-2'
-        }]
-      }, {
-        id: 3,
-        label: '一级 3',
-        children: [{
-          id: 7,
-          label: '二级 3-1'
-        }, {
-          id: 8,
-          label: '二级 3-2'
-        }]
-      }],
-      defaultProps: {
-        children: 'children',
-        label: 'label'
-      },
+      data: generateData(),
+      value: [1, 4],
       activeType: '',
       formList: [
         {

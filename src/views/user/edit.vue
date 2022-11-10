@@ -170,7 +170,7 @@
       </el-tabs>
     </div>
     <div style="flex:1;" />
-    <div class="search-footer">
+    <div class="edit-footer">
       <el-button type="primary" plain size="small" @click="back">返回上级</el-button>
       <el-button type="primary" size="small" @click="back">保存</el-button>
     </div>

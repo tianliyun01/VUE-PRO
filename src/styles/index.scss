@@ -331,10 +331,10 @@ aside {
   justify-content: center;
   display: flex;
   height: 50px;
-  position: absolute;
+  // position: absolute;
   right: 20px;
   bottom: 20px;
-  width: calc(100% - 35px);
+  // width: calc(100% - 35px);
   padding:0 20px;
 }
 .search-footer-right{
@@ -415,12 +415,14 @@ margin-left: 5px;
   font-size: 14px !important;
 }
 .blockTitle{
-  height: 14px;
-  line-height: 14px;
+  height: 40px;
+  line-height: 40px;
+  border-bottom: 1px solid #DCDFE6;
   font-size: 14px;
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-bottom: 20px;
   font-weight: 500;
   color: #303133;
 }
@@ -655,4 +657,22 @@ margin-left: 5px;
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+}
+.edit-footer {
+  border-top: 1px solid #DCDFE6;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 50px;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: calc(100% - 35px);
+  padding: 0 20px;
 }

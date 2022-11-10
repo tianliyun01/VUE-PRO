@@ -78,9 +78,19 @@ export default {
           url: '/user/index'
         },
         {
+          menuCName: '权限管理',
+          menuIcon: 'documentation',
+          url: '/permission/index'
+        },
+        {
           menuCName: '角色管理',
           menuIcon: 'documentation',
           url: '/role/index'
+        },
+        {
+          menuCName: '车型当前赔付情况分析',
+          menuIcon: 'documentation',
+          url: '/cartype-compensation/index'
         }
       ]
     }
