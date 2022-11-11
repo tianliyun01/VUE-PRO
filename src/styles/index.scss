@@ -448,35 +448,35 @@ margin-left: 5px;
   
 }
 
-.copybutton[x-placement^=bottom] .popper__arrow {
-  top: -6px;
-  left: 50%;
-  margin-right: 3px;
-  border-top-width: 0;
-  border-bottom-color: #ebeef5
-}
-.el-input__inner:hover,
-.el-select input[readonly]:hover {
-  border-color: #aaa7a7 !important;
-}
-.is-required .el-select input[readonly]:hover,
-.is-required .el-input__inner:hover {
-  border-color: #6d95fb !important; /* 修改必录框边框颜色 */
-}
-.el-select .el-input.is-focus .el-input__inner,
-.el-input__inner:focus,
-.el-select .el-input__inner:focus {
-  border: 1px solid #228bf0;
-}
+// .copybutton[x-placement^=bottom] .popper__arrow {
+//   top: -6px;
+//   left: 50%;
+//   margin-right: 3px;
+//   border-top-width: 0;
+//   border-bottom-color: #ebeef5
+// }
+// .el-input__inner:hover,
+// .el-select input[readonly]:hover {
+//   border-color: #aaa7a7 !important;
+// }
+// .is-required .el-select input[readonly]:hover,
+// .is-required .el-input__inner:hover {
+//   border-color: #6d95fb !important; /* 修改必录框边框颜色 */
+// }
+// .el-select .el-input.is-focus .el-input__inner,
+// .el-input__inner:focus,
+// .el-select .el-input__inner:focus {
+//   border: 1px solid #228bf0;
+// }
 
-.el-input__inner,
-.el-select input[readonly] {
-  border-color: #bbbbbb !important;
-}
-.el-select input[readonly],
-.el-radio__input.is-checked .el-radio__inner {
-  background-color: #fff;
-}
+// .el-input__inner,
+// .el-select input[readonly] {
+//   border-color: #bbbbbb !important;
+// }
+// .el-select input[readonly],
+// .el-radio__input.is-checked .el-radio__inner {
+//   background-color: #fff;
+// }
 .mlr20{
   margin: 0 20px !important;
 }
@@ -504,42 +504,42 @@ margin-left: 5px;
   }
 }
 
-.is-required .el-select input[readonly]:hover,
-.is-required .el-input__inner:hover {
-  border-color: #6d95fb !important; /* 修改必录框边框颜色 */
-}
-.is-required .el-input__inner {
-  background: $required-bg !important;
-  border-color: $required-border !important;
-  color: $disable-input-color !important;
-}
-.is-required input[readonly] {
-  background: $required-bg;
-  border-color: $required-border !important;
-}
-.is-required .el-textarea__inner{
-  background: $required-bg;
-  border-color: $required-border !important;
-}
-.is-required .el-textarea__inner:focus{
-  border-color: #228bf0 !important;
-}
-.is-required .el-select input[readonly] {
-  background: $required-bg;
-  border-color: $required-border;
-}
-.is-required .el-input__inner:focus {
-  border-color: #228bf0 !important;
-}
-//必录'*'样式
-.el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before,
-.el-form-item.is-required:not(.is-no-asterisk) .el-form-item__label-wrap > .el-form-item__label:before {
-  font-size: 16px;
-  font-weight: bold;
-  position: relative;
-  top: 4px;
-  margin-right: 2px;
-}
+// .is-required .el-select input[readonly]:hover,
+// .is-required .el-input__inner:hover {
+//   border-color: #6d95fb !important; /* 修改必录框边框颜色 */
+// }
+// .is-required .el-input__inner {
+//   background: $required-bg !important;
+//   border-color: $required-border !important;
+//   color: $disable-input-color !important;
+// }
+// .is-required input[readonly] {
+//   background: $required-bg;
+//   border-color: $required-border !important;
+// }
+// .is-required .el-textarea__inner{
+//   background: $required-bg;
+//   border-color: $required-border !important;
+// }
+// .is-required .el-textarea__inner:focus{
+//   border-color: #228bf0 !important;
+// }
+// .is-required .el-select input[readonly] {
+//   background: $required-bg;
+//   border-color: $required-border;
+// }
+// .is-required .el-input__inner:focus {
+//   border-color: #228bf0 !important;
+// }
+// //必录'*'样式
+// .el-form-item.is-required:not(.is-no-asterisk) > .el-form-item__label:before,
+// .el-form-item.is-required:not(.is-no-asterisk) .el-form-item__label-wrap > .el-form-item__label:before {
+//   font-size: 16px;
+//   font-weight: bold;
+//   position: relative;
+//   top: 4px;
+//   margin-right: 2px;
+// }
 .footer-page {
   text-align: right !important;
   padding: 10px 0 !important;
