@@ -15,6 +15,12 @@ export function getInfo(token) {
     params: { token }
   })
 }
+export function verifyCode() {
+  return request({
+    url: '/api/verifyPictureCode',
+    method: 'get'
+  })
+}
 
 export function logout() {
   return request({

@@ -101,7 +101,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-
+import { verifyCode } from '../../api/user'
 export default {
   name: 'Login',
   data() {
@@ -154,6 +154,10 @@ export default {
   },
   created() {
     // window.addEventListener('storage', this.afterQRScan)
+    verifyCode().then((res) => {
+      this.verifyKey = res.data.verifyKey
+      this.verifyimg = 'data:image/png;base64,' + res.data.verifyCode
+    })
   },
   mounted() {
     if (this.loginForm.username === '') {
