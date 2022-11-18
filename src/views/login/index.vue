@@ -49,25 +49,32 @@
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
         </el-form-item>
+        <el-form-item prop="pictureCode">
         <div v-if="true" class="login-verifyCode">
           <el-input
-            v-model="loginForm.verifyCode"
+            ref="pictureCode"
+            name="pictureCode"
+            v-model="loginForm.pictureCode"
             class="login-verify-input"
           >
             <span slot="prefix" class="svg-container">
               <svg-icon icon-class="password" />
             </span>
           </el-input>
-          <el-image
+          <img
             class="login-verifycode-img"
             style="width: 144px; height: 40px"
             :src="verifyimg"
             @click="refreshVerifyCode()"
           />
         </div>
+        </el-form-item>
+        <el-form-item prop="emailCode">
         <div v-if="true" class="login-verifyCode">
           <el-input
-            v-model="loginForm.wxVerifyCode"
+            ref="emailCode"
+            name="emailCode"
+            v-model="loginForm.emailCode"
             class="login-verify-input"
             placeholder="请输入验证码"
           >
@@ -84,6 +91,7 @@
             @click="getVerifyCode()"
           >{{ secondsCount }}</el-button>
         </div>
+        </el-form-item>
 
         <el-button :loading="loading" type="primary" style="width:100%;margin-top:20px;height:40px" @click.native.prevent="handleLogin">Login</el-button>
 
@@ -119,8 +127,10 @@ export default {
         password: '111111'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [{ required: true, trigger: 'blur'}],
+        password: [{ required: true, trigger: 'blur'}],
+        pictureCode: [{ required: true, trigger: 'blur'}],
+        emailCode: [{ required: true, trigger: 'blur'}]
       },
       passwordType: 'password',
       verifyimg: '',
@@ -148,10 +158,7 @@ export default {
   },
   created() {
     // window.addEventListener('storage', this.afterQRScan)
-    verifyCode().then((res) => {
-      this.verifyKey = res.data.verifyKey
-      this.verifyimg = 'data:image/png;base64,' + res.data.verifyCode
-    })
+    this.refreshVerifyCode()
   },
   mounted() {
     if (this.loginForm.username === '') {
@@ -179,10 +186,8 @@ export default {
       })
     },
     refreshVerifyCode() {
-      // verifyCode().then((res) => {
-      //   this.verifyKey = res.data.verifyKey;
-      //   this.verifyimg = 'data:image/png;base64,' + res.data.verifyCode;
-      // });
+      console.log('222s')
+      this.verifyimg = process.env.VUE_APP_BASE_API + '/api/sso/api/verifyPictureCode?timestamp=' + Math.random()
     },
     getVerifyCode() {
       if (!this.canGetMsg) return
