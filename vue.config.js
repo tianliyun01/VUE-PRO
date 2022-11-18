@@ -32,18 +32,16 @@ module.exports = {
   devServer: {
     proxy: {
       '/dev-api': {
-        target: 'http://10.136.145.97:8080',
+        target: 'http://localhost:9000',
         changeOrigin: true, // 是否改变域名F
         onProxyReq: function(proxyReq, req, res, options) {
           if (req.body) {
-            // console.info("req.body=",req.body)
-            const reg = new RegExp('application/json')
-            if (reg.test(proxyReq.getHeader('Content-Type'))) {
-              const bodyData = JSON.stringify(req.body)
-              proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData))
-              // stream the content
-              proxyReq.write(bodyData)
-            }
+            const bodyData = JSON.stringify(req.body)
+            // incase if content-type is application/x-www-form-urlencoded -> we need to change to application/json
+            proxyReq.setHeader('Content-Type', 'application/json')
+            proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData))
+            // stream the content
+            proxyReq.write(bodyData)
           }
         },
         // ws: true,
