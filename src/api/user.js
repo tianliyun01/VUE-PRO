@@ -17,7 +17,14 @@ export function getInfo(token) {
 }
 export function verifyCode() {
   return request({
-    url: '/api/verifyPictureCode',
+    url: '/api/sso/api/verifyPictureCode',
+    method: 'get'
+  })
+}
+
+export function getVerifyCode() {
+  return request({
+    url: '/api/sso/api/verifyEmailCode',
     method: 'get'
   })
 }
