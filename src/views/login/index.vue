@@ -53,9 +53,6 @@
           <el-input
             v-model="loginForm.verifyCode"
             class="login-verify-input"
-            :class="{ 'is-focus': inputF === 'verifycode' }"
-            @focus="inputF = 'verifycode'"
-            @blur="inputF = ''"
           >
             <span slot="prefix" class="svg-container">
               <svg-icon icon-class="password" />
@@ -73,9 +70,6 @@
             v-model="loginForm.wxVerifyCode"
             class="login-verify-input"
             placeholder="请输入验证码"
-            :class="{ 'is-focus': inputF === 'verify' }"
-            @focus="inputF = 'verify'"
-            @blur="inputF = ''"
           >
             <span slot="prefix" class="svg-container">
               <svg-icon icon-class="password" />
