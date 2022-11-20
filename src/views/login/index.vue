@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="login-con">
-      <img src="../../assets/images/login_con_left.png" class="login_con_left" />
+      <img src="../../assets/images/login_con_left.png" class="login_con_left">
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
         <div class="login_ciri">
           <div class="img_ciri" />
@@ -50,47 +50,47 @@
           </span>
         </el-form-item>
         <el-form-item prop="pictureCode">
-        <div v-if="true" class="login-verifyCode">
-          <el-input
-            ref="pictureCode"
-            name="pictureCode"
-            v-model="loginForm.pictureCode"
-            class="login-verify-input"
-          >
-            <span slot="prefix" class="svg-container">
-              <svg-icon icon-class="password" />
-            </span>
-          </el-input>
-          <img
-            class="login-verifycode-img"
-            style="width: 144px; height: 40px"
-            :src="verifyimg"
-            @click="refreshVerifyCode()"
-          />
-        </div>
+          <div v-if="true" class="login-verifyCode">
+            <el-input
+              ref="pictureCode"
+              v-model="loginForm.pictureCode"
+              name="pictureCode"
+              class="login-verify-input"
+            >
+              <span slot="prefix" class="svg-container">
+                <svg-icon icon-class="password" />
+              </span>
+            </el-input>
+            <img
+              class="login-verifycode-img"
+              style="width: 144px; height: 40px"
+              :src="verifyimg"
+              @click="refreshVerifyCode()"
+            >
+          </div>
         </el-form-item>
         <el-form-item prop="emailCode">
-        <div v-if="true" class="login-verifyCode">
-          <el-input
-            ref="emailCode"
-            name="emailCode"
-            v-model="loginForm.emailCode"
-            class="login-verify-input"
-            placeholder="请输入验证码"
-          >
-            <span slot="prefix" class="svg-container">
-              <svg-icon icon-class="password" />
-            </span>
-          </el-input>
-          <el-button
-            class="login-verifycode-img"
-            style="width: 144px; height: 40px"
-            type="primary"
-            plain
-            :disabled="!canGetMsg"
-            @click="getVerifyCode()"
-          >{{ secondsCount }}</el-button>
-        </div>
+          <div v-if="true" class="login-verifyCode">
+            <el-input
+              ref="emailCode"
+              v-model="loginForm.emailCode"
+              name="emailCode"
+              class="login-verify-input"
+              placeholder="请输入验证码"
+            >
+              <span slot="prefix" class="svg-container">
+                <svg-icon icon-class="password" />
+              </span>
+            </el-input>
+            <el-button
+              class="login-verifycode-img"
+              style="width: 144px; height: 40px"
+              type="primary"
+              plain
+              :disabled="!canGetMsg"
+              @click="getVerifyCode()"
+            >{{ secondsCount }}</el-button>
+          </div>
         </el-form-item>
 
         <el-button :loading="loading" type="primary" style="width:100%;margin-top:20px;height:40px" @click.native.prevent="handleLogin">Login</el-button>
@@ -102,35 +102,22 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
-import { verifyCode } from '../../api/user'
+import { auth, verifyEmailCode } from '../../api/user'
 export default {
   name: 'Login',
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
-      } else {
-        callback()
-      }
-    }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: '',
+        pictureCode: '',
+        emailCode: '',
+        password: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur'}],
-        password: [{ required: true, trigger: 'blur'}],
-        pictureCode: [{ required: true, trigger: 'blur'}],
-        emailCode: [{ required: true, trigger: 'blur'}]
+        username: [{ required: true, message: '不能为空', trigger: 'blur' }],
+        password: [{ required: true, message: '不能为空', trigger: 'blur' }],
+        pictureCode: [{ required: true, message: '不能为空', trigger: 'blur' }],
+        emailCode: [{ required: true, message: '不能为空', trigger: 'blur' }]
       },
       passwordType: 'password',
       verifyimg: '',
@@ -186,24 +173,20 @@ export default {
       })
     },
     refreshVerifyCode() {
-      console.log('222s')
       this.verifyimg = process.env.VUE_APP_BASE_API + '/api/sso/api/verifyPictureCode?timestamp=' + Math.random()
     },
     getVerifyCode() {
       if (!this.canGetMsg) return
-      // sendLoginWorkWxVerifyCode({
-      //   uid: this.loginForm.uid,
-      //   sysFlag: this.sysFlag,
-      // }).then((res) => {
-      //   if (res.code === 200) {
-      //     this.wxVerifyKey = res.data.wxVerifyKey;
-      //     this.userType = res.data.userType;
-      //     this.$message.success('验证码发送成功')
-      //     this.msgCodeFun()
-      //   } else {
-      //     this.$message.error(res.msg)
-      //   }
-      // });
+      verifyEmailCode(this.loginForm).then((res) => {
+        if (res.code === 200) {
+          this.wxVerifyKey = res.data.wxVerifyKey
+          this.userType = res.data.userType
+          this.$message.success('验证码发送成功')
+          this.msgCodeFun()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     },
     msgCodeFun() {
       const self = this
@@ -222,15 +205,13 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
-            .then(() => {
+          auth(this.loginForm).then((res) => {
+            if (res.code === 200) {
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
         } else {
           console.log('error submit!!')
           return false

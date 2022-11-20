@@ -1,9 +1,16 @@
 import request from '@/utils/request'
 
-export function login(data) {
+export function auth(data) {
   return request({
-    url: '/vue-element-admin/user/login',
+    url: '/api/auth',
     method: 'post',
+    data
+  })
+}
+export function verifyEmailCode(data) {
+  return request({
+    url: '/api/verifyEmailCode',
+    method: 'get',
     data
   })
 }
