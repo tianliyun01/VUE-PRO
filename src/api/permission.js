@@ -1,9 +1,17 @@
 import request from '@/utils/request'
 
-export function queryData() {
+export function queryPermissionData(data) {
   return request({
     url: '/api/bs/ex/authority/queryByPage',
-    method: 'post'
+    method: 'post',
+    data
+  })
+}
+export function saveOrUpdate(data) {
+  return request({
+    url: '/api/bs/ex/authority/saveOrUpdate',
+    method: 'post',
+    data
   })
 }
 
