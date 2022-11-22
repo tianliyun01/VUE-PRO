@@ -205,6 +205,22 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/repair-hours',
+    component: Layout,
+    redirect: '/repair-hours/index',
+    alwaysShow: true,
+    name: '',
+    meta: { title: '维修工时数据查询', icon: 'menu' },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/repair-hours/index'),
+        name: 'CartypeCompensationIndex',
+        meta: { title: '维修工时数据查询', keepAlive: true }
+      }
+    ]
+  },
   // {
   //   path: '/documentation',
   //   component: Layout,

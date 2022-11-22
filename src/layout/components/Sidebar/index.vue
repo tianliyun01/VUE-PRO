@@ -91,6 +91,11 @@ export default {
           menuCName: '车型当前赔付情况分析',
           menuIcon: 'documentation',
           url: '/cartype-compensation/index'
+        },
+        {
+          menuCName: '维修工时数据查询',
+          menuIcon: 'documentation',
+          url: '/repair-hours/index'
         }
       ]
     }
