@@ -121,7 +121,7 @@
   </div>
 </template>
 <script>
-import { riskUserQueryListPage, riskUserDeleteById, productEditPage, queryCompanyList, fileDownload, deleteRiskUserBatch } from '../../api/user'
+import { queryData } from '../../api/permission'
 import { mapGetters } from 'vuex'
 
 export default {
