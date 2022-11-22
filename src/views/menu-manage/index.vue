@@ -8,23 +8,37 @@
               <el-col :span="8">
                 <el-form-item label="菜单名称">
                   <el-input
-                    v-model="comcodes"
+                    v-model="formDate.menuName"
                     placeholder="请输入"
                     style="width: 100%"
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="所属系统">
+                <el-form-item label="菜单级别">
                   <el-select
-                    v-model="type"
+                    v-model="formDate.level"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
                     style="width: 100%"
+                  >
+                    <el-option v-for="item in levels" :key="item.value" :label="item.lable" :value="item.value" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="是否有效">
+                  <el-select
+                    v-model="formDate.isValidate"
+                    class="quick-select"
+                    placeholder="请选择"
+                    clearable
+                    style="width: 100%"
                     value-key="productCode"
                   >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    <el-option label="有效" value="1" />
+                    <el-option label="无效" value="2" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -43,15 +57,15 @@
         <el-button class="query-header-btn fr" size="mini" type="primary" plain @click="add">添加</el-button>
       </div>
       <div>
-        <el-table :data="systemListResult" style="width: 100%">
+        <el-table :data="menuResult" style="width: 100%">
           <el-table-column type="index" label="序号" width="100" />
-          <el-table-column prop="riskName" label="菜单名称" min-width="200" show-overflow-tooltip>
+          <el-table-column prop="menuName" label="菜单名称" min-width="200" show-overflow-tooltip>
             <template slot-scope="scope">
               <span class="riskcode">{{ scope.row.riskCode }}</span>
               {{ scope.row.riskName }}
             </template>
           </el-table-column>
-          <el-table-column prop="activeType" label="菜单URL" width="120" />
+          <el-table-column prop="url" label="菜单URL" width="120" />
           <el-table-column prop="state" label="描述" width="130" :formatter="formatter" />
           <el-table-column prop="spread" label="创建人" width="180" :formatter="spreadFormatter" show-overflow-tooltip />
           <el-table-column prop="createdTime" label="创建时间" min-width="180" show-overflow-tooltip />
@@ -80,7 +94,7 @@
   </div>
 </template>
 <script>
-import { riskUserQueryListPage, riskUserDeleteById, productEditPage, queryCompanyList, fileDownload, deleteRiskUserBatch } from '../../api/user'
+import { queryMenuByPage } from '../../api/menu'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -90,40 +104,22 @@ export default {
     return {
       activeName: 'first',
       selectedRiskCode: '',
-      comcodes: '',
+      formDate: {
+        menuName: '',
+        level: '',
+        isValidate: ''
+      },
       riskcode: '',
       userName: '',
       loading: false,
       type: '',
       menuType: '',
-      systemListResult: [],
-      spreadClassDtoList: [],
-      menuTypeList: [],
-      prpdCompanyList: [],
-      riskCodeList: [],
-      riskId: [],
-      acurl: '',
-      pageSize: 15,
-      currentPage: 1,
-      total: 0,
-      cascaderConfig: {
-        lazy: true,
-        label: 'comcname',
-        expandTrigger: 'click',
-        checkStrictly: true,
-        value: 'comcode',
-        children: 'children',
-        lazyLoad(node, resolve) {
-          if (node.level !== 1) return
-          queryCompanyList({ comcode: node.value }).then((response) => {
-            if (!response.data.length) resolve()
-            response.data.forEach(l => {
-              l.leaf = 1
-            })
-            resolve(response.data)
-          })
-        }
-      }
+      menuResult: [{}],
+      levels: [
+        { lable: '一级菜单', value: 1 },
+        { lable: '二级菜单', value: 2 },
+        { lable: '三级菜单', value: 3 }
+      ]
     }
   },
   computed: {
@@ -134,48 +130,30 @@ export default {
     this.acurl = process.env.VUE_APP_BASE_API + '/portservice/riskUser/readUserExcel'
   },
   methods: {
-    queryForm() {
-      const param = {
-        comcode: '',
-        riskcode: '',
-        editType: 'ADD'
-      }
-      productEditPage(param).then(res => {
-        if (res.code === 200) {
-          this.prpdCompanyList = res.data.prpdCompanyList
-          this.riskCodeList = res.data.findProductDtoMap.riskList
-          this.riskCodeList[0].spread = '1'
-          this.activeType = res.data.activeType
-          this.formList[0].activeType = res.data.activeType
-          this.total = res.data.totalCount
-        }
-      })
-    },
+    // queryForm() {
+    //   const param = {
+    //     comcode: '',
+    //     riskcode: '',
+    //     editType: 'ADD'
+    //   }
+    //   queryMenuByPage(param).then(res => {
+    //     if (res.code === 200) {
+    //       this.prpdCompanyList = res.data.prpdCompanyList
+    //       this.riskCodeList = res.data.findProductDtoMap.riskList
+    //       this.riskCodeList[0].spread = '1'
+    //       this.activeType = res.data.activeType
+    //       this.formList[0].activeType = res.data.activeType
+    //       this.total = res.data.totalCount
+    //     }
+    //   })
+    // },
     // 查询列表
     queryData() {
-      const param = {
-        userCode: this.comcodes,
-        userName: this.userName,
-        riskcode: this.riskCode,
-        spread: this.type,
-        delMenuType: this.menuType,
-        currentPage: this.currentPage,
-        pageSize: this.pageSize
-      }
-      riskUserQueryListPage(param).then(res => {
+      this.formDate.pageNo = this.currentPage
+      this.formDate.pageSize = this.pageSize
+      queryMenuByPage(this.formDate).then(res => {
         if (res.code === 200) {
-          if (!res.data) {
-            this.systemListResult = []
-            this.currentPage = 0
-            this.total = 0
-            return
-          }
-          this.riskCodeList = res.data.riskMap.riskList
-          this.spreadClassDtoList = res.data.spreadClassDtoList
-          this.menuTypeList = res.data.menuTypeList
-          this.systemListResult = res.data.portRiskUserDtoIPage.records
-          this.currentPage = res.data.portRiskUserDtoIPage.current
-          this.total = res.data.portRiskUserDtoIPage.total
+          this.menuResult = res.data.menuResult
         }
       })
     },
@@ -261,8 +239,7 @@ export default {
         name: 'MenuManageEdie',
         query: {
           editType: 'EDIT',
-          userCode: item.userCode,
-          riskCode: item.riskCode
+          id: item.id
         }
       })
     },
@@ -278,12 +255,12 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteRiskUserBatch({ riskDeleteList: this.riskId }).then(res => {
-          if (res.code === 200) {
-            this.$message.success('删除信息成功')
-            this.queryData()
-          }
-        })
+        // deleteRiskUserBatch({ riskDeleteList: this.riskId }).then(res => {
+        //   if (res.code === 200) {
+        //     this.$message.success('删除信息成功')
+        //     this.queryData()
+        //   }
+        // })
       })
     },
     del(item) {
@@ -292,13 +269,13 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        const { userCode, riskCode } = item
-        riskUserDeleteById({ userCode, riskCode, createdBy: this.userInfo.userCode }).then(res => {
-          if (res.code === 200) {
-            this.$message.success('删除信息成功')
-            this.queryData()
-          }
-        })
+        // const { userCode, riskCode } = item
+        // riskUserDeleteById({ userCode, riskCode, createdBy: this.userInfo.userCode }).then(res => {
+        //   if (res.code === 200) {
+        //     this.$message.success('删除信息成功')
+        //     this.queryData()
+        //   }
+        // })
       })
     },
     uploadSuccess(res) {
@@ -317,27 +294,6 @@ export default {
           type: 'error'
         })
       }
-    },
-    downLoadTemplate() {
-      fileDownload({ fileCode: 'USERTEMPLATE' }).then((res) => {
-        console.log(res)
-        const blob = new Blob([res.data]) // 将服务端返回的文件流（二进制）excel文件转化为blob
-        // const fileName = 'webagent' + '.zip';
-        const fileName = '用户模板.xlsx'
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE
-          window.navigator.msSaveOrOpenBlob(blob, fileName)
-        } else {
-          const objectUrl = (window.URL || window.webkitURL).createObjectURL(blob)
-          const downFile = document.createElement('a')
-          downFile.style.display = 'none'
-          downFile.href = objectUrl
-          downFile.download = fileName // 下载后文件名
-          document.body.appendChild(downFile)
-          downFile.click()
-          document.body.removeChild(downFile) // 下载完成移除元素
-          window.URL.revokeObjectURL(objectUrl) // 只要映射存在，Blob就不能进行垃圾回收，因此一旦不再需要引用，就必须小心撤销URL，释放掉blob对象。
-        }
-      })
     },
     changepage() {}
   }

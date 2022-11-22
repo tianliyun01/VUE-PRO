@@ -676,3 +676,30 @@ margin-left: 5px;
   width: calc(100% - 35px);
   padding: 0 20px;
 }
+.el-table {
+  thead {
+    //background: #F7F6F5;
+    color: $text-6;
+    // border-bottom: 1px solid $main-orange;
+    font-size: 12px;
+
+    th.is-leaf {
+      //text-align: center;
+      //border-bottom: 1px solid $main-orange;
+    }
+
+    tr, th {
+      background: rgba(241, 247, 253, 1);
+      // background: #FBFAF9;
+      height: 30px !important;
+      line-height: 30px !important;
+    }
+
+    &:focus {
+      background-color: #f1f4f7;
+    }
+  }
+  .el-table--mini th, .el-table--mini td {
+    padding: 0px 0;
+}
+}

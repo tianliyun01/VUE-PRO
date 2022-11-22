@@ -200,7 +200,7 @@ export const constantRoutes = [
       {
         path: 'edit',
         component: () => import('@/views/cartype-compensation/edit'),
-        name: 'CartypeCompensationEdie',
+        name: 'CartypeCompensationEdit',
         meta: { title: '车型当前赔付情况分析', keepAlive: true }
       }
     ]

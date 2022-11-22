@@ -1,362 +1,469 @@
 <template>
-  <div class="app-container white customcard">
-    <div>
-      <el-tabs v-model="activeName">
-        <el-tab-pane label="车型当前赔付情况对比" name="first">
-          <div style="overflow-y: auto;height:calc(100vh - 195px)">
-            <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
-              <el-row class="row-bg">
-                <el-col :span="8">
-                  <el-form-item label="地域">
-                    <el-select
-                      v-model="type"
-                      class="quick-select"
-                      placeholder="请选择"
-                      filterable
-                      clearable
-                      style="width: 100%"
-                      value-key="productCode"
-                    >
-                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="公司">
-                    <el-select
-                      v-model="type"
-                      class="quick-select"
-                      placeholder="请选择"
-                      filterable
-                      clearable
-                      style="width: 100%"
-                      value-key="productCode"
-                    >
-                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="车辆类型">
-                    <el-select
-                      v-model="type"
-                      class="quick-select"
-                      placeholder="请选择"
-                      filterable
-                      clearable
-                      style="width: 100%"
-                      value-key="productCode"
-                    >
-                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-
-                <el-col :span="8">
-                  <el-form-item label="维度">
-                    <el-select
-                      v-model="type"
-                      class="quick-select"
-                      placeholder="请选择"
-                      filterable
-                      clearable
-                      style="width: 100%"
-                      value-key="productCode"
-                    >
-                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="车系">
-                    <el-select
-                      v-model="type"
-                      class="quick-select"
-                      placeholder="请选择"
-                      filterable
-                      clearable
-                      style="width: 100%"
-                      value-key="productCode"
-                    >
-                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="车组">
-                    <el-select
-                      v-model="type"
-                      class="quick-select"
-                      placeholder="请选择"
-                      filterable
-                      clearable
-                      style="width: 100%"
-                      value-key="productCode"
-                    >
-                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="车型">
-                    <el-select
-                      v-model="type"
-                      class="quick-select"
-                      placeholder="请选择"
-                      filterable
-                      clearable
-                      style="width: 100%"
-                      value-key="productCode"
-                    >
-                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="车系代码">
-                    <el-input
-                      v-model="comcodes"
-                      placeholder="请输入"
-                      clearable
-                      style="width: 100%"
-                    />
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="车型代码">
-                    <el-input
-                      v-model="comcodes"
-                      placeholder="请输入"
-                      clearable
-                      style="width: 100%"
-                    />
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="品牌">
-                    <el-select
-                      v-model="type"
-                      class="quick-select"
-                      placeholder="请选择"
-                      filterable
-                      clearable
-                      style="width: 100%"
-                      value-key="productCode"
-                    >
-                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="8">
-                  <el-form-item label="厂商">
-                    <el-select
-                      v-model="type"
-                      class="quick-select"
-                      placeholder="请选择"
-                      filterable
-                      clearable
-                      style="width: 100%"
-                      value-key="productCode"
-                    >
-                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-              <el-row class="row-bg" justify="space-around">
-                <div class="blockTitle" style="width:100%">
-                  <span />
-                  <div>角色设置</div>
-                </div>
-                <el-transfer v-model="value" :data="data" />
-              </el-row>
-            </el-form>
-          </div>
+  <div class="app-container">
+    <div class="Notice">
+      <el-tabs v-model="activeName" class="customcard">
+        <el-tab-pane label="对比列表" name="first">
+          <el-table :data="systemListResult" style="width: 100%">
+            <el-table-column type="index" label="序号" width="100" />
+            <el-table-column prop="riskName" label="结果类型" min-width="200" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <span class="riskcode">{{ scope.row.riskCode }}</span>
+                {{ scope.row.riskName }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="activeType" label="地域" width="120" />
+            <el-table-column prop="activeType" label="车辆类型" width="320" show-overflow-tooltip />
+            <el-table-column prop="activeType" label="公司" width="320" show-overflow-tooltip />
+            <el-table-column prop="activeType" label="品牌" width="320" show-overflow-tooltip />
+            <el-table-column prop="activeType" label="车系" width="320" show-overflow-tooltip />
+            <el-table-column prop="activeType" label="车组" width="320" show-overflow-tooltip />
+            <el-table-column prop="activeType" label="车型" width="320" show-overflow-tooltip />
+            <el-table-column prop="activeType" label="承保风险等级" width="320" show-overflow-tooltip />
+            <el-table-column prop="activeType" label="赔付风险等级" width="320" show-overflow-tooltip />
+            <el-table-column prop="activeType" label="出险风险等级" width="320" show-overflow-tooltip />
+            <el-table-column fixed="right" label="操作" width="150">
+              <template slot-scope="scope">
+                <el-button type="text" size="mini" @click="edit(scope.row)">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-tab-pane>
       </el-tabs>
     </div>
-    <div class="edit-footer">
-      <el-button type="primary" plain size="small" @click="back">返回上级</el-button>
-      <el-button type="primary" size="small" @click="back">保存</el-button>
+    <div class="query mgt-14">
+      <div class="query-header clearfix">
+        <div class="header-title fl">查询条件</div>
+      </div>
+      <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
+        <el-row class="row-bg" justify="space-around">
+          <el-col :span="8">
+            <el-form-item label="品牌">
+              <el-select
+                v-model="type"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+              >
+                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="厂商">
+              <el-select
+                v-model="type"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+              >
+                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="车系">
+              <el-select
+                v-model="type"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+              >
+                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="8">
+            <el-form-item label="车组">
+              <el-select
+                v-model="type"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+              >
+                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="车型">
+              <el-select
+                v-model="type"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+              >
+                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="车组">
+              <el-select
+                v-model="type"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+              >
+                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="车型">
+              <el-select
+                v-model="type"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+              >
+                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="车系代码">
+              <el-input
+                v-model="comcodes"
+                placeholder="请输入"
+                clearable
+                style="width: 100%"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div class="search-footer">
+        <el-button size="small" type="primary" plain @click="reset">重置</el-button>
+        <el-button size="small" type="primary" @click="currentPage=1,queryData()">查询</el-button>
+      </div>
+    </div>
+
+    <div class="query mgt-14">
+      <div class="query-header clearfix">
+        <div class="header-title fl">查询结果</div>
+      </div>
+      <div>
+        <el-table :data="systemListResult" style="width: 100%">
+          <el-table-column type="index" label="序号" width="100" />
+          <el-table-column prop="riskName" label="品牌" min-width="200" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <span class="riskcode">{{ scope.row.riskCode }}</span>
+              {{ scope.row.riskName }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="activeType" label="车系" width="120" />
+          <el-table-column prop="activeType" label="车系代码" width="320" show-overflow-tooltip />
+          <el-table-column prop="activeType" label="车组" width="320" show-overflow-tooltip />
+          <el-table-column prop="activeType" label="车型" width="320" show-overflow-tooltip />
+          <el-table-column prop="activeType" label="车型代码" width="320" show-overflow-tooltip />
+          <el-table-column prop="activeType" label="CIRI案均" width="320" show-overflow-tooltip />
+          <el-table-column fixed="right" label="操作" width="150">
+            <template slot-scope="scope">
+              <el-button type="text" size="mini" @click="edit(scope.row)">禁用</el-button>
+              <el-button type="text" size="mini" @click="edit(scope.row)">权限设置</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="block footer-page">
+        <el-pagination
+          :current-page="currentPage"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          :page-sizes="[10, 15, 20, 30, 50, 100]"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
     </div>
   </div>
 </template>
 <script>
-import { riskUserEditPage, riskUserSaveOrUpdate, getUserInfo, queryRiskUser } from '../../api/user'
+import { riskUserQueryListPage, riskUserDeleteById, productEditPage, queryCompanyList, fileDownload, deleteRiskUserBatch } from '../../api/user'
 import { mapGetters } from 'vuex'
+
 export default {
-  name: 'CartypeCompensationEdie',
+  name: 'CartypeCompensationEdit',
   components: {},
   data() {
-    const generateData = _ => {
-      const data = []
-      for (let i = 1; i <= 15; i++) {
-        data.push({
-          key: i,
-          label: `备选项 ${i}`,
-          disabled: i % 4 === 0
-        })
-      }
-      return data
-    }
     return {
       activeName: 'first',
-      editForm: {
-        systemItem: '',
-        systemClass: '',
-        integrationMode: '',
-        systemurl: ''
-      },
-      riskCodeList: [],
+      selectedRiskCode: '',
+      comcodes: '',
+      riskcode: '',
+      userName: '',
+      loading: false,
+      type: '',
+      menuType: '',
+      systemListResult: [],
       spreadClassDtoList: [],
       menuTypeList: [],
-      data: generateData(),
-      value: [1, 4],
-      activeType: '',
-      formList: [
-        {
-          activeType: '',
-          userCode: '',
-          userName: '',
-          createdBy: '',
-          riskCodeList: [],
-          openMenuTypeList: [],
-          spreadList: []
+      prpdCompanyList: [],
+      riskCodeList: [],
+      riskId: [],
+      acurl: '',
+      pageSize: 15,
+      currentPage: 1,
+      total: 0,
+      cascaderConfig: {
+        lazy: true,
+        label: 'comcname',
+        expandTrigger: 'click',
+        checkStrictly: true,
+        value: 'comcode',
+        children: 'children',
+        lazyLoad(node, resolve) {
+          if (node.level !== 1) return
+          queryCompanyList({ comcode: node.value }).then((response) => {
+            if (!response.data.length) resolve()
+            response.data.forEach(l => {
+              l.leaf = 1
+            })
+            resolve(response.data)
+          })
         }
-      ]
+      }
     }
   },
   computed: {
-    ...mapGetters(['userInfo']),
-    editType() {
-      return this.$route.query.editType
-    }
+    ...mapGetters(['systemClassList', 'integrationModeList', 'userInfo', 'token'])
   },
   created() {
-    const param = {
-      riskCode: this.$route.query.riskCode,
-      userCode: this.$route.query.userCode,
-      editType: this.editType
-    }
-    riskUserEditPage(param).then(res => {
-      if (res.code === 200) {
-        this.riskCodeList = res.data.riskMap.riskList
-        this.spreadClassDtoList = res.data.spreadClassDtoList
-        this.menuTypeList = res.data.menuTypeList
-        this.activeType = res.data.activeType
-        this.formList[0].activeType = res.data.activeType
-        this.formList[0].createdBy = this.userInfo.userCode
-        this.total = res.data.totalCount
-
-        this.formList[0].userCode = res.data.portRiskUserVo.userCode
-        this.formList[0].userName = res.data.portRiskUserVo.userName
-        this.formList[0].riskCodeList.push(res.data.portRiskUserVo.riskCode)
-        if (res.data.portRiskUserVo.spread) {
-          for (var item of res.data.portRiskUserVo.spread.split(';')) {
-            this.formList[0].spreadList.push(item)
-          }
-        }
-        if (res.data.portRiskUserVo.delMenuType) {
-          for (var _item of res.data.portRiskUserVo.delMenuType.split(';')) {
-            this.formList[0].openMenuTypeList.push(_item)
-          }
-        }
-      }
-    })
+    this.queryData()
+    this.acurl = process.env.VUE_APP_BASE_API + '/portservice/riskUser/readUserExcel'
   },
   methods: {
-    // 返回
-    back() {
-      this.$router.push('/product-user/index')
-    },
-    addForm() {
-      this.formList.push({
-        activeType: this.activeType,
-        createdBy: this.userInfo.userCode,
-        userCode: '',
-        userName: '',
-        riskCodeList: [],
-        openMenuTypeList: [],
-        spreadList: []
+    queryForm() {
+      const param = {
+        comcode: '',
+        riskcode: '',
+        editType: 'ADD'
+      }
+      productEditPage(param).then(res => {
+        if (res.code === 200) {
+          this.prpdCompanyList = res.data.prpdCompanyList
+          this.riskCodeList = res.data.findProductDtoMap.riskList
+          this.riskCodeList[0].spread = '1'
+          this.activeType = res.data.activeType
+          this.formList[0].activeType = res.data.activeType
+          this.total = res.data.totalCount
+        }
       })
     },
-    deleteForm(index) {
-      this.formList.splice(index, 1)
-    },
-    onInput() {
-      console.log('onInput')
-      this.$forceUpdate()
-    },
-    checkChange(index) {
-      this.comChange(this.formList[index])
-      if (this.formList[index].spreadList.length === 0) return
-      const spreadList = this.formList[index].spreadList
-      const checkSpread = this.spreadClassDtoList.filter(item => item.spreadCode === spreadList[spreadList.length - 1]) // 过滤选中类型item
-      const checkSpreadMutexFlags = this.spreadClassDtoList.filter(item => item.mutexFlag === checkSpread[0].mutexFlag) // 过滤选中类型互斥list
-      if (checkSpreadMutexFlags && checkSpreadMutexFlags.length > 1) { // 判断有互斥类型
-        const checkSpreadNot = checkSpreadMutexFlags.filter(item => item.spreadCode !== checkSpread[checkSpread.length - 1].spreadCode) // 过滤选中类型互斥item
-        const ind = spreadList.indexOf(checkSpreadNot[0].spreadCode)
-        if (ind > -1) {
-          spreadList.splice(ind, 1)
+    // 查询列表
+    queryData() {
+      const param = {
+        userCode: this.comcodes,
+        userName: this.userName,
+        riskcode: this.riskCode,
+        spread: this.type,
+        delMenuType: this.menuType,
+        currentPage: this.currentPage,
+        pageSize: this.pageSize
+      }
+      riskUserQueryListPage(param).then(res => {
+        if (res.code === 200) {
+          if (!res.data) {
+            this.systemListResult = []
+            this.currentPage = 0
+            this.total = 0
+            return
+          }
+          this.riskCodeList = res.data.riskMap.riskList
+          this.spreadClassDtoList = res.data.spreadClassDtoList
+          this.menuTypeList = res.data.menuTypeList
+          this.systemListResult = res.data.portRiskUserDtoIPage.records
+          this.currentPage = res.data.portRiskUserDtoIPage.current
+          this.total = res.data.portRiskUserDtoIPage.total
         }
+      })
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.queryData()
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val
+      this.queryData()
+    },
+    // 重置
+    reset() {
+      this.selectedRiskCode = ''
+      this.comcodes = ''
+      this.userName = ''
+      this.riskCode = ''
+      this.menuType = ''
+      this.type = ''
+    },
+
+    changeRiskCode(val) {
+      console.log(val)
+      this.riskCode = val.productCode
+      console.log(this.riskCode)
+    },
+    formatter(row, column) {
+      if (row.state === '0') {
+        return '无效'
+      } else if (row.state === '1') {
+        return '有效'
       }
     },
-    blurUserCode(userCode, index) {
-      getUserInfo({ userCode }).then(res => {
-        if (res.code === 200) {
-          this.formList[index].userName = res.data.userName
-          this.comChange(this.formList[index])
+    spreadFormatter(row, column) {
+      if (!row.spread) return ''
+      const spreads = row.spread.split(';')
+      const spreadss = []
+      for (var item of spreads) {
+        for (var item1 of this.spreadClassDtoList) {
+          if (item === item1.spreadCode) {
+            spreadss.push(item1.spreadName)
+          }
         }
-      }).catch(res => {
-        this.formList[index].userName = ''
-        this.formList[index].userCode = ''
+      }
+      return spreadss.join('/')
+    },
+    menuTypeFormatter(row, column) {
+      if (!row.delMenuType) return ''
+      const delMenuTypes = row.delMenuType.split(';')
+      const delMenuTypess = []
+      for (var item of delMenuTypes) {
+        for (var item1 of this.menuTypeList) {
+          if (item === item1.menuCode) {
+            delMenuTypess.push(item1.menuName)
+          }
+        }
+      }
+      return delMenuTypess.join('/')
+    },
+    handleBeforeUpload(file) {
+      const isExcel = file.type === '.xls' || '.xlsx'
+      const isLt10M = file.size / 1024 / 1024 < 10
+
+      if (!isExcel) {
+        this.$message.error('上传文件只能是xls或xlsx格式!')
+      }
+      if (!isLt10M) {
+        this.$message.error('上传文件大小不能超过 1MB!')
+      }
+      return isExcel && isLt10M
+    },
+    // 新增
+    add() {
+      this.$router.push({
+        name: 'CartypeCompensationEdie',
+        query: {
+          editType: 'ADD'
+        }
       })
     },
-    comChange(val) {
-      console.log(val)
-      if (val.userName && val.riskCodeList.length > 0 && (val.openMenuTypeList.length > 0 || val.spreadList.length > 0)) {
-        queryRiskUser({ userCode: val.userCode, riskCodeCLassList: val.riskCodeList, openMenuTypeList: val.openMenuTypeList, spreadList: val.spreadList }).then(res => {
-          if (res.data.length > 0) this.$message.warning(val.userCode + '已存在' + res.data.join(',') + '险种，不允许重复添加！')
-          for (var item of res.data) {
-            val.riskCodeList.splice(val.riskCodeList.indexOf(item), 1)
+    edit(item) {
+      this.$router.push({
+        name: 'CartypeCompensationEdie',
+        query: {
+          editType: 'EDIT',
+          userCode: item.userCode,
+          riskCode: item.riskCode
+        }
+      })
+    },
+    handleSelectionChange(e) {
+      this.riskId = []
+      e.forEach(item => {
+        this.riskId.push({ riskCode: item.riskCode, userCode: item.userCode })
+      })
+    },
+    deleteAll() {
+      this.$confirm('确定批量删除选中记录吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteRiskUserBatch({ riskDeleteList: this.riskId }).then(res => {
+          if (res.code === 200) {
+            this.$message.success('删除信息成功')
+            this.queryData()
           }
+        })
+      })
+    },
+    del(item) {
+      this.$confirm('确定删除该条记录吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const { userCode, riskCode } = item
+        riskUserDeleteById({ userCode, riskCode, createdBy: this.userInfo.userCode }).then(res => {
+          if (res.code === 200) {
+            this.$message.success('删除信息成功')
+            this.queryData()
+          }
+        })
+      })
+    },
+    uploadSuccess(res) {
+      if (res.code === 200) {
+        if (res.data === '1' || res.data === 1) {
+          this.$message({
+            message: '上传成功',
+            type: 'success'
+          })
+          this.currentPage = 1
+          this.queryData()
+        }
+      } else {
+        this.$message({
+          message: res.msg,
+          type: 'error'
         })
       }
     },
-    copyItem(item, index) {
-      const form = JSON.parse(JSON.stringify(item))
-      form.userCode = ''
-      form.userName = ''
-      this.formList.splice(index + 1, 0, form)
-    },
-    // 确定
-    save(item, index) {
-      this.$refs['editForm'][index].validate((valid) => {
-        if (valid) {
-          if (this.formList[index].spreadList.length === 0 && this.formList[index].openMenuTypeList.length === 0) {
-            this.$message.warning('请至少配置一种类型')
-            return
-          }
-          queryRiskUser({ userCode: this.formList[index].userCode, riskCodeCLassList: this.formList[index].riskCodeList, openMenuTypeList: this.formList[index].openMenuTypeList, spreadList: this.formList[index].spreadList }).then(res => {
-            if (res.data.length > 0) {
-              this.$message.warning(this.formList[index].userCode + '已存在' + res.data.join(',') + '险种，不允许重复添加！')
-              for (var item of res.data) {
-                this.formList[index].riskCodeList.splice(this.formList[index].riskCodeList.indexOf(item), 1)
-              }
-            } else {
-              const requestRiskUserDtoList = []
-              requestRiskUserDtoList.push(this.formList[index])
-              riskUserSaveOrUpdate({ editType: this.editType, requestRiskUserDtoList: requestRiskUserDtoList }).then(res => {
-                if (res.code === 200) {
-                  this.$message.success('保存成功')
-                  this.formList.splice(index, 1)
-                }
-              })
-            }
-          })
+    downLoadTemplate() {
+      fileDownload({ fileCode: 'USERTEMPLATE' }).then((res) => {
+        console.log(res)
+        const blob = new Blob([res.data]) // 将服务端返回的文件流（二进制）excel文件转化为blob
+        // const fileName = 'webagent' + '.zip';
+        const fileName = '用户模板.xlsx'
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE
+          window.navigator.msSaveOrOpenBlob(blob, fileName)
+        } else {
+          const objectUrl = (window.URL || window.webkitURL).createObjectURL(blob)
+          const downFile = document.createElement('a')
+          downFile.style.display = 'none'
+          downFile.href = objectUrl
+          downFile.download = fileName // 下载后文件名
+          document.body.appendChild(downFile)
+          downFile.click()
+          document.body.removeChild(downFile) // 下载完成移除元素
+          window.URL.revokeObjectURL(objectUrl) // 只要映射存在，Blob就不能进行垃圾回收，因此一旦不再需要引用，就必须小心撤销URL，释放掉blob对象。
         }
       })
-    }
+    },
+    changepage() {}
   }
 }
 </script>
+<style lang="scss" scoped>
+</style>

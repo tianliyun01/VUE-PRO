@@ -383,7 +383,7 @@ export default {
     // 新增
     add() {
       this.$router.push({
-        name: 'CartypeCompensationEdie',
+        name: 'CartypeCompensationEdit',
         query: {
           editType: 'ADD'
         }
@@ -391,7 +391,7 @@ export default {
     },
     edit(item) {
       this.$router.push({
-        name: 'CartypeCompensationEdie',
+        name: 'CartypeCompensationEdit',
         query: {
           editType: 'EDIT',
           userCode: item.userCode,
