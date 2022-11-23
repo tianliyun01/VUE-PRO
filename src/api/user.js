@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function auth(data) {
   return request({
-    url: '/api/auth',
+    url: '/api/sso/api/auth',
     method: 'post',
     data
   })
@@ -25,6 +25,12 @@ export function getInfo(token) {
 export function verifyCode() {
   return request({
     url: '/api/sso/api/verifyPictureCode',
+    method: 'get'
+  })
+}
+export function redirectURL(url) {
+  return request({
+    url: url,
     method: 'get'
   })
 }

@@ -27,14 +27,14 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item prop="password">
+        <el-form-item prop="passWord">
           <el-input
             :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
+            ref="passWord"
+            v-model="loginForm.passWord"
             :type="passwordType"
-            placeholder="Password"
-            name="password"
+            placeholder="passWord"
+            name="passWord"
             tabindex="2"
             autocomplete="on"
             @keyup.native="checkCapslock"
@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import { auth, verifyEmailCode } from '../../api/user'
+import { auth, verifyEmailCode, redirectURL } from '../../api/user'
 export default {
   name: 'Login',
   data() {
@@ -111,11 +111,11 @@ export default {
         userCode: '',
         pictureCode: '',
         emailCode: '',
-        password: ''
+        passWord: ''
       },
       loginRules: {
         userCode: [{ required: true, message: '不能为空', trigger: 'blur' }],
-        password: [{ required: true, message: '不能为空', trigger: 'blur' }],
+        passWord: [{ required: true, message: '不能为空', trigger: 'blur' }],
         pictureCode: [{ required: true, message: '不能为空', trigger: 'blur' }],
         emailCode: [{ required: true, message: '不能为空', trigger: 'blur' }]
       },
@@ -206,8 +206,10 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           auth(this.loginForm).then((res) => {
-            if (res.code === 200) {
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+            if (res.retCode === '200') {
+              redirectURL(res.redirectURLs[0]).then((_res) => {
+                this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+              })
             } else {
               this.$message.error(res.msg)
             }
