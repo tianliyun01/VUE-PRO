@@ -8,15 +8,15 @@
           <h3 class="login_word">统一登录平台</h3>
         </div>
 
-        <el-form-item prop="username">
+        <el-form-item prop="userCode">
           <!-- <span class="svg-container">
             <svg-icon icon-class="user" />
           </span> -->
           <el-input
-            ref="username"
-            v-model="loginForm.username"
-            placeholder="Username"
-            name="username"
+            ref="userCode"
+            v-model="loginForm.userCode"
+            placeholder="userCode"
+            name="userCode"
             type="text"
             tabindex="1"
             autocomplete="on"
@@ -108,13 +108,13 @@ export default {
   data() {
     return {
       loginForm: {
-        username: '',
+        userCode: '',
         pictureCode: '',
         emailCode: '',
         password: ''
       },
       loginRules: {
-        username: [{ required: true, message: '不能为空', trigger: 'blur' }],
+        userCode: [{ required: true, message: '不能为空', trigger: 'blur' }],
         password: [{ required: true, message: '不能为空', trigger: 'blur' }],
         pictureCode: [{ required: true, message: '不能为空', trigger: 'blur' }],
         emailCode: [{ required: true, message: '不能为空', trigger: 'blur' }]
@@ -148,8 +148,8 @@ export default {
     this.refreshVerifyCode()
   },
   mounted() {
-    if (this.loginForm.username === '') {
-      this.$refs.username.focus()
+    if (this.loginForm.userCode === '') {
+      this.$refs.userCode.focus()
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }

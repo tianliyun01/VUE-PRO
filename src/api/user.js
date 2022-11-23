@@ -7,11 +7,11 @@ export function auth(data) {
     data
   })
 }
-export function verifyEmailCode(data) {
+export function verifyEmailCode(params) {
   return request({
-    url: '/api/verifyEmailCode',
+    url: '/api/sso/api/verifyEmailCode',
     method: 'get',
-    data
+    params
   })
 }
 
@@ -26,19 +26,5 @@ export function verifyCode() {
   return request({
     url: '/api/sso/api/verifyPictureCode',
     method: 'get'
-  })
-}
-
-export function getVerifyCode() {
-  return request({
-    url: '/api/sso/api/verifyEmailCode',
-    method: 'get'
-  })
-}
-
-export function logout() {
-  return request({
-    url: '/vue-element-admin/user/logout',
-    method: 'post'
   })
 }
