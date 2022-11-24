@@ -17,7 +17,7 @@
               <el-col :span="8">
                 <el-form-item label="公司">
                   <el-select
-                    v-model="userCompany"
+                    v-model="formDate.userCompany"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -31,7 +31,7 @@
               <el-col :span="8">
                 <el-form-item label="姓名">
                   <el-input
-                    v-model="userName"
+                    v-model="formDate.userName"
                     placeholder="请输入"
                     style="width: 100%"
                   />
@@ -52,7 +52,7 @@
         <el-button class="query-header-btn fr" size="mini" type="primary" plain @click="add">添加</el-button>
       </div>
       <div>
-        <el-table :data="userResult" style="width: 100%" height="350">
+        <el-table :data="userResult" style="width: 100%" height="500">
           <el-table-column type="index" label="序号" width="100" />
           <el-table-column prop="userCode" label="人员代码" min-width="150" />
           <el-table-column prop="userName" label="姓名" width="120" />
@@ -152,9 +152,9 @@ export default {
     },
     // 重置
     reset() {
-      this.userCode = ''
-      this.userCompany = ''
-      this.userName = ''
+      this.formDate.userCode = ''
+      this.formDate.userCompany = ''
+      this.formDate.userName = ''
     },
 
     changeRiskCode(val) {

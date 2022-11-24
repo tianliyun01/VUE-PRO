@@ -34,9 +34,25 @@ export function redirectURL(url) {
     method: 'get'
   })
 }
-export function queryByPage() {
+export function queryByPage(data) {
   return request({
     url: '/api/bs/user/queryByPage',
-    method: 'post'
+    method: 'post',
+    data
   })
 }
+export function getUserInfo(data) {
+  return request({
+    url: '/api/bs/user/queryUserInfo',
+    method: 'get',
+    data
+  })
+}
+export function saveOrUpdate(data) {
+  return request({
+    url: '/api/bs/user/queryUserInfo',
+    method: 'get',
+    data
+  })
+}
+
