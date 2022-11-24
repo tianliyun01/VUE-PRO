@@ -11,6 +11,7 @@
                     <el-input
                       v-model="comcodes"
                       placeholder="请输入"
+                      disabled
                       style="width: 100%"
                     />
                   </el-form-item>

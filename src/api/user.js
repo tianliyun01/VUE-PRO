@@ -50,9 +50,16 @@ export function getUserInfo(data) {
 }
 export function saveOrUpdate(data) {
   return request({
+    url: '/api/bs/user/saveOrUpdate',
+    method: 'post',
+    data
+  })
+}
+export function queryUserInfo(data) {
+  return request({
     url: '/api/bs/user/queryUserInfo',
     method: 'get',
-    data
+    params: data
   })
 }
 

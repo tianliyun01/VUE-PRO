@@ -27,8 +27,8 @@
                 <el-col :span="8">
                   <el-form-item label="性别" prop="sex">
                     <el-radio-group v-model="editForm.sex">
-                      <el-radio :label="3">男</el-radio>
-                      <el-radio :label="6">女</el-radio>
+                      <el-radio :label="男">男</el-radio>
+                      <el-radio :label="女">女</el-radio>
                     </el-radio-group>
                   </el-form-item>
                 </el-col>
@@ -101,6 +101,7 @@
                     <el-date-picker
                       v-model="editForm.endTime"
                       type="date"
+                      value-format="yyyy-MM-dd"
                       placeholder="选择日期"
                       style="width: 100%"
                     />
@@ -135,14 +136,14 @@
                 </el-row>
                 <el-row class="row-bg" justify="space-around">
                   <el-col :span="8">
-                    <el-form-item label="查询区域" prop="selectArea">
+                    <el-form-item label="查询区域">
                       <el-select
-                        v-model="type"
+                        v-model="editForm.selectArea"
                         class="quick-select"
                         placeholder="请选择"
+                        multiple
                         filterable
                         style="width: 100%"
-                        value-key="productCode"
                       >
                         <el-option v-for="item in selectArea" :key="item.value" :label="item.label" :value="item.value" />
                       </el-select>
@@ -151,12 +152,12 @@
                   <el-col :span="8">
                     <el-form-item label="保险公司" prop="insuCompany">
                       <el-select
-                        v-model="type"
+                        v-model="editForm.insuCompany"
                         class="quick-select"
                         placeholder="请选择"
                         filterable
+                        multiple
                         style="width: 100%"
-                        value-key="productCode"
                       >
                         <el-option v-for="item in insuCompany" :key="item.value" :label="item.label" :value="item.value" />
                       </el-select>
@@ -177,7 +178,7 @@
   </div>
 </template>
 <script>
-import { getUserInfo, saveOrUpdate } from '../../api/user'
+import { queryUserInfo, saveOrUpdate } from '../../api/user'
 import { mapGetters } from 'vuex'
 export default {
   name: 'UserEdie',
@@ -202,7 +203,7 @@ export default {
       rules: {
         userCode: [{ required: true, message: '人员代码不能为空', trigger: 'blur' }],
         userName: [{ required: true, message: '人员名称不能为空', trigger: 'blur' }],
-        userCompany: [{ required: true, message: '所属公司不能为空', trigger: 'blur' }],
+        userCompany: [{ required: true, message: '所属公司不能为空', trigger: 'change' }],
         department: [{ required: true, message: '所属部门不能为空', trigger: 'blur' }],
         userEname: [{ required: true, message: '人员英文名不能为空', trigger: 'blur' }],
         endTime: [{ required: true, message: '权限截止时间不能为空', trigger: 'blur' }]
@@ -256,36 +257,15 @@ export default {
     }
   },
   created() {
-    // const param = {
-    //   riskCode: this.$route.query.riskCode,
-    //   userCode: this.$route.query.userCode,
-    //   editType: this.editType
-    // }
-    // riskUserEditPage(param).then(res => {
-    //   if (res.code === 200) {
-    //     this.riskCodeList = res.data.riskMap.riskList
-    //     this.spreadClassDtoList = res.data.spreadClassDtoList
-    //     this.menuTypeList = res.data.menuTypeList
-    //     this.activeType = res.data.activeType
-    //     this.formList[0].activeType = res.data.activeType
-    //     this.formList[0].createdBy = this.userInfo.userCode
-    //     this.total = res.data.totalCount
-
-    //     this.formList[0].userCode = res.data.portRiskUserVo.userCode
-    //     this.formList[0].userName = res.data.portRiskUserVo.userName
-    //     this.formList[0].riskCodeList.push(res.data.portRiskUserVo.riskCode)
-    //     if (res.data.portRiskUserVo.spread) {
-    //       for (var item of res.data.portRiskUserVo.spread.split(';')) {
-    //         this.formList[0].spreadList.push(item)
-    //       }
-    //     }
-    //     if (res.data.portRiskUserVo.delMenuType) {
-    //       for (var _item of res.data.portRiskUserVo.delMenuType.split(';')) {
-    //         this.formList[0].openMenuTypeList.push(_item)
-    //       }
-    //     }
-    //   }
-    // })
+    const param = {
+      id: this.$route.query.id,
+      editType: this.editType
+    }
+    queryUserInfo(param).then(res => {
+      if (res.state === '0000') {
+        this.editForm = res.userDto
+      }
+    })
   },
   methods: {
     // 返回
@@ -324,19 +304,19 @@ export default {
         }
       }
     },
-    blurUserCode(userCode, index) {
-      getUserInfo({ userCode }).then(res => {
-        if (res.code === 200) {
-          this.formList[index].userName = res.data.userName
-          this.comChange(this.formList[index])
-        }
-      }).catch(res => {
-        this.formList[index].userName = ''
-        this.formList[index].userCode = ''
-      })
-      saveOrUpdate({ userCode }).then(res => {
-      })
-    },
+    // blurUserCode(userCode, index) {
+    //   getUserInfo({ userCode }).then(res => {
+    //     if (res.code === 200) {
+    //       this.formList[index].userName = res.data.userName
+    //       this.comChange(this.formList[index])
+    //     }
+    //   }).catch(res => {
+    //     this.formList[index].userName = ''
+    //     this.formList[index].userCode = ''
+    //   })
+    //   saveOrUpdate({ userCode }).then(res => {
+    //   })
+    // },
     // comChange(val) {
     //   console.log(val)
     //   if (val.userName && val.riskCodeList.length > 0 && (val.openMenuTypeList.length > 0 || val.spreadList.length > 0)) {
@@ -356,27 +336,19 @@ export default {
     },
     // 确定
     save(item, index) {
-      this.$refs['editForm'][index].validate((valid) => {
+      this.$refs['editForm'].validate((valid) => {
         if (valid) {
-          if (this.formList[index].spreadList.length === 0 && this.formList[index].openMenuTypeList.length === 0) {
-            this.$message.warning('请至少配置一种类型')
-            return
+          this.editForm.list = []
+          for (var ins of this.editForm.insuCompany) {
+            this.editForm.list.push({ refId: ins, type: '2' })
           }
-          saveOrUpdate({ userCode: this.formList[index].userCode, riskCodeCLassList: this.formList[index].riskCodeList, openMenuTypeList: this.formList[index].openMenuTypeList, spreadList: this.formList[index].spreadList }).then(res => {
-            if (res.data.length > 0) {
-              this.$message.warning(this.formList[index].userCode + '已存在' + res.data.join(',') + '数据，不允许重复添加！')
-              for (var item of res.data) {
-                this.formList[index].riskCodeList.splice(this.formList[index].riskCodeList.indexOf(item), 1)
-              }
-            } else {
-              const requestRiskUserDtoList = []
-              requestRiskUserDtoList.push(this.formList[index])
-              saveOrUpdate({ editType: this.editType, requestRiskUserDtoList: requestRiskUserDtoList }).then(res => {
-                if (res.code === 200) {
-                  this.$message.success('保存成功')
-                  this.formList.splice(index, 1)
-                }
-              })
+          for (var area of this.editForm.selectArea) {
+            this.editForm.list.push({ refId: area, type: '1' })
+          }
+          saveOrUpdate(this.editForm).then(res => {
+            if (res.state === '0000') {
+              this.$message.success('保存成功')
+              this.$router.push('/user/index')
             }
           })
         }

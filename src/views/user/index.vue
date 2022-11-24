@@ -22,9 +22,8 @@
                     placeholder="请选择"
                     filterable
                     style="width: 100%"
-                    value-key="productCode"
                   >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    <el-option v-for="item in userResult" :key="item.userCode" :label="item.userName" :value="item.userCode" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -100,7 +99,8 @@ export default {
         userName: '',
         userCompany: ''
       },
-      userResult: [{}],
+      userResult: [],
+      companyList: [],
       pageSize: 15,
       currentPage: 1,
       total: 0
@@ -221,8 +221,7 @@ export default {
         name: 'UserEdie',
         query: {
           editType: 'EDIT',
-          userCode: item.userCode,
-          riskCode: item.riskCode
+          id: item.id
         }
       })
     },
