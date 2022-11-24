@@ -380,12 +380,12 @@ input:-webkit-autofill , textarea:-webkit-autofill, select:-webkit-autofill {
 .el-table td:first-child>.cell, .el-table th:first-child>.cell {
   padding-left: 20px!important;
 }
-.el-table td:last-child>.cell {
-  padding-left: 0!important;
-}
-.el-table th:last-child>.cell {
-  padding-left: 16px!important;
-}
+// .el-table td:last-child>.cell {
+//   padding-left: 0!important;
+// }
+// .el-table th:last-child>.cell {
+//   padding-left: 16px!important;
+// }
 // .operation .cell{
 //   // text-align: center !important;
 //   padding-right: 20px !important;
