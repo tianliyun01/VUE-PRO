@@ -38,7 +38,7 @@
                     value-key="productCode"
                   >
                     <el-option label="有效" value="1" />
-                    <el-option label="无效" value="2" />
+                    <el-option label="无效" value="0" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -59,10 +59,14 @@
       <div>
         <el-table :data="menuResult" style="width: 100%">
           <el-table-column type="index" label="序号" width="100" />
-          <el-table-column prop="menuName" label="菜单名称" min-width="200" />
-          <el-table-column prop="url" label="菜单URL" width="120" />
-          <el-table-column prop="state" label="描述" width="130" :formatter="formatter" />
-          <el-table-column prop="spread" label="创建人" width="180" :formatter="spreadFormatter" show-overflow-tooltip />
+          <el-table-column prop="menuName" label="菜单名称" min-width="200" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <span class="riskcode">{{ scope.row.menuName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="menuUrl" label="菜单URL" width="120" />
+          <el-table-column prop="description" label="描述" width="130" />
+          <el-table-column prop="createdBy" label="创建人" width="180" show-overflow-tooltip />
           <el-table-column prop="createdTime" label="创建时间" min-width="180" show-overflow-tooltip />
           <el-table-column prop="updatedBy" label="更新人" min-width="150" show-overflow-tooltip />
           <el-table-column prop="updatedTime" label="更新时间" min-width="180" show-overflow-tooltip />
@@ -109,11 +113,14 @@ export default {
       loading: false,
       type: '',
       menuType: '',
-      menuResult: [{}],
+      pageSize: 15,
+      currentPage: 1,
+      total: 0,
+      menuResult: [],
       levels: [
-        { lable: '一级菜单', value: 1 },
-        { lable: '二级菜单', value: 2 },
-        { lable: '三级菜单', value: 3 }
+        { lable: '一级菜单', value: '1' },
+        { lable: '二级菜单', value: '2' },
+        { lable: '三级菜单', value: '3' }
       ]
     }
   },
@@ -147,8 +154,9 @@ export default {
       this.formDate.pageNo = this.currentPage
       this.formDate.pageSize = this.pageSize
       queryMenuByPage(this.formDate).then(res => {
-        if (res.code === 200) {
-          this.menuResult = res.data.menuResult
+        if (res.state === '0000') {
+          this.menuResult = res.menuList
+          this.total = res.totalCount
         }
       })
     },
@@ -162,65 +170,9 @@ export default {
     },
     // 重置
     reset() {
-      this.selectedRiskCode = ''
-      this.comcodes = ''
-      this.userName = ''
-      this.riskCode = ''
-      this.menuType = ''
-      this.type = ''
+      this.formDate = {}
     },
 
-    changeRiskCode(val) {
-      console.log(val)
-      this.riskCode = val.productCode
-      console.log(this.riskCode)
-    },
-    formatter(row, column) {
-      if (row.state === '0') {
-        return '无效'
-      } else if (row.state === '1') {
-        return '有效'
-      }
-    },
-    spreadFormatter(row, column) {
-      if (!row.spread) return ''
-      const spreads = row.spread.split(';')
-      const spreadss = []
-      for (var item of spreads) {
-        for (var item1 of this.spreadClassDtoList) {
-          if (item === item1.spreadCode) {
-            spreadss.push(item1.spreadName)
-          }
-        }
-      }
-      return spreadss.join('/')
-    },
-    menuTypeFormatter(row, column) {
-      if (!row.delMenuType) return ''
-      const delMenuTypes = row.delMenuType.split(';')
-      const delMenuTypess = []
-      for (var item of delMenuTypes) {
-        for (var item1 of this.menuTypeList) {
-          if (item === item1.menuCode) {
-            delMenuTypess.push(item1.menuName)
-          }
-        }
-      }
-      return delMenuTypess.join('/')
-    },
-    handleBeforeUpload(file) {
-      const isExcel = file.type === '.xls' || '.xlsx'
-      const isLt10M = file.size / 1024 / 1024 < 10
-
-      if (!isExcel) {
-        this.$message.error('上传文件只能是xls或xlsx格式!')
-      }
-      if (!isLt10M) {
-        this.$message.error('上传文件大小不能超过 1MB!')
-      }
-      return isExcel && isLt10M
-    },
-    // 新增
     add() {
       this.$router.push({
         name: 'MenuManageEdie',
@@ -272,23 +224,6 @@ export default {
         //   }
         // })
       })
-    },
-    uploadSuccess(res) {
-      if (res.code === 200) {
-        if (res.data === '1' || res.data === 1) {
-          this.$message({
-            message: '上传成功',
-            type: 'success'
-          })
-          this.currentPage = 1
-          this.queryData()
-        }
-      } else {
-        this.$message({
-          message: res.msg,
-          type: 'error'
-        })
-      }
     },
     changepage() {}
   }

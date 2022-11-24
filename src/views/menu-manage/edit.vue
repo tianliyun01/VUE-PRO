@@ -6,7 +6,7 @@
           <div style="overflow-y: auto;height:calc(100vh - 195px)">
             <el-form ref="editForm" :model="editForm" :rules="rules" size="mini" label-position="right" label-width="108px" class="pdt-18">
               <el-row class="row-bg">
-                <el-col :span="8">
+                <!-- <el-col :span="8">
                   <el-form-item label="所属系统" prop="menu_url">
                     <el-select
                       v-model="editForm.menu_url"
@@ -19,9 +19,9 @@
                       <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
                     </el-select>
                   </el-form-item>
-                </el-col>
+                </el-col> -->
                 <el-col :span="8">
-                  <el-form-item label="菜单级别">
+                  <el-form-item label="菜单级别" prop="level">
                     <el-select
                       v-model="editForm.level"
                       class="quick-select"
@@ -30,45 +30,45 @@
                       style="width: 100%"
                       value-key="productCode"
                     >
-                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                      <el-option v-for="item in levels" :key="item.value" :label="item.lable" :value="item.value" />
                     </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="菜单状态">
-                    <el-radio-group v-model="radio">
-                      <el-radio :label="3">启用</el-radio>
-                      <el-radio :label="6">禁用</el-radio>
+                  <el-form-item label="菜单状态" prop="isValidate">
+                    <el-radio-group v-model="editForm.isValidate">
+                      <el-radio label="1">启用</el-radio>
+                      <el-radio label="0">禁用</el-radio>
                     </el-radio-group>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="父菜单">
+                  <el-form-item label="父菜单" prop="parentId">
                     <el-select
-                      v-model="type"
+                      v-model="editForm.parentId"
                       class="quick-select"
                       placeholder="请选择"
                       filterable
                       style="width: 100%"
                       value-key="productCode"
                     >
-                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                      <el-option v-for="item in menuList" :key="item.id" :label="item.menuName" :value="item.id" />
                     </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="菜单名称" prop="menu_name">
+                  <el-form-item label="菜单名称" prop="menuName">
                     <el-input
-                      v-model="editForm.menu_name"
+                      v-model="editForm.menuName"
                       placeholder="请输入"
                       style="width: 100%"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="菜单URL">
+                  <el-form-item label="菜单URL" prop="menuUrl">
                     <el-input
-                      v-model="comcodes"
+                      v-model="editForm.menuUrl"
                       placeholder="请输入"
                       style="width: 100%"
                     />
@@ -77,9 +77,9 @@
               </el-row>
               <el-row class="row-bg" justify="space-around">
                 <el-col :span="12">
-                  <el-form-item label="描述">
+                  <el-form-item label="描述" prop="description">
                     <el-input
-                      v-model="comcodes"
+                      v-model="editForm.description"
                       type="textarea"
                       :autosize="{ minRows: 2, maxRows: 4}"
                       placeholder="请输入"
@@ -116,12 +116,21 @@ export default {
         systemurl: ''
       },
       rules: {
-        menu_name: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
-        menu_url: [{ required: true, message: '菜单URL不能为空', trigger: 'blur' }]
+        menuName: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
+        menuUrl: [{ required: true, message: '菜单URL不能为空', trigger: 'blur' }],
+        description: [{ required: true, message: '描述不能为空', trigger: 'blur' }],
+        isValidate: [{ required: true, message: '菜单状态不能为空', trigger: 'blur' }],
+        parentId: [{ required: true, message: '父菜单不能为空', trigger: 'blur' }],
+        level: [{ required: true, message: '菜单级别不能为空', trigger: 'blur' }]
       },
       riskCodeList: [],
-      spreadClassDtoList: [],
+      menuList: [],
       menuTypeList: [],
+      levels: [
+        { lable: '一级菜单', value: '1' },
+        { lable: '二级菜单', value: '2' },
+        { lable: '三级菜单', value: '3' }
+      ],
       activeType: '',
       formList: [
         {
@@ -149,28 +158,9 @@ export default {
         editType: this.editType
       }
       getMenuInfo(param).then(res => {
-        if (res.code === 200) {
-          this.riskCodeList = res.data.riskMap.riskList
-          this.spreadClassDtoList = res.data.spreadClassDtoList
-          this.menuTypeList = res.data.menuTypeList
-          this.activeType = res.data.activeType
-          this.formList[0].activeType = res.data.activeType
-          this.formList[0].createdBy = this.userInfo.userCode
-          this.total = res.data.totalCount
-
-          this.formList[0].userCode = res.data.portRiskUserVo.userCode
-          this.formList[0].userName = res.data.portRiskUserVo.userName
-          this.formList[0].riskCodeList.push(res.data.portRiskUserVo.riskCode)
-          if (res.data.portRiskUserVo.spread) {
-            for (var item of res.data.portRiskUserVo.spread.split(';')) {
-              this.formList[0].spreadList.push(item)
-            }
-          }
-          if (res.data.portRiskUserVo.delMenuType) {
-            for (var _item of res.data.portRiskUserVo.delMenuType.split(';')) {
-              this.formList[0].openMenuTypeList.push(_item)
-            }
-          }
+        if (res.state === '0000') {
+          this.editForm = res.menuDto
+          this.menuList = res.menuList
         }
       })
     }
@@ -178,7 +168,7 @@ export default {
   methods: {
     // 返回
     back() {
-      this.$router.push('/product-user/index')
+      this.$router.push('/menu-manage/index')
     },
     addForm() {
       this.formList.push({
