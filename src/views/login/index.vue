@@ -282,10 +282,10 @@ $cursor: #fff;
       height: 47px;
       // caret-color: $cursor;
 
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
+      // &:-webkit-autofill {
+      //   box-shadow: 0 0 0px 1000px $bg inset !important;
+      //   -webkit-text-fill-color: $cursor !important;
+      // }
     }
   }
 
@@ -378,7 +378,7 @@ $light_gray:#eee;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;
+    // margin-top: 20px;
   }
   .login-verify-input {
     width: 80%;
