@@ -34,3 +34,9 @@ export function redirectURL(url) {
     method: 'get'
   })
 }
+export function queryByPage() {
+  return request({
+    url: '/api/bs/user/queryByPage',
+    method: 'post'
+  })
+}

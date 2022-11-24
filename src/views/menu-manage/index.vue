@@ -59,12 +59,7 @@
       <div>
         <el-table :data="menuResult" style="width: 100%">
           <el-table-column type="index" label="序号" width="100" />
-          <el-table-column prop="menuName" label="菜单名称" min-width="200" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <span class="riskcode">{{ scope.row.riskCode }}</span>
-              {{ scope.row.riskName }}
-            </template>
-          </el-table-column>
+          <el-table-column prop="menuName" label="菜单名称" min-width="200" />
           <el-table-column prop="url" label="菜单URL" width="120" />
           <el-table-column prop="state" label="描述" width="130" :formatter="formatter" />
           <el-table-column prop="spread" label="创建人" width="180" :formatter="spreadFormatter" show-overflow-tooltip />
