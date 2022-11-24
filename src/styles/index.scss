@@ -188,6 +188,7 @@ aside {
 //main-container全局样式
 .app-container {
   // padding: 20px;
+  overflow-y: auto;
   height: calc(100vh - 78px);
   margin: 14px;
 }
@@ -445,7 +446,7 @@ margin-left: 5px;
   .popper__arrow{
     left: 6px !important;
   }
-  
+
 }
 
 // .copybutton[x-placement^=bottom] .popper__arrow {

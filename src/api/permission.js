@@ -14,4 +14,10 @@ export function saveOrUpdate(data) {
     data
   })
 }
-
+export function queryPowerInfo(data) {
+  return request({
+    url: '/api/bs/ex/authority/queryPowerInfo',
+    method: 'get',
+    data
+  })
+}

@@ -11,7 +11,6 @@
                     <el-input
                       v-model="comcodes"
                       placeholder="请输入"
-                      clearable
                       style="width: 100%"
                     />
                   </el-form-item>
