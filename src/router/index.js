@@ -206,6 +206,50 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/risk-premium',
+    component: Layout,
+    redirect: '/risk-premium/index',
+    alwaysShow: true,
+    name: '',
+    meta: { title: 'risk-premium', icon: 'menu' },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/risk-premium/index'),
+        name: 'RiskPremiumIndex',
+        meta: { title: '车型当前赔付情况分析', keepAlive: true }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/risk-premium/edit'),
+        name: 'RiskPremiumEdit',
+        meta: { title: '车型当前赔付情况分析', keepAlive: true }
+      }
+    ]
+  },
+  {
+    path: '/compensation',
+    component: Layout,
+    redirect: '/compensation/index',
+    alwaysShow: true,
+    name: '',
+    meta: { title: 'compensation', icon: 'menu' },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/compensation/index'),
+        name: 'CompensationIndex',
+        meta: { title: '标准赔付查询', keepAlive: true }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/compensation/edit'),
+        name: 'CompensationEdit',
+        meta: { title: '标准赔付查询', keepAlive: true }
+      }
+    ]
+  },
+  {
     path: '/repair-hours',
     component: Layout,
     redirect: '/repair-hours/index',
@@ -221,31 +265,6 @@ export const constantRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/documentation',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/documentation/index'),
-  //       name: 'Documentation',
-  //       meta: { title: 'Documentation', icon: 'documentation', affix: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/guide',
-  //   component: Layout,
-  //   redirect: '/guide/index',
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/guide/index'),
-  //       name: 'Guide',
-  //       meta: { title: 'Guide', icon: 'guide', noCache: true }
-  //     }
-  //   ]
-  // },
   {
     path: '/profile',
     component: Layout,

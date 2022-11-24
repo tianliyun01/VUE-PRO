@@ -93,6 +93,16 @@ export default {
           url: '/cartype-compensation/index'
         },
         {
+          menuCName: '承保风险查询',
+          menuIcon: 'documentation',
+          url: '/risk-premium/index'
+        },
+        {
+          menuCName: '标准赔付查询',
+          menuIcon: 'documentation',
+          url: '/compensation/index'
+        },
+        {
           menuCName: '维修工时数据查询',
           menuIcon: 'documentation',
           url: '/repair-hours/index'
