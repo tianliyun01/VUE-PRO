@@ -26,7 +26,7 @@
                     style="width: 100%"
                     value-key="productCode"
                   >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    <el-option v-for="item in companyList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -82,7 +82,7 @@
     <div class="query mgt-14">
       <div class="query-header clearfix">
         <div class="header-title fl">查询结果</div>
-        <el-button class="query-header-btn fr" size="mini" type="primary" plain @click="add">添加</el-button>
+        <!--        <el-button class="query-header-btn fr" size="mini" type="primary" plain @click="add">添加</el-button>-->
       </div>
       <div>
         <el-table :data="systemListResult" style="width: 100%">
@@ -139,6 +139,7 @@ export default {
         isValidate: ''
       },
       systemListResultL: [],
+      companyList: [],
       pageSize: 15,
       currentPage: 1,
       total: 0
@@ -148,6 +149,7 @@ export default {
     ...mapGetters(['systemClassList', 'integrationModeList', 'userInfo', 'token'])
   },
   created() {
+    // this.queryForm()
     this.queryData()
     this.acurl = process.env.VUE_APP_BASE_API + '/portservice/riskUser/readUserExcel'
   },
@@ -160,12 +162,7 @@ export default {
     //   }
     //   productEditPage(param).then(res => {
     //     if (res.code === 200) {
-    //       this.prpdCompanyList = res.data.prpdCompanyList
-    //       this.riskCodeList = res.data.findProductDtoMap.riskList
-    //       this.riskCodeList[0].spread = '1'
-    //       this.activeType = res.data.activeType
-    //       this.formList[0].activeType = res.data.activeType
-    //       this.total = res.data.totalCount
+    //       this.companyList = res.companyList
     //     }
     //   })
     // },
@@ -180,6 +177,7 @@ export default {
         }
         if (res.state === '0000') {
           this.systemListResult = res.content
+          this.companyList = res.companyList
           this.total = res.totalCount
         }
       })

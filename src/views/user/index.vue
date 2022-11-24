@@ -8,7 +8,7 @@
               <el-col :span="8">
                 <el-form-item label="人员代码">
                   <el-input
-                    v-model="userCode"
+                    v-model="formDate.userCode"
                     placeholder="请输入"
                     style="width: 100%"
                   />
@@ -52,7 +52,7 @@
         <el-button class="query-header-btn fr" size="mini" type="primary" plain @click="add">添加</el-button>
       </div>
       <div>
-        <el-table :data="userResult" style="width: 100%">
+        <el-table :data="userResult" style="width: 100%" height="350">
           <el-table-column type="index" label="序号" width="100" />
           <el-table-column prop="userCode" label="人员代码" min-width="150" />
           <el-table-column prop="userName" label="姓名" width="120" />
