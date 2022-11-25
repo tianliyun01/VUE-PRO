@@ -62,6 +62,7 @@
                       v-model="editForm.menuName"
                       placeholder="请输入"
                       style="width: 100%"
+                      @blur="blurMenuName(editForm.menuName,$event)"
                     />
                   </el-form-item>
                 </el-col>
@@ -101,7 +102,7 @@
   </div>
 </template>
 <script>
-import { getMenuInfo, saveOrUpdate } from '../../api/menu'
+import { getMenuInfo, saveOrUpdate, isExisted} from '../../api/menu'
 import { mapGetters } from 'vuex'
 export default {
   name: 'MenuManageEdie',
@@ -152,18 +153,20 @@ export default {
     }
   },
   created() {
-    if (this.editType === 'EDIT') {
-      const param = {
-        id: this.$route.query.id,
-        editType: this.editType
-      }
-      getMenuInfo(param).then(res => {
-        if (res.state === '0000') {
-          this.editForm = res.menuDto
-          this.menuList = res.menuList
-        }
-      })
+    const param = {
+      id: this.$route.query.id,
+      editType: this.editType
     }
+    getMenuInfo(param).then(res => {
+      if (res.state === '0000') {
+        this.menuList = res.menuList
+        console.log(this.menuList)
+        if (this.editType === 'EDIT') {
+          this.editForm = res.menuDto
+          this.editForm.oriMenuName = res.menuDto.menuName
+        }
+      }
+    })
   },
   methods: {
     // 返回
@@ -187,6 +190,28 @@ export default {
     onInput() {
       console.log('onInput')
       this.$forceUpdate()
+    },
+    blurMenuName(menuName, event) {
+      var params = {
+        menuName: menuName
+      }
+      if (this.editType === 'ADD') {
+        isExisted(params).then(res => {
+          if (res.isExisted === true) {
+            this.$message.error('菜单名称已存在!')
+            event.target.focus()
+          }
+        })
+      } else if (this.editType === 'EDIT') {
+        if (menuName && this.editForm.oriMenuName !== menuName) {
+          isExisted(params).then(res => {
+            if (res.isExisted === true) {
+              this.$message.error('菜单名称已存在!')
+              event.target.focus()
+            }
+          })
+        }
+      }
     },
     checkChange(index) {
       this.comChange(this.formList[index])
@@ -212,6 +237,7 @@ export default {
     save(item, index) {
       this.$refs['editForm'].validate((valid) => {
         if (valid) {
+          this.editForm.editType = this.editType
           saveOrUpdate(this.editForm).then(res => {
             if (res.data.length > 0) {
               this.$message.warning(this.formList[index].userCode + '已存在' + res.data.join(',') + '险种，不允许重复添加！')

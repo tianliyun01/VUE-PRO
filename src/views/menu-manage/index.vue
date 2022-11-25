@@ -93,8 +93,7 @@
   </div>
 </template>
 <script>
-import { queryMenuByPage } from '../../api/menu'
-import { mapGetters } from 'vuex'
+import { queryMenuByPage, deleteMenuInfo } from '../../api/menu'
 
 export default {
   name: 'MenuManageIndex',
@@ -123,9 +122,6 @@ export default {
         { lable: '三级菜单', value: '3' }
       ]
     }
-  },
-  computed: {
-    ...mapGetters(['systemClassList', 'integrationModeList', 'userInfo', 'token'])
   },
   created() {
     this.queryData()
@@ -216,13 +212,12 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        // const { userCode, riskCode } = item
-        // riskUserDeleteById({ userCode, riskCode, createdBy: this.userInfo.userCode }).then(res => {
-        //   if (res.code === 200) {
-        //     this.$message.success('删除信息成功')
-        //     this.queryData()
-        //   }
-        // })
+        deleteMenuInfo({ id: item.id }).then(res => {
+          if (res.state === '0000') {
+            this.$message.success('删除信息成功')
+            this.queryData()
+          }
+        })
       })
     },
     changepage() {}

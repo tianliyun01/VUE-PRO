@@ -21,3 +21,17 @@ export function saveOrUpdate(data) {
     data
   })
 }
+export function deleteMenuInfo(data) {
+  return request({
+    url: 'api/bs/menu/deleteMenuInfo',
+    method: 'get',
+    params: data
+  })
+}
+export function isExisted(data) {
+  return request({
+    url: 'api/bs/menu/isExisted',
+    method: 'get',
+    params: data
+  })
+}
