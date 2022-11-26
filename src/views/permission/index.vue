@@ -58,7 +58,7 @@
               <el-col :span="8">
                 <el-form-item label="是否启用">
                   <el-select
-                    v-model="formDate.isValidate"
+                    v-model="formDate.validStatus"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -66,6 +66,8 @@
                     style="width: 100%"
                     value-key="productCode"
                   >
+                    <el-option label="有效" value="1" />
+                    <el-option label="无效" value="0" />
                     <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
                   </el-select>
                 </el-form-item>
@@ -90,17 +92,16 @@
           <el-table-column prop="userName" label="人员代码" min-width="200" show-overflow-tooltip>
             <template slot-scope="scope">
               <span class="userCode">{{ scope.row.userCode }}</span>
-              {{ scope.row.userName }}
             </template>
           </el-table-column>
           <el-table-column prop="userCompany" label="公司" width="120" />
           <el-table-column prop="userName" label="姓名" width="320" show-overflow-tooltip />
-          <el-table-column prop="isValidate" label="是否启用" width="220" show-overflow-tooltip />
+          <el-table-column prop="validStatus" label="是否启用" width="220" show-overflow-tooltip />
           <el-table-column prop="phone" label="手机号码" width="300" show-overflow-tooltip />
           <el-table-column prop="email" label="邮箱" width="220" show-overflow-tooltip />
           <el-table-column fixed="right" label="操作" width="150">
             <template slot-scope="scope">
-              <el-button type="text" size="mini" @click="edit(scope.row)">禁用</el-button>
+              <el-button type="text" size="mini" @click="del">禁用</el-button>
               <el-button type="text" size="mini" @click="edit(scope.row)">权限设置</el-button>
             </template>
           </el-table-column>
@@ -136,7 +137,7 @@ export default {
         userCompany: '',
         roleId: '',
         userName: '',
-        isValidate: ''
+        validStatus: ''
       },
       systemListResultL: [],
       companyList: [],
@@ -196,7 +197,7 @@ export default {
       this.userCompany = ''
       this.roleId = ''
       this.userName = ''
-      this.isValidate = ''
+      this.validStatus = ''
     },
 
     changeRiskCode(val) {
@@ -263,8 +264,7 @@ export default {
         name: 'PermissionEdie',
         query: {
           editType: 'EDIT',
-          userCode: item.userCode,
-          riskCode: item.riskCode
+          id: item.id
         }
       })
     },

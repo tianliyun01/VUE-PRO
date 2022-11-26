@@ -7,9 +7,9 @@
             <el-form ref="editForm" :model="editForm" :rules="rules" size="mini" label-position="right" label-width="108px" class="pdt-18">
               <el-row class="row-bg">
                 <el-col :span="8">
-                  <el-form-item label="人员代码" prop="menu_name">
+                  <el-form-item label="人员代码" prop="userCode">
                     <el-input
-                      v-model="comcodes"
+                      v-model="editForm.userCode"
                       placeholder="请输入"
                       disabled
                       style="width: 100%"
@@ -17,13 +17,14 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="公司">
+                  <el-form-item label="公司" prop="userCompany">
                     <el-select
-                      v-model="type"
+                      v-model="editForm.userCompany"
                       class="quick-select"
                       placeholder="请选择"
                       filterable
                       clearable
+                      disabled
                       style="width: 100%"
                       value-key="productCode"
                     >
@@ -32,66 +33,74 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="姓名">
+                  <el-form-item label="姓名" prop="userName">
                     <el-input
-                      v-model="comcodes"
+                      v-model="editForm.userName"
                       placeholder="请输入"
                       clearable
+                      disabled
                       style="width: 100%"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="英文名">
+                  <el-form-item label="英文名" prop="userEname">
                     <el-input
-                      v-model="comcodes"
+                      v-model="editForm.userEname"
                       placeholder="请输入"
                       clearable
+                      disabled
                       style="width: 100%"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="是否启用">
+                  <el-form-item label="是否启用" prop="validStatus">
                     <el-select
-                      v-model="type"
+                      v-model="editForm.authorityDto.validStatus"
                       class="quick-select"
                       placeholder="请选择"
                       filterable
                       clearable
+                      disabled
                       style="width: 100%"
                       value-key="productCode"
                     >
+                      <el-option label="启用" value="1" />
+                      <el-option label="禁用" value="0" />
                       <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
                     </el-select>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="手机号码">
+                  <el-form-item label="手机号码" prop="phone">
                     <el-input
-                      v-model="comcodes"
+                      v-model="editForm.phone"
                       placeholder="请输入"
                       clearable
+                      disabled
                       style="width: 100%"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="座机号码">
+                  <el-form-item label="座机号码" prop="mobile">
                     <el-input
-                      v-model="comcodes"
+                      v-model="editForm.mobile"
                       placeholder="请输入"
                       clearable
+                      disabled
                       style="width: 100%"
                     />
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="邮箱">
+                  <el-form-item label="邮箱" prop="email">
                     <el-input
-                      v-model="comcodes"
+                      v-model="editForm.email"
                       placeholder="请输入"
                       clearable
+                      disabled
                       style="width: 100%"
                     />
                   </el-form-item>
@@ -118,7 +127,7 @@
 <script>
 // import { riskUserEditPage, riskUserSaveOrUpdate, getUserInfo, queryRiskUser } from '../../api/user'
 import { mapGetters } from 'vuex'
-import { saveOrUpdate } from '../../api/permission'
+import { saveOrUpdate, queryPowerInfo } from '../../api/permission'
 export default {
   name: 'PermissionEdie',
   components: {},
@@ -172,41 +181,23 @@ export default {
     }
   },
   created() {
-    // const param = {
-    //   riskCode: this.$route.query.riskCode,
-    //   userCode: this.$route.query.userCode,
-    //   editType: this.editType
-    // }
-    // riskUserEditPage(param).then(res => {
-    //   if (res.code === 200) {
-    //     this.riskCodeList = res.data.riskMap.riskList
-    //     this.spreadClassDtoList = res.data.spreadClassDtoList
-    //     this.menuTypeList = res.data.menuTypeList
-    //     this.activeType = res.data.activeType
-    //     this.formList[0].activeType = res.data.activeType
-    //     this.formList[0].createdBy = this.userInfo.userCode
-    //     this.total = res.data.totalCount
-
-    //     this.formList[0].userCode = res.data.portRiskUserVo.userCode
-    //     this.formList[0].userName = res.data.portRiskUserVo.userName
-    //     this.formList[0].riskCodeList.push(res.data.portRiskUserVo.riskCode)
-    //     if (res.data.portRiskUserVo.spread) {
-    //       for (var item of res.data.portRiskUserVo.spread.split(';')) {
-    //         this.formList[0].spreadList.push(item)
-    //       }
-    //     }
-    //     if (res.data.portRiskUserVo.delMenuType) {
-    //       for (var _item of res.data.portRiskUserVo.delMenuType.split(';')) {
-    //         this.formList[0].openMenuTypeList.push(_item)
-    //       }
-    //     }
-    //   }
-    // })
+    if (this.editType === 'EDIT') {
+      const param = {
+        id: this.$route.query.id,
+        editType: this.editType
+      }
+      queryPowerInfo(param).then(res => {
+        if (res.state === '0000') {
+          this.editForm = res.userDto
+          this.authorityList = res.authorityList
+        }
+      })
+    }
   },
   methods: {
     // 返回
     back() {
-      this.$router.push('/product-user/index')
+      this.$router.push('/permission/index')
     },
     addForm() {
       this.formList.push({
