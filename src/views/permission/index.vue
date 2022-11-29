@@ -40,7 +40,7 @@
                     style="width: 100%"
                     value-key="productCode"
                   >
-                    <el-option v-for="item in roleList" :key="item.roleList" :label="item.name" :value="item.name" />
+                    <el-option v-for="item in roleList" :key="item.roleId" :label="item.name" :value="item.roleId" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -86,7 +86,7 @@
         <!--        <el-button class="query-header-btn fr" size="mini" type="primary" plain @click="add">添加</el-button>-->
       </div>
       <div>
-        <el-table :data="authorityPageDtoList" style="width: 100%">
+        <el-table :data="systemListResult" style="width: 100%">
           <el-table-column type="index" label="序号" width="100" />
           <el-table-column prop="userCode" label="人员代码" width="100" />
           <el-table-column prop="userCompany" label="公司" width="120" />
@@ -94,6 +94,7 @@
           <el-table-column prop="validStatus" label="是否启用" width="220" show-overflow-tooltip />
           <el-table-column prop="phone" label="手机号码" width="300" show-overflow-tooltip />
           <el-table-column prop="email" label="邮箱" width="220" show-overflow-tooltip />
+          <el-table-column prop="roleName" label="角色" width="220" show-overflow-tooltip />
           <el-table-column fixed="right" label="操作" width="150">
             <template slot-scope="scope">
               <el-button type="text" size="mini" @click="edit(scope.row)">权限设置</el-button>
@@ -187,11 +188,11 @@ export default {
     },
     // 重置
     reset() {
-      this.userCode = ''
-      this.userCompany = ''
-      this.roleId = ''
-      this.userName = ''
-      this.validStatus = ''
+      this.formDate.userCode = ''
+      this.formDate.userCompany = ''
+      this.formDate.roleId = ''
+      this.formDate.userName = ''
+      this.formDate.validStatus = ''
     },
 
     changeRiskCode(val) {
