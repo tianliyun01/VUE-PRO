@@ -57,7 +57,7 @@
                 <el-col :span="8">
                   <el-form-item label="是否启用" prop="validStatus">
                     <el-select
-                      v-model="editForm.authorityDto.validStatus"
+                      v-model="editForm.validStatus"
                       class="quick-select"
                       placeholder="请选择"
                       filterable
@@ -111,7 +111,15 @@
                   <span />
                   <div>角色设置</div>
                 </div>
-                <el-transfer v-model="value" :data="data" />
+                <el-transfer
+                  v-model="value"
+                  :props="{
+                    key: 'roleId',
+                    label: 'name'
+                  }"
+                  :data="roleList"
+                  :titles="['角色库', '现有角色']"
+                />
               </el-row>
             </el-form>
           </div>
@@ -132,17 +140,18 @@ export default {
   name: 'PermissionEdie',
   components: {},
   data() {
-    const generateData = _ => {
-      const data = []
-      for (let i = 1; i <= 15; i++) {
-        data.push({
-          key: i,
-          label: `备选项 ${i}`,
-          disabled: i % 4 === 0
-        })
-      }
-      return data
-    }
+    // const generateData = _ => {
+    //   const data = [];
+    //   // const roleList = this.roleList
+    //   for (let i = data; i <= data.length; i++) {
+    //     data.push({
+    //       key: i,
+    //       label: `备选项 ${i}`,
+    //       disabled: i % 4 === 0
+    //     })
+    //   }
+    //   return data
+    // }
     return {
       activeName: 'first',
       editForm: {
@@ -158,8 +167,9 @@ export default {
       riskCodeList: [],
       spreadClassDtoList: [],
       menuTypeList: [],
-      data: generateData(),
-      value: [1, 4],
+      data: [],
+      value: [],
+      roleList: [],
       activeType: '',
       formList: [
         {
@@ -189,7 +199,12 @@ export default {
       queryPowerInfo(param).then(res => {
         if (res.state === '0000') {
           this.editForm = res.userDto
-          this.authorityList = res.authorityList
+          this.roleList = res.roleList
+          const roleIds = []
+          for (const item of res.UserAuthorityList) {
+            roleIds.push(item.roleId)
+          }
+          this.value = roleIds
         }
       })
     }
@@ -261,17 +276,19 @@ export default {
     },
     // 确定
     save(item, index) {
-      this.$refs['editForm'][index].validate((valid) => {
-        if (valid) {
-          saveOrUpdate(this.editForm).then(res => {
-            if (res.data.length > 0) {
-              this.$message.warning(this.formList[index].userCode + '已存在' + res.data.join(',') + '险种，不允许重复添加！')
-              for (var item of res.data) {
-                this.formList[index].riskCodeList.splice(this.formList[index].riskCodeList.indexOf(item), 1)
-              }
-            }
-          })
+      this.$refs['editForm'].validate((valid) => {
+        var params = {
+          userId: this.editForm.id,
+          roleIds: this.value
         }
+        saveOrUpdate(params).then(res => {
+          if (res.state === '0000') {
+            this.$message.success(res.msg)
+            this.$router.push('/permission/index')
+          } else {
+            this.$message.console.error(res.msg)
+          }
+        })
       })
     }
   }

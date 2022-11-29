@@ -25,8 +25,7 @@
                     clearable
                     style="width: 100%"
                     value-key="productCode"
-                  >
-                    <el-option v-for="item in companyList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                  ><el-option v-for="item in insurerCodeList" :key="item.codeType" :label="item.codeName" :value="item.codeName" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -41,7 +40,7 @@
                     style="width: 100%"
                     value-key="productCode"
                   >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    <el-option v-for="item in roleList" :key="item.roleList" :label="item.name" :value="item.name" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -68,7 +67,7 @@
                   >
                     <el-option label="有效" value="1" />
                     <el-option label="无效" value="0" />
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    <!-- <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" /> -->
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -101,7 +100,6 @@
           <el-table-column prop="email" label="邮箱" width="220" show-overflow-tooltip />
           <el-table-column fixed="right" label="操作" width="150">
             <template slot-scope="scope">
-              <el-button type="text" size="mini" @click="del">禁用</el-button>
               <el-button type="text" size="mini" @click="edit(scope.row)">权限设置</el-button>
             </template>
           </el-table-column>
@@ -170,16 +168,13 @@ export default {
     // 查询列表
     queryData() {
       this.formDate.pageNo = this.currentPage
-      this.formDatepageSize = this.pageSize
+      this.formDate.pageSize = this.pageSize
       queryPermissionData(this.formDate).then(res => {
         if (res.state === '0000') {
           this.systemListResult = res.content
           this.total = res.totalCount
-        }
-        if (res.state === '0000') {
-          this.systemListResult = res.content
-          this.companyList = res.companyList
-          this.total = res.totalCount
+          this.insurerCodeList = res.insurerCodeList
+          this.roleList = res.roleList
         }
       })
     },
@@ -289,7 +284,7 @@ export default {
       })
     },
     del(item) {
-      this.$confirm('确定删除该条记录吗？', '提示', {
+      this.$confirm('确定禁用该条记录吗？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
