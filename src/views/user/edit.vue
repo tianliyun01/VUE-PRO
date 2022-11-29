@@ -12,6 +12,7 @@
                       v-model="editForm.userCode"
                       placeholder="请输入"
                       style="width: 100%"
+                      @blur="blurUserCode(editForm.userCode,$event)"
                     />
                   </el-form-item>
                 </el-col>
@@ -27,26 +28,21 @@
                 <el-col :span="8">
                   <el-form-item label="性别" prop="sex">
                     <el-radio-group v-model="editForm.sex">
-                      <el-radio :label="男">男</el-radio>
-                      <el-radio :label="女">女</el-radio>
+                      <el-radio :label="'0'">男</el-radio>
+                      <el-radio :label="'1'">女</el-radio>
                     </el-radio-group>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
                   <el-form-item label="公司" prop="userCompany">
-                    <el-select
+                    <el-input
                       v-model="editForm.userCompany"
-                      class="quick-select"
-                      placeholder="请选择"
-                      filterable
+                      placeholder="请输入"
                       style="width: 100%"
-                      value-key="productCode"
-                    >
-                      <el-option v-for="item in userCompany" :key="item.value" :label="item.lable" :value="item.value" />
-                    </el-select>
+                    />
                   </el-form-item>
                 </el-col>
-                <el-col :span="8">
+                <!-- <el-col :span="8">
                   <el-form-item label="部门" prop="department">
                     <el-select
                       v-model="editForm.department"
@@ -59,7 +55,7 @@
                       <el-option v-for="item in department" :key="item.value" :label="item.lable" :value="item.value" />
                     </el-select>
                   </el-form-item>
-                </el-col>
+                </el-col> -->
                 <el-col :span="8">
                   <el-form-item label="邮箱" prop="email">
                     <el-input
@@ -145,7 +141,7 @@
                         filterable
                         style="width: 100%"
                       >
-                        <el-option v-for="item in selectArea" :key="item.value" :label="item.label" :value="item.value" />
+                        <el-option v-for="item in regionList" :key="item.key" :label="item.value" :value="item.key" />
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -159,7 +155,7 @@
                         multiple
                         style="width: 100%"
                       >
-                        <el-option v-for="item in insuCompany" :key="item.value" :label="item.label" :value="item.value" />
+                        <el-option v-for="item in insurerCodeList" :key="item.codeCode" :label="item.codeCname" :value="item.codeCode" />
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -178,7 +174,7 @@
   </div>
 </template>
 <script>
-import { queryUserInfo, saveOrUpdate } from '../../api/user'
+import { queryUserInfo, saveOrUpdate, isExisted } from '../../api/user'
 import { mapGetters } from 'vuex'
 export default {
   name: 'UserEdie',
@@ -204,37 +200,29 @@ export default {
         userCode: [{ required: true, message: '人员代码不能为空', trigger: 'blur' }],
         userName: [{ required: true, message: '人员名称不能为空', trigger: 'blur' }],
         userCompany: [{ required: true, message: '所属公司不能为空', trigger: 'change' }],
-        department: [{ required: true, message: '所属部门不能为空', trigger: 'blur' }],
+        department: [{ required: true, message: '所属部门不能为空', trigger: 'change' }],
         userEname: [{ required: true, message: '人员英文名不能为空', trigger: 'blur' }],
-        endTime: [{ required: true, message: '权限截止时间不能为空', trigger: 'blur' }]
+        endTime: [{ required: true, message: '权限截止时间不能为空', trigger: 'change' }]
       },
       userCompany: [
         { lable: '中保研', value: '1' },
         { lable: '阳光保险', value: '2' },
         { lable: '国寿', value: '3' }
       ],
-      selectTimesType: [
-        { lable: '年', value: '1' },
-        { lable: '月', value: '2' },
-        { lable: '日', value: '3' }
-      ],
-      selectArea: [
-        { lable: '北京', value: '1' },
-        { lable: '河南', value: '2' },
-        { lable: '山东', value: '3' }
-      ],
-      insuCompany: [
-        { lable: '太平洋保险公司', value: '1' },
-        { lable: '阳光保险公司', value: '2' },
-        { lable: '国寿保险', value: '3' }
-      ],
       department: [
         { lable: '客服部', value: '1' },
         { lable: '人事部', value: '2' },
         { lable: '技术部', value: '3' }
       ],
+      selectTimesType: [
+        { value: '年', lable: '1' },
+        { value: '月', lable: '2' },
+        { value: '日', lable: '3' }
+      ],
       riskCodeList: [],
       spreadClassDtoList: [],
+      insurerCodeList: [],
+      regionList: [],
       menuTypeList: [],
       activeType: '',
       formList: [
@@ -263,7 +251,12 @@ export default {
     }
     queryUserInfo(param).then(res => {
       if (res.state === '0000') {
-        this.editForm = res.userDto
+        this.insurerCodeList = res.insurerCodeList
+        this.regionList = res.regionList
+        if (this.editType === 'EDIT') {
+          this.editForm = res.userDto
+          this.editForm.oriUserCode = res.userDto.userCode
+        }
       }
     })
   },
@@ -287,8 +280,29 @@ export default {
       this.formList.splice(index, 1)
     },
     onInput() {
-      console.log('onInput')
       this.$forceUpdate()
+    },
+    blurUserCode(userCode, event) {
+      var params = {
+        userCode: userCode
+      }
+      if (this.editType === 'ADD') {
+        isExisted(params).then(res => {
+          if (res.isExisted === true) {
+            this.$message.error('员工代码已存在!')
+            event.target.focus()
+          }
+        })
+      } else if (this.editType === 'EDIT') {
+        if (userCode && this.editForm.oriUserCode !== userCode) {
+          isExisted(params).then(res => {
+            if (res.isExisted === true) {
+              this.$message.error('员工代码已存在!')
+              event.target.focus()
+            }
+          })
+        }
+      }
     },
     checkChange(index) {
       this.comChange(this.formList[index])
@@ -339,12 +353,17 @@ export default {
       this.$refs['editForm'].validate((valid) => {
         if (valid) {
           this.editForm.list = []
-          for (var ins of this.editForm.insuCompany) {
-            this.editForm.list.push({ refId: ins, type: '2' })
+          if (this.editForm.insuCompany) {
+            for (var ins of this.editForm.insuCompany) {
+              this.editForm.list.push({ refId: ins, type: '2' })
+            }
           }
-          for (var area of this.editForm.selectArea) {
-            this.editForm.list.push({ refId: area, type: '1' })
+          if (this.editForm.selectArea) {
+            for (var area of this.editForm.selectArea) {
+              this.editForm.list.push({ refId: area, type: '1' })
+            }
           }
+          this.editForm.editType = this.editType
           saveOrUpdate(this.editForm).then(res => {
             if (res.state === '0000') {
               this.$message.success('保存成功')

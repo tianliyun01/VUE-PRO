@@ -23,7 +23,7 @@
                     filterable
                     style="width: 100%"
                   >
-                    <el-option v-for="item in userResult" :key="item.userCode" :label="item.userName" :value="item.userCode" />
+                    <el-option v-for="item in userCompany" :key="item" :label="item" :value="item" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -100,6 +100,7 @@ export default {
         userCompany: ''
       },
       userResult: [],
+      userCompany: [],
       companyList: [],
       pageSize: 15,
       currentPage: 1,
@@ -137,6 +138,7 @@ export default {
       this.formDate.pageSize = this.pageSize
       queryByPage(this.formDate).then(res => {
         if (res.state === '0000') {
+          this.userCompany = res.userCompany
           this.userResult = res.content
           this.total = res.totalCount
         }

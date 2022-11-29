@@ -63,3 +63,11 @@ export function queryUserInfo(data) {
   })
 }
 
+export function isExisted(data) {
+  return request({
+    url: '/api/bs/user/isExisted',
+    method: 'get',
+    params: data
+  })
+}
+

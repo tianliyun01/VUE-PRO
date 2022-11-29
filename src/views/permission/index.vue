@@ -86,13 +86,9 @@
         <!--        <el-button class="query-header-btn fr" size="mini" type="primary" plain @click="add">添加</el-button>-->
       </div>
       <div>
-        <el-table :data="systemListResult" style="width: 100%">
+        <el-table :data="authorityPageDtoList" style="width: 100%">
           <el-table-column type="index" label="序号" width="100" />
-          <el-table-column prop="userName" label="人员代码" min-width="200" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <span class="userCode">{{ scope.row.userCode }}</span>
-            </template>
-          </el-table-column>
+          <el-table-column prop="userCode" label="人员代码" width="100" />
           <el-table-column prop="userCompany" label="公司" width="120" />
           <el-table-column prop="userName" label="姓名" width="320" show-overflow-tooltip />
           <el-table-column prop="validStatus" label="是否启用" width="220" show-overflow-tooltip />
@@ -121,7 +117,6 @@
 </template>
 <script>
 import { queryPermissionData } from '../../api/permission'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'PermissionIndex',
@@ -138,15 +133,16 @@ export default {
         validStatus: ''
       },
       systemListResultL: [],
+      authorityPageDtoList: [],
       companyList: [],
       pageSize: 15,
       currentPage: 1,
       total: 0
     }
   },
-  computed: {
-    ...mapGetters(['systemClassList', 'integrationModeList', 'userInfo', 'token'])
-  },
+  // computed: {
+  //   ...mapGetters(['systemClassList', 'integrationModeList', 'userInfo', 'token'])
+  // },
   created() {
     // this.queryForm()
     this.queryData()
@@ -169,12 +165,15 @@ export default {
     queryData() {
       this.formDate.pageNo = this.currentPage
       this.formDate.pageSize = this.pageSize
+      this.formDate.pageSize = this.pageSize
       queryPermissionData(this.formDate).then(res => {
         if (res.state === '0000') {
           this.systemListResult = res.content
           this.total = res.totalCount
           this.insurerCodeList = res.insurerCodeList
           this.roleList = res.roleList
+          this.authorityPageDtoList = res.authorityPageDtoList
+          this.total = res.totalCount
         }
       })
     },
