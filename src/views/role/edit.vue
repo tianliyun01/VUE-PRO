@@ -4,12 +4,12 @@
       <el-tabs v-model="activeName">
         <el-tab-pane label="角色管理" name="first">
           <div style="overflow-y: auto;height:calc(100vh - 195px)">
-            <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
+            <el-form ref="listQuery" :model="listQuery" :rules="rules" size="mini" label-position="right" label-width="108px" class="pdt-18">
               <el-row class="row-bg">
                 <el-col :span="8">
-                  <el-form-item label="角色名称">
+                  <el-form-item label="角色名称" prop="name">
                     <el-input
-                      v-model="comcodes"
+                      v-model="listQuery.name"
                       placeholder="请输入"
                       clearable
                       style="width: 100%"
@@ -17,17 +17,17 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="角色状态">
-                    <el-radio-group v-model="radio">
-                      <el-radio :label="3">男</el-radio>
-                      <el-radio :label="6">女</el-radio>
+                  <el-form-item label="角色状态" prop="isValidate">
+                    <el-radio-group v-model="listQuery.isValidate">
+                      <el-radio label="1" value="1">已启用</el-radio>
+                      <el-radio label="0" value="0">禁用</el-radio>
                     </el-radio-group>
                   </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                  <el-form-item label="描述">
+                  <el-form-item label="描述" prop="des">
                     <el-input
-                      v-model="comcodes"
+                      v-model="listQuery.des"
                       placeholder="请输入"
                       type="textarea"
                       :rows="2"
@@ -59,18 +59,31 @@
     </div>
     <div class="edit-footer">
       <el-button type="primary" plain size="small" @click="back">返回上级</el-button>
-      <el-button type="primary" size="small" @click="back">保存</el-button>
+      <el-button type="primary" size="small" @click="save">保存</el-button>
     </div>
   </div>
 </template>
 <script>
-import { riskUserEditPage, riskUserSaveOrUpdate, getUserInfo, queryRiskUser } from '../../api/user'
+import { saveOrUpdate, queryRoleInfo } from '../../api/role'
 import { mapGetters } from 'vuex'
 export default {
   name: 'RoleEdie',
   components: {},
   data() {
     return {
+      listQuery: {
+        name: '',
+        isValidate: '',
+        // roleId: "4",
+        // roleId: this.$route.params.roleId,
+        des: '',
+        editType: this.$route.params.editType,
+        globalUserCode: '019'
+      },
+      rules: {
+        name: [{ required: true, message: '人员代码不能为空', trigger: 'blur' }],
+        isValidate: [{ required: true, message: '人员名称不能为空', trigger: 'blur' }]
+      },
       activeName: 'first',
       editForm: {
         systemItem: '',
@@ -142,40 +155,49 @@ export default {
   },
   created() {
     const param = {
-      riskCode: this.$route.query.riskCode,
-      userCode: this.$route.query.userCode,
+      roleId: this.$route.query.roleId,
       editType: this.editType
     }
-    riskUserEditPage(param).then(res => {
-      if (res.code === 200) {
-        this.riskCodeList = res.data.riskMap.riskList
-        this.spreadClassDtoList = res.data.spreadClassDtoList
-        this.menuTypeList = res.data.menuTypeList
-        this.activeType = res.data.activeType
-        this.formList[0].activeType = res.data.activeType
-        this.formList[0].createdBy = this.userInfo.userCode
-        this.total = res.data.totalCount
-
-        this.formList[0].userCode = res.data.portRiskUserVo.userCode
-        this.formList[0].userName = res.data.portRiskUserVo.userName
-        this.formList[0].riskCodeList.push(res.data.portRiskUserVo.riskCode)
-        if (res.data.portRiskUserVo.spread) {
-          for (var item of res.data.portRiskUserVo.spread.split(';')) {
-            this.formList[0].spreadList.push(item)
-          }
-        }
-        if (res.data.portRiskUserVo.delMenuType) {
-          for (var _item of res.data.portRiskUserVo.delMenuType.split(';')) {
-            this.formList[0].openMenuTypeList.push(_item)
-          }
+    queryRoleInfo(param).then(res => {
+      if (res.state === '0000') {
+        this.insurerCodeList = res.insurerCodeList
+        this.regionList = res.regionList
+        if (this.editType === 'EDIT') {
+          this.editForm = res.userDto
+          this.editForm.oriUserCode = res.userDto.userCode
         }
       }
     })
+    // riskUserEditPage(param).then(res => {
+    //   if (res.code === 200) {
+    //     this.riskCodeList = res.data.riskMap.riskList
+    //     this.spreadClassDtoList = res.data.spreadClassDtoList
+    //     this.menuTypeList = res.data.menuTypeList
+    //     this.activeType = res.data.activeType
+    //     this.formList[0].activeType = res.data.activeType
+    //     this.formList[0].createdBy = this.userInfo.userCode
+    //     this.total = res.data.totalCount
+    //
+    //     this.formList[0].userCode = res.data.portRiskUserVo.userCode
+    //     this.formList[0].userName = res.data.portRiskUserVo.userName
+    //     this.formList[0].riskCodeList.push(res.data.portRiskUserVo.riskCode)
+    //     if (res.data.portRiskUserVo.spread) {
+    //       for (var item of res.data.portRiskUserVo.spread.split(';')) {
+    //         this.formList[0].spreadList.push(item)
+    //       }
+    //     }
+    //     if (res.data.portRiskUserVo.delMenuType) {
+    //       for (var _item of res.data.portRiskUserVo.delMenuType.split(';')) {
+    //         this.formList[0].openMenuTypeList.push(_item)
+    //       }
+    //     }
+    //   }
+    // })
   },
   methods: {
     // 返回
     back() {
-      this.$router.push('/product-user/index')
+      this.$router.push('/role/index')
     },
     addForm() {
       this.formList.push({
@@ -209,28 +231,6 @@ export default {
         }
       }
     },
-    blurUserCode(userCode, index) {
-      getUserInfo({ userCode }).then(res => {
-        if (res.code === 200) {
-          this.formList[index].userName = res.data.userName
-          this.comChange(this.formList[index])
-        }
-      }).catch(res => {
-        this.formList[index].userName = ''
-        this.formList[index].userCode = ''
-      })
-    },
-    comChange(val) {
-      console.log(val)
-      if (val.userName && val.riskCodeList.length > 0 && (val.openMenuTypeList.length > 0 || val.spreadList.length > 0)) {
-        queryRiskUser({ userCode: val.userCode, riskCodeCLassList: val.riskCodeList, openMenuTypeList: val.openMenuTypeList, spreadList: val.spreadList }).then(res => {
-          if (res.data.length > 0) this.$message.warning(val.userCode + '已存在' + res.data.join(',') + '险种，不允许重复添加！')
-          for (var item of res.data) {
-            val.riskCodeList.splice(val.riskCodeList.indexOf(item), 1)
-          }
-        })
-      }
-    },
     copyItem(item, index) {
       const form = JSON.parse(JSON.stringify(item))
       form.userCode = ''
@@ -239,27 +239,14 @@ export default {
     },
     // 确定
     save(item, index) {
-      this.$refs['editForm'][index].validate((valid) => {
+      this.$refs['listQuery'][index].validate((valid) => {
         if (valid) {
-          if (this.formList[index].spreadList.length === 0 && this.formList[index].openMenuTypeList.length === 0) {
-            this.$message.warning('请至少配置一种类型')
-            return
-          }
-          queryRiskUser({ userCode: this.formList[index].userCode, riskCodeCLassList: this.formList[index].riskCodeList, openMenuTypeList: this.formList[index].openMenuTypeList, spreadList: this.formList[index].spreadList }).then(res => {
-            if (res.data.length > 0) {
-              this.$message.warning(this.formList[index].userCode + '已存在' + res.data.join(',') + '险种，不允许重复添加！')
-              for (var item of res.data) {
-                this.formList[index].riskCodeList.splice(this.formList[index].riskCodeList.indexOf(item), 1)
-              }
-            } else {
-              const requestRiskUserDtoList = []
-              requestRiskUserDtoList.push(this.formList[index])
-              riskUserSaveOrUpdate({ editType: this.editType, requestRiskUserDtoList: requestRiskUserDtoList }).then(res => {
-                if (res.code === 200) {
-                  this.$message.success('保存成功')
-                  this.formList.splice(index, 1)
-                }
-              })
+          this.listQuery.list = []
+          this.listQuery.editType = this.editType
+          saveOrUpdate(this.editForm).then(res => {
+            if (res.state === '0000') {
+              this.$message.success('保存成功')
+              this.$router.push('/role/index')
             }
           })
         }

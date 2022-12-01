@@ -8,7 +8,7 @@
               <el-col :span="8">
                 <el-form-item label="角色名称">
                   <el-input
-                    v-model="comcodes"
+                    v-model="listQuery.name"
                     placeholder="请输入"
                     clearable
                     style="width: 100%"
@@ -18,15 +18,16 @@
               <el-col :span="8">
                 <el-form-item label="是否启用">
                   <el-select
-                    v-model="type"
+                    v-model="listQuery.isValidate"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
                     clearable
                     style="width: 100%"
-                    value-key="productCode"
                   >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    <el-option label="已启用" value="1" />
+                    <el-option label="禁用" value="0" />
+                    <!--                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />-->
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -47,14 +48,9 @@
       <div>
         <el-table :data="systemListResult" style="width: 100%">
           <el-table-column type="index" label="序号" width="100" />
-          <el-table-column prop="riskName" label="名称" min-width="200" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <span class="riskcode">{{ scope.row.riskCode }}</span>
-              {{ scope.row.riskName }}
-            </template>
-          </el-table-column>
-          <el-table-column prop="activeType" label="状态" width="120" />
-          <el-table-column prop="activeType" label="描述" width="320" show-overflow-tooltip />
+          <el-table-column prop="name" label="名称" min-width="200" show-overflow-tooltip />
+          <el-table-column prop="isValidate" label="状态" width="120" />
+          <el-table-column prop="des" label="描述" width="320" show-overflow-tooltip />
           <el-table-column fixed="right" label="操作" width="150">
             <template slot-scope="scope">
               <el-button type="text" size="mini" @click="edit(scope.row)">编辑</el-button>
@@ -77,14 +73,21 @@
   </div>
 </template>
 <script>
-import { riskUserQueryListPage, riskUserDeleteById, productEditPage, queryCompanyList, fileDownload, deleteRiskUserBatch } from '../../api/user'
+import { queryRoleByPage } from '../../api/role'
 import { mapGetters } from 'vuex'
-
+const defaultListQuery = {
+  // name:"",
+  // isValidate:"",
+  roleId: 1,
+  pageSize: 10,
+  pageNo: 1
+}
 export default {
   name: 'RoleIndex',
   components: {},
   data() {
     return {
+      listQuery: Object.assign({}, defaultListQuery),
       activeName: 'first',
       selectedRiskCode: '',
       comcodes: '',
@@ -103,79 +106,44 @@ export default {
       pageSize: 15,
       currentPage: 1,
       total: 0,
-      cascaderConfig: {
-        lazy: true,
-        label: 'comcname',
-        expandTrigger: 'click',
-        checkStrictly: true,
-        value: 'comcode',
-        children: 'children',
-        lazyLoad(node, resolve) {
-          if (node.level !== 1) return
-          queryCompanyList({ comcode: node.value }).then((response) => {
-            if (!response.data.length) resolve()
-            response.data.forEach(l => {
-              l.leaf = 1
-            })
-            resolve(response.data)
-          })
-        }
-      }
+      roleId: ''
     }
   },
   computed: {
     ...mapGetters(['systemClassList', 'integrationModeList', 'userInfo', 'token'])
   },
   created() {
-    this.queryData()
     this.acurl = process.env.VUE_APP_BASE_API + '/portservice/riskUser/readUserExcel'
+    // this._getlist()
+    this.queryData()
   },
   methods: {
-    queryForm() {
-      const param = {
-        comcode: '',
-        riskcode: '',
-        editType: 'ADD'
-      }
-      productEditPage(param).then(res => {
-        if (res.code === 200) {
-          this.prpdCompanyList = res.data.prpdCompanyList
-          this.riskCodeList = res.data.findProductDtoMap.riskList
-          this.riskCodeList[0].spread = '1'
-          this.activeType = res.data.activeType
-          this.formList[0].activeType = res.data.activeType
-          this.total = res.data.totalCount
-        }
-      })
-    },
     // 查询列表
     queryData() {
-      const param = {
-        userCode: this.comcodes,
-        userName: this.userName,
-        riskcode: this.riskCode,
-        spread: this.type,
-        delMenuType: this.menuType,
-        currentPage: this.currentPage,
-        pageSize: this.pageSize
-      }
-      riskUserQueryListPage(param).then(res => {
-        if (res.code === 200) {
-          if (!res.data) {
-            this.systemListResult = []
-            this.currentPage = 0
-            this.total = 0
-            return
-          }
-          this.riskCodeList = res.data.riskMap.riskList
-          this.spreadClassDtoList = res.data.spreadClassDtoList
-          this.menuTypeList = res.data.menuTypeList
-          this.systemListResult = res.data.portRiskUserDtoIPage.records
-          this.currentPage = res.data.portRiskUserDtoIPage.current
-          this.total = res.data.portRiskUserDtoIPage.total
+      this.listQuery.pageNo = this.currentPage
+      this.listQuery.pageSize = this.pageSize
+      queryRoleByPage(this.listQuery).then(res => {
+        if (res.state === '0000') {
+          this.systemListResult = res.roleList
+          this.total = res.totalCount
         }
       })
     },
+    // 列表数据
+    // _getlist() {
+    //   queryRoleInfo(1).then(res => {
+    //     console.log(res.roleDto)
+    //     this.systemListResult = [res.roleDto]
+    //     console.log(this.systemListResult)
+    //     this.total = this.systemListResult.length
+    //     this.roleId = res.roleDto.roleId
+    //   })
+    // },
+    // 重置
+    reset() {
+      this.listQuery = Object.assign({}, defaultListQuery)
+    },
+    // 分页
     handleSizeChange(val) {
       this.pageSize = val
       this.queryData()
@@ -184,16 +152,6 @@ export default {
       this.currentPage = val
       this.queryData()
     },
-    // 重置
-    reset() {
-      this.selectedRiskCode = ''
-      this.comcodes = ''
-      this.userName = ''
-      this.riskCode = ''
-      this.menuType = ''
-      this.type = ''
-    },
-
     changeRiskCode(val) {
       console.log(val)
       this.riskCode = val.productCode
@@ -248,8 +206,9 @@ export default {
     add() {
       this.$router.push({
         name: 'RoleEdie',
-        query: {
-          editType: 'ADD'
+        params: {
+          editType: 'ADD',
+          roleId: this.roleId
         }
       })
     },
@@ -267,73 +226,6 @@ export default {
       this.riskId = []
       e.forEach(item => {
         this.riskId.push({ riskCode: item.riskCode, userCode: item.userCode })
-      })
-    },
-    deleteAll() {
-      this.$confirm('确定批量删除选中记录吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        deleteRiskUserBatch({ riskDeleteList: this.riskId }).then(res => {
-          if (res.code === 200) {
-            this.$message.success('删除信息成功')
-            this.queryData()
-          }
-        })
-      })
-    },
-    del(item) {
-      this.$confirm('确定删除该条记录吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        const { userCode, riskCode } = item
-        riskUserDeleteById({ userCode, riskCode, createdBy: this.userInfo.userCode }).then(res => {
-          if (res.code === 200) {
-            this.$message.success('删除信息成功')
-            this.queryData()
-          }
-        })
-      })
-    },
-    uploadSuccess(res) {
-      if (res.code === 200) {
-        if (res.data === '1' || res.data === 1) {
-          this.$message({
-            message: '上传成功',
-            type: 'success'
-          })
-          this.currentPage = 1
-          this.queryData()
-        }
-      } else {
-        this.$message({
-          message: res.msg,
-          type: 'error'
-        })
-      }
-    },
-    downLoadTemplate() {
-      fileDownload({ fileCode: 'USERTEMPLATE' }).then((res) => {
-        console.log(res)
-        const blob = new Blob([res.data]) // 将服务端返回的文件流（二进制）excel文件转化为blob
-        // const fileName = 'webagent' + '.zip';
-        const fileName = '用户模板.xlsx'
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE
-          window.navigator.msSaveOrOpenBlob(blob, fileName)
-        } else {
-          const objectUrl = (window.URL || window.webkitURL).createObjectURL(blob)
-          const downFile = document.createElement('a')
-          downFile.style.display = 'none'
-          downFile.href = objectUrl
-          downFile.download = fileName // 下载后文件名
-          document.body.appendChild(downFile)
-          downFile.click()
-          document.body.removeChild(downFile) // 下载完成移除元素
-          window.URL.revokeObjectURL(objectUrl) // 只要映射存在，Blob就不能进行垃圾回收，因此一旦不再需要引用，就必须小心撤销URL，释放掉blob对象。
-        }
       })
     },
     changepage() {}

@@ -25,7 +25,7 @@
                     clearable
                     style="width: 100%"
                     value-key="productCode"
-                  ><el-option v-for="item in insurerCodeList" :key="item.codeType" :label="item.codeName" :value="item.codeName" />
+                  ><el-option v-for="item in userCompany" :key="item" :label="item" :value="item" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -136,6 +136,7 @@ export default {
       systemListResultL: [],
       authorityPageDtoList: [],
       companyList: [],
+      userCompany: [],
       pageSize: 15,
       currentPage: 1,
       total: 0
@@ -169,6 +170,7 @@ export default {
       this.formDate.pageSize = this.pageSize
       queryPermissionData(this.formDate).then(res => {
         if (res.state === '0000') {
+          this.userCompany = res.userCompany
           this.systemListResult = res.content
           this.total = res.totalCount
           this.insurerCodeList = res.insurerCodeList
