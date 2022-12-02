@@ -29,6 +29,7 @@
                       filterable
                       style="width: 100%"
                       value-key="productCode"
+                      @change="levelChange"
                     >
                       <el-option v-for="item in levels" :key="item.value" :label="item.lable" :value="item.value" />
                     </el-select>
@@ -50,6 +51,7 @@
                       placeholder="请选择"
                       filterable
                       style="width: 100%"
+                      :disabled="parentIddisabled"
                       value-key="productCode"
                     >
                       <el-option v-for="item in menuList" :key="item.id" :label="item.menuName" :value="item.id" />
@@ -102,7 +104,7 @@
   </div>
 </template>
 <script>
-import { getMenuInfo, saveOrUpdate, isExisted} from '../../api/menu'
+import { getMenuInfo, saveOrUpdate, isExisted } from '../../api/menu'
 import { mapGetters } from 'vuex'
 export default {
   name: 'MenuManageEdie',
@@ -172,6 +174,19 @@ export default {
     // 返回
     back() {
       this.$router.push('/menu-manage/index')
+    },
+    levelChange() {
+      if (this.editForm.level === '1') {
+        this.editForm.parentId = ''
+        this.parentIddisabled = true
+      } else {
+        this.parentIddisabled = false
+        // getMenuInfo(param).then(res => {
+        //   if (res.state === '0000') {
+        //     this.menuList = res.menuList
+        //   }
+        // })
+      }
     },
     addForm() {
       this.formList.push({

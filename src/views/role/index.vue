@@ -75,19 +75,15 @@
 <script>
 import { queryRoleByPage } from '../../api/role'
 import { mapGetters } from 'vuex'
-const defaultListQuery = {
-  // name:"",
-  // isValidate:"",
-  roleId: 1,
-  pageSize: 10,
-  pageNo: 1
-}
 export default {
   name: 'RoleIndex',
   components: {},
   data() {
     return {
-      listQuery: Object.assign({}, defaultListQuery),
+      listQuery: {
+        name: '',
+        isValidate: ''
+      },
       activeName: 'first',
       selectedRiskCode: '',
       comcodes: '',
@@ -141,7 +137,8 @@ export default {
     // },
     // 重置
     reset() {
-      this.listQuery = Object.assign({}, defaultListQuery)
+      this.listQuery.name = ''
+      this.listQuery.isValidate = ''
     },
     // 分页
     handleSizeChange(val) {
@@ -206,9 +203,8 @@ export default {
     add() {
       this.$router.push({
         name: 'RoleEdie',
-        params: {
-          editType: 'ADD',
-          roleId: this.roleId
+        query: {
+          editType: 'ADD'
         }
       })
     },
@@ -217,8 +213,7 @@ export default {
         name: 'RoleEdie',
         query: {
           editType: 'EDIT',
-          userCode: item.userCode,
-          riskCode: item.riskCode
+          roleId: item.roleId
         }
       })
     },
