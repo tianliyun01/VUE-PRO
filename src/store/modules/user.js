@@ -4,8 +4,8 @@ import router, { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
-  name: '',
-  avatar: '',
+  userName: '',
+  userCode: '',
   introduction: '',
   roles: []
 }
@@ -17,11 +17,11 @@ const mutations = {
   SET_INTRODUCTION: (state, introduction) => {
     state.introduction = introduction
   },
-  SET_NAME: (state, name) => {
-    state.name = name
+  SET_USERNAME: (state, userName) => {
+    state.userName = userName
   },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+  SET_USERCODE: (state, userCode) => {
+    state.userCode = userCode
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
@@ -47,40 +47,27 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      const data = {
-        roles: ['admin'],
-        introduction: 'I am a super administrator',
-        avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-        name: 'Super Admin'
-      }
-      const { roles, name, avatar, introduction } = data
-      commit('SET_ROLES', roles)
-      commit('SET_NAME', name)
-      commit('SET_AVATAR', avatar)
-      commit('SET_INTRODUCTION', introduction)
-      resolve(data)
-      // getInfo(state.token).then(response => {
-      //   const { data } = response
+      getInfo(state.token).then(response => {
+        const { userInfo } = response
 
-      //   if (!data) {
-      //     reject('Verification failed, please Login again.')
-      //   }
+        if (!userInfo) {
+          reject('用户信息获取失败, 请重新登录')
+        }
 
-      //   const { roles, name, avatar, introduction } = data
+        const { userCode, userName } = userInfo
 
-      //   // roles must be a non-empty array
-      //   if (!roles || roles.length <= 0) {
-      //     reject('getInfo: roles must be a non-null array!')
-      //   }
+        // roles must be a non-empty array
+        if (!userName || userName.length <= 0) {
+          reject('getInfo: roles must be a non-null array!')
+        }
 
-      //   commit('SET_ROLES', roles)
-      //   commit('SET_NAME', name)
-      //   commit('SET_AVATAR', avatar)
-      //   commit('SET_INTRODUCTION', introduction)
-      //   resolve(data)
-      // }).catch(error => {
-      //   reject(error)
-      // })
+        commit('SET_ROLES', userCode)
+        commit('SET_USERNAME', userName)
+        commit('SET_USERCODE', userCode)
+        resolve(userInfo)
+      }).catch(error => {
+        reject(error)
+      })
     })
   },
 

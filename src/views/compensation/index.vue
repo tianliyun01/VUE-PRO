@@ -6,9 +6,9 @@
           <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
             <el-row class="row-bg" justify="space-around">
               <el-col :span="8">
-                <el-form-item label="地域">
+                <el-form-item label="区域">
                   <el-select
-                    v-model="type"
+                    v-model="queryForm.regionId"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -16,14 +16,29 @@
                     style="width: 100%"
                     value-key="productCode"
                   >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    <el-option v-for="item in regionList" :key="item.id" :label="item.regionName" :value="item.id" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="保险公司">
+                  <el-select
+                    v-model="queryForm.insurerCode"
+                    class="quick-select"
+                    placeholder="请选择"
+                    filterable
+                    clearable
+                    style="width: 100%"
+                    value-key="productCode"
+                  >
+                    <el-option v-for="item in insurerCodeList" :key="item.codeCode" :label="item.codeCname" :value="item.codeCode" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="车辆类型">
                   <el-select
-                    v-model="type"
+                    v-model="queryForm.carType"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -31,7 +46,7 @@
                     style="width: 100%"
                     value-key="productCode"
                   >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    <el-option v-for="item in carTypeList" :key="item.codeCode" :label="item.codeCname" :value="item.codeCode" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -39,17 +54,35 @@
             <el-divider style="    margin-top: 0;" />
             <el-row class="row-bg" justify="space-around">
               <el-col :span="8">
-                <el-form-item label="品牌">
+                <el-form-item label="厂商">
                   <el-select
-                    v-model="type"
+                    v-model="queryForm.factoryId"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
                     clearable
                     style="width: 100%"
                     value-key="productCode"
+                    @change="changeFactory(queryForm.factoryId)"
                   >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    <el-option v-for="item in factoryList" :key="item.factoryId" :label="item.factoryName" :value="item.factoryId" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="品牌">
+                  <el-select
+                    v-model="queryForm.brandId"
+                    class="quick-select"
+                    placeholder="请选择"
+                    filterable
+                    clearable
+                    style="width: 100%"
+                    value-key="productCode"
+                    @change="changeBrand(queryForm.brandId)"
+                    @click.native="getBrand()"
+                  >
+                    <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.id" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -57,7 +90,7 @@
               <el-col :span="8">
                 <el-form-item label="车系">
                   <el-select
-                    v-model="type"
+                    v-model="queryForm.carSystemId"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -65,14 +98,14 @@
                     style="width: 100%"
                     value-key="productCode"
                   >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    <el-option v-for="item in carSystemList" :key="item.id" :label="item.name" :value="item.id" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="车组">
                   <el-select
-                    v-model="type"
+                    v-model="queryForm.carsId"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -80,14 +113,14 @@
                     style="width: 100%"
                     value-key="productCode"
                   >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    <el-option v-for="item in carsList" :key="item.id" :label="item.name" :value="item.id" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="厂商">
+                <el-form-item label="车型">
                   <el-select
-                    v-model="type"
+                    v-model="queryForm.modelId"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -95,14 +128,14 @@
                     style="width: 100%"
                     value-key="productCode"
                   >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    <el-option v-for="item in modelList" :key="item.id" :label="item.name" :value="item.id" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="车系代码">
                   <el-input
-                    v-model="comcodes"
+                    v-model="queryForm.carSystemCode"
                     placeholder="请输入"
                     clearable
                     style="width: 100%"
@@ -112,7 +145,7 @@
               <el-col :span="8">
                 <el-form-item label="车型代码">
                   <el-input
-                    v-model="comcodes"
+                    v-model="queryForm.modelCode"
                     placeholder="请输入"
                     clearable
                     style="width: 100%"
@@ -134,7 +167,7 @@
         <!-- <el-button class="query-header-btn fr" size="mini" type="primary" plain @click="add">对比</el-button> -->
       </div>
       <div>
-        <el-table :data="systemListResult" style="width: 100%">
+        <el-table :data="pageInfo" style="width: 100%">
           <el-table-column prop="activeType" label="" width="120" />
           <el-table-column prop="activeType" label="赔付风险等级" width="120" />
           <el-table-column prop="activeType" label="风险保费" width="120" show-overflow-tooltip />
@@ -159,7 +192,7 @@
   </div>
 </template>
 <script>
-import { riskUserQueryListPage, riskUserDeleteById, productEditPage, queryCompanyList, fileDownload, deleteRiskUserBatch } from '../../api/user'
+import { initData, queryPayByPage, getBrandByFactory, brandRecurInfo } from '../../api/compensation'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -168,52 +201,113 @@ export default {
   data() {
     return {
       activeName: 'first',
-      selectedRiskCode: '',
-      comcodes: '',
-      riskcode: '',
-      userName: '',
+      queryForm: {},
+      regionList: [],
+      carTypeList: [],
+      dataTypeList: [],
+      factoryList: [],
+      brandList: [],
+      carSystemList: [],
+      carsList: [],
+      modelList: [],
+      insurerCodeList: [],
+      pageInfo: [],
       loading: false,
-      type: '',
-      menuType: '',
-      systemListResult: [],
-      spreadClassDtoList: [],
-      menuTypeList: [],
-      prpdCompanyList: [],
-      riskCodeList: [],
-      riskId: [],
-      acurl: '',
+      // acurl: '',
       pageSize: 15,
       currentPage: 1,
-      total: 0,
-      cascaderConfig: {
-        lazy: true,
-        label: 'comcname',
-        expandTrigger: 'click',
-        checkStrictly: true,
-        value: 'comcode',
-        children: 'children',
-        lazyLoad(node, resolve) {
-          if (node.level !== 1) return
-          queryCompanyList({ comcode: node.value }).then((response) => {
-            if (!response.data.length) resolve()
-            response.data.forEach(l => {
-              l.leaf = 1
-            })
-            resolve(response.data)
-          })
-        }
-      }
+      total: 0
     }
   },
   computed: {
-    ...mapGetters(['systemClassList', 'integrationModeList', 'userInfo', 'token'])
+    ...mapGetters(['userName', 'userCode'])
   },
   created() {
-    this.queryData()
-    this.acurl = process.env.VUE_APP_BASE_API + '/portservice/riskUser/readUserExcel'
+    this.initData()
+    console.log(this.userName, 'userName')
+    // this.acurl = process.env.VUE_APP_BASE_API + '/portservice/riskUser/readUserExcel'
   },
   methods: {
-    queryForm() {
+    initData() {
+      var param = { userCode: this.userCode }
+      initData(param).then(res => {
+        if (res.state === '0000') {
+          this.carTypeList = res.carTypeList ? res.carTypeList : []
+          this.dataTypeList = res.dataTypeList ? res.dataTypeList : []
+          this.factoryList = res.factoryList ? res.factoryList : []
+          this.insurerCodeList = res.insurerCodeList ? res.insurerCodeList : []
+          this.regionList = res.regionList ? res.regionList : []
+          // console.log(res)
+        }
+      })
+    },
+    // 改变厂商
+    changeFactory(factoryId) {
+      this.brandList = []
+      this.carSystemList = []
+      this.carsList = []
+      this.modelList = []
+      this.queryForm.brandId = null
+      this.queryForm.carSystemId = null
+      this.queryForm.carsId = null
+      this.queryForm.modelId = null
+      var param = { factoryId: factoryId }
+      getBrandByFactory(param).then(res => {
+        if (res.state === '0000') {
+          this.brandList = res.brandDtoList
+        }
+      })
+    },
+    // 点击品牌
+    getBrand() {
+      if (!this.queryForm.factoryId || this.queryForm.factoryId === '') {
+        this.$message.error('请先选择厂商!')
+        return false
+      }
+    },
+    // 改变品牌
+    changeBrand(superId) {
+      this.carSystemList = []
+      this.carsList = []
+      this.modelList = []
+      this.queryForm.carSystemId = null
+      this.queryForm.carsId = null
+      this.queryForm.modelId = null
+      if (superId) {
+        var param = { superId: superId }
+        this.carSystemList = brandRecurInfo(param)
+      }
+    },
+    brandRecurInfo(superId, list) {
+      // 联级查询的接口
+      brandRecurInfo(superId).then(res => {
+        list(res.data)
+      })
+    },
+    queryData() {
+      var param = {
+        globalUserCode: this.userCode,
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        regionId: this.queryForm.regionId,
+        insurerCode: this.queryForm.insurerCode,
+        carType: this.queryForm.carType,
+        dataType: this.queryForm.dataType,
+        factoryId: this.queryForm.factoryId,
+        brandId: this.queryForm.brandId,
+        carSystemId: this.queryForm.carSystemId,
+        carsId: this.queryForm.carsId,
+        modelId: this.queryForm.modelId
+        // modelId: this.queryForm.modelId,
+        // modelId: this.queryForm.modelId,
+      }
+      queryPayByPage(param).then(res => {
+        if (res.state === '0000') {
+          console.log(res)
+        }
+      })
+    },
+    /* queryForm() {
       const param = {
         comcode: '',
         riskcode: '',
@@ -229,9 +323,9 @@ export default {
           this.total = res.data.totalCount
         }
       })
-    },
+    },*/
     // 查询列表
-    queryData() {
+    /* queryData() {
       const param = {
         userCode: this.comcodes,
         userName: this.userName,
@@ -257,7 +351,7 @@ export default {
           this.total = res.data.portRiskUserDtoIPage.total
         }
       })
-    },
+    },*/
     handleSizeChange(val) {
       this.pageSize = val
       this.queryData()
@@ -274,149 +368,6 @@ export default {
       this.riskCode = ''
       this.menuType = ''
       this.type = ''
-    },
-
-    changeRiskCode(val) {
-      console.log(val)
-      this.riskCode = val.productCode
-      console.log(this.riskCode)
-    },
-    formatter(row, column) {
-      if (row.state === '0') {
-        return '无效'
-      } else if (row.state === '1') {
-        return '有效'
-      }
-    },
-    spreadFormatter(row, column) {
-      if (!row.spread) return ''
-      const spreads = row.spread.split(';')
-      const spreadss = []
-      for (var item of spreads) {
-        for (var item1 of this.spreadClassDtoList) {
-          if (item === item1.spreadCode) {
-            spreadss.push(item1.spreadName)
-          }
-        }
-      }
-      return spreadss.join('/')
-    },
-    menuTypeFormatter(row, column) {
-      if (!row.delMenuType) return ''
-      const delMenuTypes = row.delMenuType.split(';')
-      const delMenuTypess = []
-      for (var item of delMenuTypes) {
-        for (var item1 of this.menuTypeList) {
-          if (item === item1.menuCode) {
-            delMenuTypess.push(item1.menuName)
-          }
-        }
-      }
-      return delMenuTypess.join('/')
-    },
-    handleBeforeUpload(file) {
-      const isExcel = file.type === '.xls' || '.xlsx'
-      const isLt10M = file.size / 1024 / 1024 < 10
-
-      if (!isExcel) {
-        this.$message.error('上传文件只能是xls或xlsx格式!')
-      }
-      if (!isLt10M) {
-        this.$message.error('上传文件大小不能超过 1MB!')
-      }
-      return isExcel && isLt10M
-    },
-    // 新增
-    add() {
-      this.$router.push({
-        name: 'CompensationEdit',
-        query: {
-          editType: 'ADD'
-        }
-      })
-    },
-    edit(item) {
-      this.$router.push({
-        name: 'CompensationEdit',
-        query: {
-          editType: 'EDIT',
-          userCode: item.userCode,
-          riskCode: item.riskCode
-        }
-      })
-    },
-    handleSelectionChange(e) {
-      this.riskId = []
-      e.forEach(item => {
-        this.riskId.push({ riskCode: item.riskCode, userCode: item.userCode })
-      })
-    },
-    deleteAll() {
-      this.$confirm('确定批量删除选中记录吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        deleteRiskUserBatch({ riskDeleteList: this.riskId }).then(res => {
-          if (res.code === 200) {
-            this.$message.success('删除信息成功')
-            this.queryData()
-          }
-        })
-      })
-    },
-    del(item) {
-      this.$confirm('确定删除该条记录吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        const { userCode, riskCode } = item
-        riskUserDeleteById({ userCode, riskCode, createdBy: this.userInfo.userCode }).then(res => {
-          if (res.code === 200) {
-            this.$message.success('删除信息成功')
-            this.queryData()
-          }
-        })
-      })
-    },
-    uploadSuccess(res) {
-      if (res.code === 200) {
-        if (res.data === '1' || res.data === 1) {
-          this.$message({
-            message: '上传成功',
-            type: 'success'
-          })
-          this.currentPage = 1
-          this.queryData()
-        }
-      } else {
-        this.$message({
-          message: res.msg,
-          type: 'error'
-        })
-      }
-    },
-    downLoadTemplate() {
-      fileDownload({ fileCode: 'USERTEMPLATE' }).then((res) => {
-        console.log(res)
-        const blob = new Blob([res.data]) // 将服务端返回的文件流（二进制）excel文件转化为blob
-        // const fileName = 'webagent' + '.zip';
-        const fileName = '用户模板.xlsx'
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE
-          window.navigator.msSaveOrOpenBlob(blob, fileName)
-        } else {
-          const objectUrl = (window.URL || window.webkitURL).createObjectURL(blob)
-          const downFile = document.createElement('a')
-          downFile.style.display = 'none'
-          downFile.href = objectUrl
-          downFile.download = fileName // 下载后文件名
-          document.body.appendChild(downFile)
-          downFile.click()
-          document.body.removeChild(downFile) // 下载完成移除元素
-          window.URL.revokeObjectURL(objectUrl) // 只要映射存在，Blob就不能进行垃圾回收，因此一旦不再需要引用，就必须小心撤销URL，释放掉blob对象。
-        }
-      })
     },
     changepage() {}
   }

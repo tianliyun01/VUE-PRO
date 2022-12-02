@@ -2,7 +2,7 @@ import axios from 'axios'
 // import { MessageBox, Message } from 'element-ui'
 import { Message } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+// import { getToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
@@ -16,11 +16,27 @@ service.interceptors.request.use(
   config => {
     // do something before request is sent
 
-    if (store.getters.token) {
-      // let each request carry token
-      // ['X-Token'] is a custom headers key
-      // please modify it according to the actual situation
-      config.headers['X-Token'] = getToken()
+    // if (store.getters.token) {
+    // let each request carry token
+    // ['X-Token'] is a custom headers key
+    // please modify it according to the actual situation
+    //   config.headers['X-Token'] = getToken()
+    // }
+    if (store.getters.userCode) {
+      if (config.method === 'post') {
+        if (config.data === undefined) {
+          config.data = { globalUserCode: store.getters.userCode }
+        } else {
+          // 把Request Payload 转为 Form Data
+          config.data.globalUserCode = store.getters.userCode
+        }
+      } else {
+        if (config.params === undefined) {
+          config.params = { globalUserCode: store.getters.userCode }
+        } else {
+          config.params.globalUserCode = store.getters.userCode
+        }
+      }
     }
     return config
   },

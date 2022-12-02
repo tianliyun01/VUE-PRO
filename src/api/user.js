@@ -17,7 +17,7 @@ export function verifyEmailCode(params) {
 
 export function getInfo(token) {
   return request({
-    url: '/vue-element-admin/user/info',
+    url: '/api/sso/api/userInfo',
     method: 'get',
     params: { token }
   })
