@@ -43,13 +43,14 @@
                 </div>
                 <el-tree
                   ref="tree"
-                  :data="data"
+                  :data="treeDto"
                   style="margin:0 20px;"
                   show-checkbox
                   default-expand-all
                   node-key="id"
                   highlight-current
                   :props="defaultProps"
+                  @check="handleNodeClick"
                 />
               </el-row>
             </el-form>
@@ -77,8 +78,7 @@ export default {
         // roleId: "4",
         // roleId: this.$route.params.roleId,
         des: '',
-        editType: this.$route.params.editType,
-        globalUserCode: '019'
+        data: ''
       },
       rules: {
         name: [{ required: true, message: '人员代码不能为空', trigger: 'blur' }],
@@ -94,44 +94,10 @@ export default {
       riskCodeList: [],
       spreadClassDtoList: [],
       menuTypeList: [],
-      data: [{
-        id: 1,
-        label: '一级 1',
-        children: [{
-          id: 4,
-          label: '二级 1-1',
-          children: [{
-            id: 9,
-            label: '三级 1-1-1'
-          }, {
-            id: 10,
-            label: '三级 1-1-2'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: '一级 2',
-        children: [{
-          id: 5,
-          label: '二级 2-1'
-        }, {
-          id: 6,
-          label: '二级 2-2'
-        }]
-      }, {
-        id: 3,
-        label: '一级 3',
-        children: [{
-          id: 7,
-          label: '二级 3-1'
-        }, {
-          id: 8,
-          label: '二级 3-2'
-        }]
-      }],
+      treeDto: [],
       defaultProps: {
-        children: 'children',
-        label: 'label'
+        children: 'childMenu',
+        label: 'menuName'
       },
       activeType: '',
       formList: [
@@ -160,11 +126,9 @@ export default {
     }
     queryRoleInfo(param).then(res => {
       if (res.state === '0000') {
-        this.insurerCodeList = res.insurerCodeList
-        this.regionList = res.regionList
+        this.treeDto = res.treeDto
         if (this.editType === 'EDIT') {
-          this.editForm = res.userDto
-          this.editForm.oriUserCode = res.userDto.userCode
+          this.listQuery = res.roleDto
         }
       }
     })
@@ -237,13 +201,16 @@ export default {
       form.userName = ''
       this.formList.splice(index + 1, 0, form)
     },
+    handleNodeClick(data, nodes) {
+      console.log(data, nodes)
+      this.listQuery.list = data
+    },
     // 确定
     save(item, index) {
-      this.$refs['listQuery'][index].validate((valid) => {
+      this.$refs['listQuery'].validate((valid) => {
         if (valid) {
-          this.listQuery.list = []
           this.listQuery.editType = this.editType
-          saveOrUpdate(this.editForm).then(res => {
+          saveOrUpdate(this.listQuery).then(res => {
             if (res.state === '0000') {
               this.$message.success('保存成功')
               this.$router.push('/role/index')

@@ -1,16 +1,17 @@
 import request from '@/utils/request'
 
 // 列表数据
-export function queryRoleInfo(id) {
+export function queryRoleInfo(data) {
   return request({
-    url: '/role/queryRoleInfo?roleId=' + id,
-    method: 'get'
+    url: 'api/bs/role/queryRoleInfo',
+    method: 'get',
+    params: data
   })
 }
 // 查询
 export function queryRoleByPage(data) {
   return request({
-    url: '/role/queryRoleByPage',
+    url: 'api/bs/role/queryRoleByPage',
     method: 'post',
     data
   })
@@ -19,7 +20,7 @@ export function queryRoleByPage(data) {
 // 添加
 export function saveOrUpdate(data) {
   return request({
-    url: '/role/saveOrUpdate',
+    url: 'api/bs/role/saveOrUpdate',
     method: 'post',
     data
   })
