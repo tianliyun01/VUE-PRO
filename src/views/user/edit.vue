@@ -112,7 +112,7 @@
                 <el-row class="row-bg" justify="space-around">
                   <el-col :span="8">
                     <el-form-item label="查询次数" prop="selectTimes">
-                      <el-input-number v-model="editForm.selectTimes" controls-position="right" :min="1" :max="10" @change="handleChange" />
+                      <el-input-number v-model="editForm.selectTimes" controls-position="right" :min="1" :max="10" />
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
