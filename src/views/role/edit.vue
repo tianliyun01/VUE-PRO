@@ -96,7 +96,7 @@ export default {
       menuTypeList: [],
       treeDto: [],
       defaultProps: {
-        children: 'childMenu',
+        children: 'menuTreeDtoList',
         label: 'menuName'
       },
       activeType: '',
@@ -126,7 +126,8 @@ export default {
     }
     queryRoleInfo(param).then(res => {
       if (res.state === '0000') {
-        this.treeDto = res.treeDto
+        // this.treeDto.push(res.menuTreeDto)
+        this.treeDto = res.menuTreeDto
         if (this.editType === 'EDIT') {
           this.listQuery = res.roleDto
         }

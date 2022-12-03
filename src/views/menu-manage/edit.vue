@@ -6,20 +6,6 @@
           <div style="overflow-y: auto;height:calc(100vh - 195px)">
             <el-form ref="editForm" :model="editForm" :rules="rules" size="mini" label-position="right" label-width="108px" class="pdt-18">
               <el-row class="row-bg">
-                <!-- <el-col :span="8">
-                  <el-form-item label="所属系统" prop="menu_url">
-                    <el-select
-                      v-model="editForm.menu_url"
-                      class="quick-select"
-                      placeholder="请选择"
-                      filterable
-                      style="width: 100%"
-                      value-key="productCode"
-                    >
-                      <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-                    </el-select>
-                  </el-form-item>
-                </el-col> -->
                 <el-col :span="8">
                   <el-form-item label="菜单级别" prop="level">
                     <el-select
@@ -40,6 +26,14 @@
                     <el-radio-group v-model="editForm.isValidate">
                       <el-radio label="1">启用</el-radio>
                       <el-radio label="0">禁用</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="8">
+                  <el-form-item label="是否为菜单" prop="isAsMenu">
+                    <el-radio-group v-model="editForm.isAsMenu">
+                      <el-radio label="1">是</el-radio>
+                      <el-radio label="0">否</el-radio>
                     </el-radio-group>
                   </el-form-item>
                 </el-col>
@@ -123,7 +117,7 @@ export default {
         menuUrl: [{ required: true, message: '菜单URL不能为空', trigger: 'blur' }],
         description: [{ required: true, message: '描述不能为空', trigger: 'blur' }],
         isValidate: [{ required: true, message: '菜单状态不能为空', trigger: 'blur' }],
-        parentId: [{ required: true, message: '父菜单不能为空', trigger: 'blur' }],
+        // parentId: [{ required: true, message: '父菜单不能为空', trigger: 'blur' }],
         level: [{ required: true, message: '菜单级别不能为空', trigger: 'blur' }]
       },
       riskCodeList: [],
