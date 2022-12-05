@@ -1,15 +1,15 @@
 <template>
   <div class="app-container">
     <div class="Notice">
-      <el-button class="query-header-btn" style="position: absolute;right: 90px;z-index: 200;" size="mini" type="primary" plain @click="add">添加</el-button>
-      <el-button class="query-header-btn" style="position: absolute;right: 20px;z-index: 200;" size="mini" type="primary" plain @click="contrast">对比</el-button>
+      <!--      <el-button class="query-header-btn" style="position: absolute;right: 90px;z-index: 200;" size="mini" type="primary" plain @click="add">添加</el-button>-->
+      <el-button class="query-header-btn" style="position: absolute;right: 20px;z-index: 200;" size="mini" type="primary" plain @click="calculate">计算</el-button>
       <el-tabs v-model="activeName" class="customcard">
         <el-tab-pane label="对比列表" name="first">
           <el-table :data="compareList" style="width: 100%">
             <el-table-column type="index" align="center" label="序号" width="100" />
             <el-table-column prop="sourceTypeName" align="center" label="结果类型" min-width="100" show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-input v-model="scope.row.sourceTypeName" disabled="true" />
+                <el-input v-model="scope.row.sourceTypeName" :disabled="true" />
               </template>
             </el-table-column>
             <!--   <el-table-column prop="factoryName" label="厂商" min-width="100" show-overflow-tooltip>
@@ -19,27 +19,35 @@
             </el-table-column>-->
             <el-table-column prop="brandName" align="center" label="品牌" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-input v-model="scope.row.brandName" disabled="true" />
+                <el-tooltip class="item" effect="dark" :content="scope.row.brandName" placement="top-start">
+                  <el-input v-model="scope.row.brandName" :disabled="true" />
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column prop="carSystemName" align="center" label="车系" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-input v-model="scope.row.carSystemName" disabled="true" />
+                <el-tooltip class="item" effect="dark" :content="scope.row.carSystemName" placement="top-start">
+                  <el-input v-model="scope.row.carSystemName" :disabled="true" />
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column prop="carsName" align="center" label="车组" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-input v-model="scope.row.carsName" disabled="true" />
+                <el-tooltip class="item" effect="dark" :content="scope.row.carsName" placement="top-start">
+                  <el-input v-model="scope.row.carsName" :disabled="true" />
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column prop="modelName" align="center" label="车型" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-input v-model="scope.row.modelName" disabled="true" />
+                <el-tooltip class="item" effect="dark" :content="scope.row.modelName" placement="top-start">
+                  <el-input v-model="scope.row.modelName" :disabled="true" />
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column prop="estimateAvgIndemnity" align="center" label="CIRI案均" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-input v-model="scope.row.estimateAvgIndemnity" disabled="true" />
+                <el-input v-model="scope.row.estimateAvgIndemnity" :disabled="true" />
               </template>
             </el-table-column>
             <el-table-column prop="estimateAvgIndemnity" align="center" label="当前案均赔款" min-width="180" show-overflow-tooltip>
@@ -54,22 +62,22 @@
             </el-table-column>
             <el-table-column prop="estimateAvgIndemnity" align="center" label="预计当前案均可降金额" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-input v-model="scope.row.hisAvgAmount" disabled="true" />
+                <el-input v-model="scope.row.reduceCurAmount" :disabled="true" />
               </template>
             </el-table-column>
             <el-table-column prop="estimateAvgIndemnity" align="center" label="预计历史案均可降金额" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-input v-model="scope.row.hisAvgAmount" disabled="true" />
+                <el-input v-model="scope.row.reduceHisAmount" :disabled="true" />
               </template>
             </el-table-column>
             <el-table-column prop="estimateAvgIndemnity" align="center" label="预计当前案均增长金额" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-input v-model="scope.row.hisAvgAmount" disabled="true" />
+                <el-input v-model="scope.row.increaseCurAmount" :disabled="true" />
               </template>
             </el-table-column>
             <el-table-column prop="estimateAvgIndemnity" align="center" label="预计历史案均增长金额" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-input v-model="scope.row.hisAvgAmount" disabled="true" />
+                <el-input v-model="scope.row.increaseHisAmount" :disabled="true" />
               </template>
             </el-table-column>
             <!--<el-table-column prop="riskName" label="品牌" min-width="100" show-overflow-tooltip>
@@ -131,118 +139,107 @@
       <div class="query-header clearfix">
         <div class="header-title fl">比较车型</div>
       </div>
+      <el-button class="query-header-btn" style="position: absolute;right: 90px;z-index: 200;" size="mini" type="primary" plain @click="add">添加</el-button>
       <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
         <el-row class="row-bg" justify="space-around">
           <el-col :span="8">
             <el-form-item label="厂商">
               <el-select
-                v-model="type"
+                v-model="queryForm.factoryId"
                 class="quick-select"
                 placeholder="请选择"
                 filterable
                 clearable
                 style="width: 100%"
                 value-key="productCode"
+                @change="changeFactory(queryForm.factoryId)"
               >
-                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                <el-option v-for="item in factoryList" :key="item.factoryId" :label="item.factoryName" :value="item.factoryId" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="品牌">
               <el-select
-                v-model="type"
+                v-model="queryForm.brandId"
                 class="quick-select"
                 placeholder="请选择"
                 filterable
                 clearable
                 style="width: 100%"
                 value-key="productCode"
+                :disabled="brandForbidden"
+                @change="changeBrand(queryForm.brandId)"
               >
-                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="车系">
-              <el-select
-                v-model="type"
-                class="quick-select"
-                placeholder="请选择"
-                filterable
-                clearable
-                style="width: 100%"
-                value-key="productCode"
-              >
-                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>
 
           <el-col :span="8">
-            <el-form-item label="车组">
+            <el-form-item label="车系">
               <el-select
-                v-model="type"
+                v-model="queryForm.carSystemId"
                 class="quick-select"
                 placeholder="请选择"
                 filterable
                 clearable
                 style="width: 100%"
                 value-key="productCode"
+                :disabled="carSystemForbidden"
+                @change="changeCarSystem(queryForm.carSystemId)"
               >
-                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="车型">
-              <el-select
-                v-model="type"
-                class="quick-select"
-                placeholder="请选择"
-                filterable
-                clearable
-                style="width: 100%"
-                value-key="productCode"
-              >
-                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                <el-option v-for="item in carSystemList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="车组">
               <el-select
-                v-model="type"
+                v-model="queryForm.carsId"
                 class="quick-select"
                 placeholder="请选择"
                 filterable
                 clearable
                 style="width: 100%"
                 value-key="productCode"
+                :disabled="carsForbidden"
+                @change="changeCars(queryForm.carsId)"
               >
-                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                <el-option v-for="item in carsList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="车型">
               <el-select
-                v-model="type"
+                v-model="queryForm.modelId"
                 class="quick-select"
                 placeholder="请选择"
                 filterable
                 clearable
                 style="width: 100%"
                 value-key="productCode"
+                :disabled="modelForbidden"
               >
-                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                <el-option v-for="item in modelList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="车系代码">
               <el-input
-                v-model="comcodes"
+                v-model="queryForm.carSystemEncode"
+                placeholder="请输入"
+                clearable
+                style="width: 100%"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="车型代码">
+              <el-input
+                v-model="queryForm.modelEncode"
                 placeholder="请输入"
                 clearable
                 style="width: 100%"
@@ -262,12 +259,20 @@
         <div class="header-title fl">比较车型</div>
       </div>
       <div>
-        <el-table :data="systemListResult" style="width: 100%">
+        <el-table :data="pageInfoList" style="width: 100%" @selection-change="handleSelectionChange">>
           <el-table-column
             type="selection"
             width="55"
           />
-          <el-table-column type="index" label="序号" width="100" />
+          <el-table-column type="index" label="序号" width="120" />
+          <el-table-column prop="brandName" label="品牌" width="200" />
+          <el-table-column prop="carSystemName" label="车系" width="200" show-overflow-tooltip />
+          <el-table-column prop="carSystemEncode" label="车系代码" width="200" show-overflow-tooltip />
+          <el-table-column prop="carsName" label="车组" width="200" show-overflow-tooltip />
+          <el-table-column prop="modelName" label="车型" width="200" show-overflow-tooltip />
+          <el-table-column prop="modelEncode" label="车型代码" width="120" show-overflow-tooltip />
+          <el-table-column prop="estimateAvgIndemnity" label="CIRI案均" width="120" show-overflow-tooltip />
+          <!--<el-table-column type="index" label="序号" width="100" />
           <el-table-column prop="riskName" label="品牌" min-width="200" show-overflow-tooltip>
             <template slot-scope="scope">
               <span class="riskcode">{{ scope.row.riskCode }}</span>
@@ -279,7 +284,7 @@
           <el-table-column prop="activeType" label="车组" width="320" show-overflow-tooltip />
           <el-table-column prop="activeType" label="车型" width="320" show-overflow-tooltip />
           <el-table-column prop="activeType" label="车型代码" width="320" show-overflow-tooltip />
-          <el-table-column prop="activeType" label="CIRI案均" width="320" show-overflow-tooltip />
+          <el-table-column prop="activeType" label="CIRI案均" width="320" show-overflow-tooltip />-->
         </el-table>
       </div>
       <div class="block footer-page">
@@ -298,7 +303,14 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import { initData } from '../../api/compensation'
+import {
+  initData,
+  queryRepairInfo,
+  calculatePay,
+  getBrandByFactory,
+  brandRecurInfo,
+  queryPayByPage
+} from '../../api/compensation'
 
 export default {
   name: 'CompensationEdit',
@@ -307,80 +319,21 @@ export default {
     return {
       activeName: 'first',
       queryForm: {},
+      menuId: '10',
+      pageInfoList: [],
       compareList: [],
       dialogVisible: false,
       tableData: [{}],
-      headers: [
-        {
-          prop: 'date',
-          label: '品牌'
-        },
-        {
-          prop: 'name',
-          label: '厂商'
-        },
-        {
-          prop: 'address',
-          label: '维度'
-        },
-        {
-          prop: 'address',
-          label: '车系'
-        },
-        {
-          prop: 'address',
-          label: '车系代码'
-        },
-        {
-          prop: 'address',
-          label: '车组'
-        },
-        {
-          prop: 'address',
-          label: '车型'
-        },
-        {
-          prop: 'address',
-          label: '车型代码'
-        },
-        {
-          prop: 'address',
-          label: '自定义案均'
-        },
-        {
-          prop: 'address',
-          label: '自定义出险率'
-        },
-        {
-          prop: 'address',
-          label: '承保风险等级'
-        },
-        {
-          prop: 'address',
-          label: '风险保费'
-        },
-        {
-          prop: 'address',
-          label: '赔付风险等级'
-        },
-        {
-          prop: 'address',
-          label: '案均赔款'
-        },
-        {
-          prop: 'address',
-          label: '18件配件价格'
-        },
-        {
-          prop: 'address',
-          label: '出险风险等级'
-        },
-        {
-          prop: 'address',
-          label: '出险率'
-        }
-      ],
-      acurl: '',
+      factoryList: [],
+      brandList: [],
+      carSystemList: [],
+      carsList: [],
+      modelList: [],
+      multipleSelection: [],
+      brandForbidden: true,
+      carSystemForbidden: true,
+      carsForbidden: true,
+      modelForbidden: true,
       pageSize: 15,
       currentPage: 1,
       total: 0
@@ -443,6 +396,154 @@ export default {
           this.regionList = res.regionList ? res.regionList : []
           // console.log(res)
         }
+      })
+    },
+    showInfo(row) {
+      this.queryRepairInfo(row)
+    },
+    queryRepairInfo(rowInfo) {
+      var params = {
+        repairId: rowInfo.repairId,
+        sortYear: rowInfo.sortYear
+      }
+      queryRepairInfo(params).then(res => {
+        if (res.state === '0000') {
+          console.log(res)
+        }
+      })
+    },
+    calculate() {
+      calculatePay(this.compareList).then(res => {
+        if (res.state === '0000') {
+          this.compareList = res.standardPayDtoList ? res.standardPayDtoList : this.compareList
+          this.compareList.filter(item => { item.sourceType === 'A' ? item.sourceTypeName = '目标车型' : item.sourceTypeName = '比较车型' })
+        }
+      })
+    },
+    // 改变厂商
+    changeFactory(factoryId) {
+      this.brandList = []
+      this.carSystemList = []
+      this.carsList = []
+      this.modelList = []
+      this.queryForm.brandId = null
+      this.queryForm.carSystemId = null
+      this.queryForm.carsId = null
+      this.queryForm.modelId = null
+      this.brandForbidden = false
+      if (factoryId) {
+        var param = { factoryId: factoryId }
+        getBrandByFactory(param).then(res => {
+          if (res.state === '0000') {
+            this.brandList = res.brandDtoList
+          }
+        })
+      }
+    },
+    // 改变品牌
+    changeBrand(superId) {
+      this.carSystemList = []
+      this.carsList = []
+      this.modelList = []
+      this.queryForm.carSystemId = null
+      this.queryForm.carsId = null
+      this.queryForm.modelId = null
+      this.carSystemForbidden = false
+      if (superId) {
+        var param = { superId: superId }
+        brandRecurInfo(param).then(res => {
+          this.carSystemList = res
+        })
+      }
+    },
+    // 改变车系
+    changeCarSystem(superId) {
+      this.carsList = []
+      this.modelList = []
+      this.queryForm.carsId = null
+      this.queryForm.modelId = null
+      this.carsForbidden = false
+      if (superId) {
+        var param = { superId: superId }
+        brandRecurInfo(param).then(res => {
+          this.carsList = res
+        })
+      }
+    },
+    // 改变车组
+    changeCars(superId) {
+      this.modelList = []
+      this.queryForm.modelId = null
+      this.modelForbidden = false
+      if (superId) {
+        var param = { superId: superId }
+        brandRecurInfo(param).then(res => {
+          this.modelList = res
+        })
+      }
+    },
+    queryData() {
+      var param = {
+        // globalUserCode: this.userCode,
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        regionId: this.queryForm.regionId,
+        insurerCode: this.queryForm.insurerCode,
+        carType: this.queryForm.carType,
+        dataType: this.queryForm.dataType,
+        factoryId: this.queryForm.factoryId,
+        brandId: this.queryForm.brandId,
+        carSystemId: this.queryForm.carSystemId,
+        carsId: this.queryForm.carsId,
+        modelId: this.queryForm.modelId,
+        carSystemEncode: this.queryForm.carSystemEncode,
+        modelEncode: this.queryForm.modelEncode,
+        menuId: this.menuId
+        // modelId: this.queryForm.modelId,
+        // modelId: this.queryForm.modelId,
+      }
+      queryPayByPage(param).then(res => {
+        if (res.state === '0000') {
+          if (res.content && res.content.length > 0) {
+            for (let i = 0; i < res.content.length; i++) {
+              res.content[i].sourceType = 'B'
+              res.content[i].sourceTypeName = '比较车型'
+            }
+          }
+          this.pageInfoList = res.content
+          this.total = res.totalCount
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+      this.queryData()
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val
+      this.queryData()
+    },
+    // 重置
+    reset() {
+      this.queryForm = {}
+      this.brandForbidden = true
+      this.carSystemForbidden = true
+      this.carsForbidden = true
+      this.modelForbidden = true
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
+    add() {
+      // var select = this.pageInfoList.filter(item => item.checked === true)
+      if (this.multipleSelection.length === 0) {
+        this.$message.error('请先选择比较车型!')
+        return false
+      }
+      this.multipleSelection.forEach(item => {
+        this.compareList.push(item)
       })
     }
     /* queryForm() {
