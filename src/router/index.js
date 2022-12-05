@@ -228,6 +228,28 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/vehicle-proposal',
+    component: Layout,
+    redirect: '/vehicle-proposal/index',
+    alwaysShow: true,
+    name: '',
+    meta: { title: 'vehicle-proposal', icon: 'menu' },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/vehicle-proposal/index'),
+        name: 'VehicleProposalIndex',
+        meta: { title: '车损险各车型保费建议', keepAlive: true }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/vehicle-proposal/edit'),
+        name: 'VehicleProposalEdit',
+        meta: { title: '车损险各车型保费建议', keepAlive: true }
+      }
+    ]
+  },
+  {
     path: '/compensation',
     component: Layout,
     redirect: '/compensation/index',
@@ -239,13 +261,13 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/compensation/index'),
         name: 'CompensationIndex',
-        meta: { title: '标准赔付查询', keepAlive: true }
+        meta: { title: '车型当前赔付情况分析', keepAlive: true }
       },
       {
         path: 'edit',
         component: () => import('@/views/compensation/edit'),
         name: 'CompensationEdit',
-        meta: { title: '标准赔付查询', keepAlive: true }
+        meta: { title: '车型当前赔付对比', keepAlive: true }
       }
     ]
   },

@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="Notice">
       <el-tabs v-model="activeName" class="customcard">
-        <el-tab-pane label="车险扭亏分析" name="first">
+        <el-tab-pane label="车损险各车型保费建议" name="first">
           <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
             <el-row class="row-bg" justify="space-around">
               <el-col :span="8">
@@ -196,7 +196,7 @@ import { initData, queryPayByPage, getBrandByFactory, brandRecurInfo } from '../
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'CompensationIndex',
+  name: 'VehicleProposalIndex',
   components: {},
   data() {
     return {

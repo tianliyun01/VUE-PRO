@@ -243,7 +243,7 @@ import { riskUserQueryListPage, riskUserDeleteById, productEditPage, queryCompan
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'CompensationEdit',
+  name: 'VehicleProposalEdit',
   components: {},
   data() {
     return {

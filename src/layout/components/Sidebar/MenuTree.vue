@@ -26,12 +26,6 @@
             style="width: 20px; height: 20px;margin-left:-6px;margin-right:8px;"
             :icon-class="item.menuIcon"
           />
-          <svg-icon
-            v-if="item.menuIcon"
-            class="menuiconpre"
-            style="width: 20px; height: 20px;margin-left:-6px;margin-right:8px"
-            :icon-class="item.menuIconPre"
-          />
           <span>{{ item.menuCName }}</span>
         </template>
         <menu-tree :menu-data="item.menuList" :menu-index="menuIndex+1" @jump="jump" />
