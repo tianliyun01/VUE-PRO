@@ -88,11 +88,6 @@ export default {
           url: '/role/index'
         },
         {
-          menuCName: '车型当前赔付情况分析',
-          menuIcon: 'documentation',
-          url: '/cartype-compensation/index'
-        },
-        {
           menuCName: '承保风险查询',
           menuIcon: 'documentation',
           url: '/risk-premium/index'
@@ -100,7 +95,25 @@ export default {
         {
           menuCName: '标准赔付查询',
           menuIcon: 'documentation',
-          url: '/compensation/index'
+          url: '/compensation/index',
+          menuList: [
+            {
+              menuCName: '车型当前赔付情况分析',
+              menuIcon: 'documentation',
+              url: '/cartype-compensation/index'
+            },
+            {
+              menuCName: '车险扭亏分析',
+              menuIcon: 'documentation',
+              url: '/compensation/index'
+            },
+            {
+              menuCName: '车损险各车型保费建议',
+              menuIcon: 'documentation',
+              url: '/vehicle-proposal/index'
+            }
+
+          ]
         },
         {
           menuCName: '维修工时数据查询',
