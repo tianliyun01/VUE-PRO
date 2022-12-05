@@ -199,15 +199,19 @@
         />
       </div>
     </div>
+    <el-dialog :visible.sync="dialogVisible" title="查看">
+      <compensation-dialog />
+    </el-dialog>
   </div>
 </template>
 <script>
+import CompensationDialog from '../../components/compensation-dialog'
 import { riskUserQueryListPage, riskUserDeleteById, productEditPage, queryCompanyList, fileDownload, deleteRiskUserBatch } from '../../api/user'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'CartypeCompensationEdit',
-  components: {},
+  components: { CompensationDialog },
   data() {
     return {
       activeName: 'first',
@@ -216,6 +220,7 @@ export default {
       riskcode: '',
       userName: '',
       loading: false,
+      dialogVisible: true,
       type: '',
       menuType: '',
       systemListResult: [],
