@@ -100,12 +100,12 @@ export default {
             {
               menuCName: '车型当前赔付情况分析',
               menuIcon: 'documentation',
-              url: '/cartype-compensation/index'
+              url: '/compensation/index'
             },
             {
               menuCName: '车险扭亏分析',
               menuIcon: 'documentation',
-              url: '/compensation/index'
+              url: '/cartype-compensation/index'
             },
             {
               menuCName: '车损险各车型保费建议',

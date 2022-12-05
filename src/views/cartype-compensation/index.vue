@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="Notice">
       <el-tabs v-model="activeName" class="customcard">
-        <el-tab-pane label="车型当前赔付情况分析" name="first">
+        <el-tab-pane label="车型扭亏分析" name="first">
           <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
             <el-row class="row-bg" justify="space-around">
               <el-col :span="8">

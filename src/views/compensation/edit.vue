@@ -5,16 +5,74 @@
       <el-button class="query-header-btn" style="position: absolute;right: 20px;z-index: 200;" size="mini" type="primary" plain @click="contrast">对比</el-button>
       <el-tabs v-model="activeName" class="customcard">
         <el-tab-pane label="对比列表" name="first">
-          <el-table :data="systemListResult" style="width: 100%">
-            <el-table-column type="index" label="序号" width="100" />
-            <el-table-column prop="riskName" label="品牌" min-width="100" show-overflow-tooltip>
+          <el-table :data="compareList" style="width: 100%">
+            <el-table-column type="index" align="center" label="序号" width="100" />
+            <el-table-column prop="sourceTypeName" align="center" label="结果类型" min-width="100" show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-select v-model="scope.row.type" placeholder="请选择">
-                  <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-                </el-select>
+                <el-input v-model="scope.row.sourceTypeName" disabled="true" />
               </template>
             </el-table-column>
-            <el-table-column prop="riskName" label="厂商" min-width="100" show-overflow-tooltip>
+            <!--   <el-table-column prop="factoryName" label="厂商" min-width="100" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.factoryName" disabled="true"></el-input>
+              </template>
+            </el-table-column>-->
+            <el-table-column prop="brandName" align="center" label="品牌" min-width="180" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.brandName" disabled="true" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="carSystemName" align="center" label="车系" min-width="180" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.carSystemName" disabled="true" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="carsName" align="center" label="车组" min-width="180" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.carsName" disabled="true" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="modelName" align="center" label="车型" min-width="180" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.modelName" disabled="true" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="estimateAvgIndemnity" align="center" label="CIRI案均" min-width="180" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.estimateAvgIndemnity" disabled="true" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="estimateAvgIndemnity" align="center" label="当前案均赔款" min-width="180" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.curAvgAmount" placeholder="请输入" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="estimateAvgIndemnity" align="center" label="历史案均赔款" min-width="180" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.hisAvgAmount" placeholder="请输入" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="estimateAvgIndemnity" align="center" label="预计当前案均可降金额" min-width="180" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.hisAvgAmount" disabled="true" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="estimateAvgIndemnity" align="center" label="预计历史案均可降金额" min-width="180" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.hisAvgAmount" disabled="true" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="estimateAvgIndemnity" align="center" label="预计当前案均增长金额" min-width="180" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.hisAvgAmount" disabled="true" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="estimateAvgIndemnity" align="center" label="预计历史案均增长金额" min-width="180" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.hisAvgAmount" disabled="true" />
+              </template>
+            </el-table-column>
+            <!--<el-table-column prop="riskName" label="品牌" min-width="100" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-select v-model="scope.row.type" placeholder="请选择">
                   <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
@@ -58,11 +116,11 @@
               <template slot-scope="scope">
                 <el-input v-model="scope.row.comcodes" />
               </template>
-            </el-table-column>
+            </el-table-column>-->
             <el-table-column fixed="right" label="操作" width="150">
               <template slot-scope="scope">
-                <el-button type="text" size="mini" @click="edit(scope.row)">重置</el-button>
-                <el-button type="text" size="mini" @click="edit(scope.row)">删除</el-button>
+                <el-button type="text" size="mini" @click="showInfo(scope.row)">查看</el-button>
+                <el-button type="text" size="mini" @click="delRow(scope.row/*,scope.$index*/)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -76,7 +134,7 @@
       <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
         <el-row class="row-bg" justify="space-around">
           <el-col :span="8">
-            <el-form-item label="品牌">
+            <el-form-item label="厂商">
               <el-select
                 v-model="type"
                 class="quick-select"
@@ -91,7 +149,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="厂商">
+            <el-form-item label="品牌">
               <el-select
                 v-model="type"
                 class="quick-select"
@@ -239,8 +297,8 @@
   </div>
 </template>
 <script>
-import { riskUserQueryListPage, riskUserDeleteById, productEditPage, queryCompanyList, fileDownload, deleteRiskUserBatch } from '../../api/user'
 import { mapGetters } from 'vuex'
+import { initData } from '../../api/compensation'
 
 export default {
   name: 'CompensationEdit',
@@ -248,15 +306,9 @@ export default {
   data() {
     return {
       activeName: 'first',
-      selectedRiskCode: '',
-      comcodes: '',
-      riskcode: '',
-      userName: '',
-      loading: false,
+      queryForm: {},
+      compareList: [],
       dialogVisible: false,
-      type: '',
-      menuType: '',
-      systemListResult: [{}],
       tableData: [{}],
       headers: [
         {
@@ -331,8 +383,8 @@ export default {
       acurl: '',
       pageSize: 15,
       currentPage: 1,
-      total: 0,
-      cascaderConfig: {
+      total: 0
+      /* cascaderConfig: {
         lazy: true,
         label: 'comcname',
         expandTrigger: 'click',
@@ -349,26 +401,51 @@ export default {
             resolve(response.data)
           })
         }
-      }
+      }*/
     }
   },
   computed: {
-    ...mapGetters(['systemClassList', 'integrationModeList', 'userInfo', 'token']),
-    getHeaders() {
+    ...mapGetters(['userName', 'userCode']),
+    target() {
+      return this.$route.query.info
+    }
+    /* getHeaders() {
       return this.tableData.reduce((pre, cur, index) => pre.concat(`value${index}`), ['title'])
     },
     getValues() {
       return this.headers.map(item => {
         return this.tableData.reduce((pre, cur, index) => Object.assign(pre, { ['value' + index]: cur[item.prop] }), { 'title': item.label })
       })
-    }
+    }*/
   },
   created() {
-    this.queryData()
-    this.acurl = process.env.VUE_APP_BASE_API + '/portservice/riskUser/readUserExcel'
+    this.initData()
+    this.compareList.push(this.target)
   },
   methods: {
-    queryForm() {
+    delRow(item) {
+      this.$confirm('确定删除该条记录吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.compareList.splice(item)
+      })
+    },
+    initData() {
+      var param = { userCode: this.userCode }
+      initData(param).then(res => {
+        if (res.state === '0000') {
+          this.carTypeList = res.carTypeList ? res.carTypeList : []
+          this.dataTypeList = res.dataTypeList ? res.dataTypeList : []
+          this.factoryList = res.factoryList ? res.factoryList : []
+          this.insurerCodeList = res.insurerCodeList ? res.insurerCodeList : []
+          this.regionList = res.regionList ? res.regionList : []
+          // console.log(res)
+        }
+      })
+    }
+    /* queryForm() {
       const param = {
         comcode: '',
         riskcode: '',
@@ -577,7 +654,7 @@ export default {
         }
       })
     },
-    changepage() {}
+    changepage() {}*/
   }
 }
 </script>
