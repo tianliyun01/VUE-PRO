@@ -211,7 +211,8 @@ export default {
                 this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               })
             } else {
-              this.$message.error(res.msg)
+              this.refreshVerifyCode()
+              this.$message.error(res.retMsg)
             }
           })
         } else {
