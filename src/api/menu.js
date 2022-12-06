@@ -35,3 +35,10 @@ export function isExisted(data) {
     params: data
   })
 }
+export function getLevelInfo(data) {
+  return request({
+    url: 'api/bs/menu/getLevelInfo',
+    method: 'get',
+    params: data
+  })
+}

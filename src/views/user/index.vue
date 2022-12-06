@@ -138,7 +138,7 @@ export default {
       this.formDate.pageSize = this.pageSize
       queryByPage(this.formDate).then(res => {
         if (res.state === '0000') {
-          this.userCompany = res.userCompany
+          this.userCompany = res.content
           this.userResult = res.content
           this.total = res.totalCount
         }

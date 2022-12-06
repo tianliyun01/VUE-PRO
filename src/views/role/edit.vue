@@ -96,7 +96,7 @@ export default {
       menuTypeList: [],
       treeDto: [],
       defaultProps: {
-        children: 'childMenu',
+        children: 'menuTreeDtoList',
         label: 'menuName'
       },
       activeType: '',
@@ -126,7 +126,8 @@ export default {
     }
     queryRoleInfo(param).then(res => {
       if (res.state === '0000') {
-        this.treeDto = res.treeDto
+        // this.treeDto.push(res.menuTreeDto)
+        this.treeDto = res.menuTreeDto
         if (this.editType === 'EDIT') {
           this.listQuery = res.roleDto
         }
@@ -202,8 +203,8 @@ export default {
       this.formList.splice(index + 1, 0, form)
     },
     handleNodeClick(data, nodes) {
-      console.log(data, nodes)
-      this.listQuery.list = data
+      console.log(data, nodes.checkedNodes)
+      this.listQuery.roleMenuDtoList = nodes.checkedNodes.filter(i => i.isAsMenu === '1')
     },
     // 确定
     save(item, index) {
