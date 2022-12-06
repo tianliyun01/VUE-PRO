@@ -298,7 +298,7 @@ export default {
       queryForm: {},
       repairInfo: {},
       rowInfo: {},
-      menuId: '10',
+      menuId: '11',
       pageInfoList: [],
       compareList: [],
       tableData: [{}],
