@@ -299,6 +299,10 @@
         />
       </div>
     </div>
+    <!--弹窗-->
+    <el-dialog :visible.sync="dialogVisible" title="查看">
+      <compensation-dialog :repair-info="repairInfo" :row-info="rowInfo" />
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -311,18 +315,20 @@ import {
   brandRecurInfo,
   queryPayByPage
 } from '../../api/compensation'
+import CompensationDialog from '../../components/compensation-dialog'
 
 export default {
   name: 'CompensationEdit',
-  components: {},
+  components: { CompensationDialog },
   data() {
     return {
       activeName: 'first',
       queryForm: {},
+      repairInfo: {},
+      rowInfo: {},
       menuId: '10',
       pageInfoList: [],
       compareList: [],
-      dialogVisible: false,
       tableData: [{}],
       factoryList: [],
       brandList: [],
@@ -334,6 +340,7 @@ export default {
       carSystemForbidden: true,
       carsForbidden: true,
       modelForbidden: true,
+      dialogVisible: false,
       pageSize: 15,
       currentPage: 1,
       total: 0
@@ -399,7 +406,9 @@ export default {
       })
     },
     showInfo(row) {
+      this.rowInfo = row
       this.queryRepairInfo(row)
+      this.dialogVisible = true
     },
     queryRepairInfo(rowInfo) {
       var params = {
@@ -408,7 +417,7 @@ export default {
       }
       queryRepairInfo(params).then(res => {
         if (res.state === '0000') {
-          console.log(res)
+          this.repairInfo = res
         }
       })
     },
