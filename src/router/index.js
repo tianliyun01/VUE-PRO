@@ -195,13 +195,13 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/cartype-compensation/index'),
         name: 'CartypeCompensationIndex',
-        meta: { title: '车型当前赔付情况分析', keepAlive: true }
+        meta: { title: '车型扭亏分析', keepAlive: true }
       },
       {
         path: 'edit',
         component: () => import('@/views/cartype-compensation/edit'),
         name: 'CartypeCompensationEdit',
-        meta: { title: '车型当前赔付情况分析', keepAlive: true }
+        meta: { title: '车型扭亏分析对比', keepAlive: true }
       }
     ]
   },
