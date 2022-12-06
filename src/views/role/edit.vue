@@ -203,8 +203,8 @@ export default {
       this.formList.splice(index + 1, 0, form)
     },
     handleNodeClick(data, nodes) {
-      console.log(data, nodes)
-      this.listQuery.list = data
+      console.log(data, nodes.checkedNodes)
+      this.listQuery.roleMenuDtoList = nodes.checkedNodes.filter(i => i.isAsMenu === '1')
     },
     // 确定
     save(item, index) {

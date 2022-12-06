@@ -98,7 +98,7 @@
   </div>
 </template>
 <script>
-import { getMenuInfo, saveOrUpdate, isExisted } from '../../api/menu'
+import { getMenuInfo, saveOrUpdate, isExisted, getLevelInfo } from '../../api/menu'
 import { mapGetters } from 'vuex'
 export default {
   name: 'MenuManageEdie',
@@ -175,11 +175,11 @@ export default {
         this.parentIddisabled = true
       } else {
         this.parentIddisabled = false
-        // getMenuInfo(param).then(res => {
-        //   if (res.state === '0000') {
-        //     this.menuList = res.menuList
-        //   }
-        // })
+        getLevelInfo({ level: this.editForm.level }).then(res => {
+          if (res.state === '0000') {
+            this.menuList = res.menuList
+          }
+        })
       }
     },
     addForm() {

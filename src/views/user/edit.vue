@@ -352,15 +352,15 @@ export default {
     save(item, index) {
       this.$refs['editForm'].validate((valid) => {
         if (valid) {
-          this.editForm.list = []
+          this.editForm.userPermissionsDtos = []
           if (this.editForm.insuCompany) {
             for (var ins of this.editForm.insuCompany) {
-              this.editForm.list.push({ refId: ins, type: '2' })
+              this.editForm.userPermissionsDtos.push({ refId: ins, type: '2' })
             }
           }
           if (this.editForm.selectArea) {
             for (var area of this.editForm.selectArea) {
-              this.editForm.list.push({ refId: area, type: '1' })
+              this.editForm.userPermissionsDtos.push({ refId: area, type: '1' })
             }
           }
           this.editForm.editType = this.editType
