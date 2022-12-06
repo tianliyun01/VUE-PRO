@@ -128,7 +128,7 @@
             <el-table-column fixed="right" label="操作" width="150">
               <template slot-scope="scope">
                 <el-button type="text" size="mini" @click="showInfo(scope.row)">查看</el-button>
-                <el-button type="text" size="mini" @click="delRow(scope.row/*,scope.$index*/)">删除</el-button>
+                <el-button type="text" size="mini" @click="delRow(scope.$index)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -139,7 +139,6 @@
       <div class="query-header clearfix">
         <div class="header-title fl">比较车型</div>
       </div>
-      <el-button class="query-header-btn" style="position: absolute;right: 90px;z-index: 200;" size="mini" type="primary" plain @click="add">添加</el-button>
       <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
         <el-row class="row-bg" justify="space-around">
           <el-col :span="8">
@@ -254,10 +253,11 @@
       </div>
     </div>
 
-    <div class="query mgt-14">
+    <div class="query mgt-14" style="position: relative;">
       <div class="query-header clearfix">
-        <div class="header-title fl">比较车型</div>
+        <div class="header-title fl">比较车型列表</div>
       </div>
+      <el-button class="query-header-btn" style="position: absolute;right: 20px;z-index: 200;top: 0" size="mini" type="primary" plain @click="add">添加</el-button>
       <div>
         <el-table :data="pageInfoList" style="width: 100%" @selection-change="handleSelectionChange">>
           <el-table-column
@@ -383,13 +383,13 @@ export default {
     this.compareList.push(this.target)
   },
   methods: {
-    delRow(item) {
+    delRow(index) {
       this.$confirm('确定删除该条记录吗？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.compareList.splice(item)
+        this.compareList.splice(index, 1)
       })
     },
     initData() {
@@ -408,7 +408,6 @@ export default {
     showInfo(row) {
       this.rowInfo = row
       this.queryRepairInfo(row)
-      this.dialogVisible = true
     },
     queryRepairInfo(rowInfo) {
       var params = {
@@ -418,6 +417,14 @@ export default {
       queryRepairInfo(params).then(res => {
         if (res.state === '0000') {
           this.repairInfo = res
+          this.repairInfo.repairPartDtoList.forEach(item => {
+            if (item.partUnit === '1') {
+              item.value = item.fee
+            } else if (item.partUnit === '2') {
+              item.value = item.workHour
+            }
+          })
+          this.dialogVisible = true
         }
       })
     },

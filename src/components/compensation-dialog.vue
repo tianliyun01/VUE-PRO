@@ -18,32 +18,44 @@
                   >
                     <el-option v-for="item in regionList" :key="item.id" :label="item.regionName" :value="item.id" />
                   </el-select>-->
-                  <el-input v-model="rowInfo.brandName" :disabled="true" />
+                  <el-tooltip class="item" effect="dark" :content="rowInfo.brandName" placement="top-start">
+                    <el-input v-model="rowInfo.brandName" :disabled="true" />
+                  </el-tooltip>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="车系">
-                  <el-input v-model="rowInfo.carSystemName" :disabled="true" />
+                  <el-tooltip class="item" effect="dark" :content="rowInfo.carSystemName" placement="top-start">
+                    <el-input v-model="rowInfo.carSystemName" :disabled="true" />
+                  </el-tooltip>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="车系代码">
-                  <el-input v-model="rowInfo.carSystemEncode" :disabled="true" />
+                  <el-tooltip class="item" effect="dark" :content="rowInfo.carSystemEncode" placement="top-start">
+                    <el-input v-model="rowInfo.carSystemEncode" :disabled="true" />
+                  </el-tooltip>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="车组">
-                  <el-input v-model="rowInfo.carsName" :disabled="true" />
+                  <el-tooltip class="item" effect="dark" :content="rowInfo.carsName" placement="top-start">
+                    <el-input v-model="rowInfo.carsName" :disabled="true" />
+                  </el-tooltip>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="车型">
-                  <el-input v-model="rowInfo.modelName" :disabled="true" />
+                  <el-tooltip class="item" effect="dark" :content="rowInfo.modelName" placement="top-start">
+                    <el-input v-model="rowInfo.modelName" :disabled="true" />
+                  </el-tooltip>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="车型代码">
-                  <el-input v-model="rowInfo.modelEncode" :disabled="true" />
+                  <el-tooltip class="item" effect="dark" :content="rowInfo.modelEncode" placement="top-start">
+                    <el-input v-model="rowInfo.modelEncode" :disabled="true" />
+                  </el-tooltip>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
@@ -210,27 +222,27 @@
               </el-col>
               <el-col :span="8">
                 <el-form-item label="后端维修费用">
-                  <el-input v-model="repairInfo.repairInfoDtoList[0].fRepairFee" :disabled="true" />
+                  <el-input v-model="repairInfo.repairInfoDtoList[0].bRepairFee" :disabled="true" />
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="后端配件费用">
-                  <el-input v-model="repairInfo.repairInfoDtoList[0].fRepairFee" :disabled="true" />
+                  <el-input v-model="repairInfo.repairInfoDtoList[0].bPartsFee" :disabled="true" />
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="后端拆装工时">
-                  <el-input v-model="repairInfo.repairInfoDtoList[0].fRepairFee" :disabled="true" />
+                  <el-input v-model="repairInfo.repairInfoDtoList[0].bDismountHour" :disabled="true" />
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="后端钣金工时">
-                  <el-input v-model="repairInfo.repairInfoDtoList[0].fRepairFee" :disabled="true" />
+                  <el-input v-model="repairInfo.repairInfoDtoList[0].bMetalpHour" :disabled="true" />
                 </el-form-item>
               </el-col>
               <el-col :span="8">
                 <el-form-item label="后端喷漆工时">
-                  <el-input v-model="repairInfo.repairInfoDtoList[0].fRepairFee" :disabled="true" />
+                  <el-input v-model="repairInfo.repairInfoDtoList[0].bSpraypHour" :disabled="true" />
                 </el-form-item>
               </el-col>
               <!-- <el-col :span="8">
@@ -296,88 +308,55 @@
                   </el-select>
                 </el-form-item>
               </el-col>-->
-              <el-divider content-position="left">保险杠圈宽碰撞</el-divider>
+              <el-divider content-position="left">结构碰撞</el-divider>
               <el-col :span="8">
-                <el-form-item label="品牌">
-                  <el-select
-                    v-model="queryForm.brandId"
-                    class="quick-select"
-                    placeholder="请选择"
-                    filterable
-                    clearable
-                    style="width: 100%"
-                    value-key="productCode"
-                    @change="changeBrand(queryForm.brandId)"
-                    @click.native="getBrand()"
-                  >
-                    <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.id" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-
-              <el-col :span="8">
-                <el-form-item label="车系">
-                  <el-select
-                    v-model="queryForm.carSystemId"
-                    class="quick-select"
-                    placeholder="请选择"
-                    filterable
-                    clearable
-                    style="width: 100%"
-                    value-key="productCode"
-                  >
-                    <el-option v-for="item in carSystemList" :key="item.id" :label="item.name" :value="item.id" />
-                  </el-select>
+                <el-form-item label="前端维修费用">
+                  <el-input v-model="repairInfo.repairInfoDtoList[1].fRepairFee" :disabled="true" />
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="车组">
-                  <el-select
-                    v-model="queryForm.carsId"
-                    class="quick-select"
-                    placeholder="请选择"
-                    filterable
-                    clearable
-                    style="width: 100%"
-                    value-key="productCode"
-                  >
-                    <el-option v-for="item in carsList" :key="item.id" :label="item.name" :value="item.id" />
-                  </el-select>
+                <el-form-item label="前端配件费用">
+                  <el-input v-model="repairInfo.repairInfoDtoList[1].fOtherFee" :disabled="true" />
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="车型">
-                  <el-select
-                    v-model="queryForm.modelId"
-                    class="quick-select"
-                    placeholder="请选择"
-                    filterable
-                    clearable
-                    style="width: 100%"
-                    value-key="productCode"
-                  >
-                    <el-option v-for="item in modelList" :key="item.id" :label="item.name" :value="item.id" />
-                  </el-select>
+                <el-form-item label="前端拆装工时">
+                  <el-input v-model="repairInfo.repairInfoDtoList[1].fDismountHour" :disabled="true" />
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="车系代码">
-                  <el-input
-                    v-model="queryForm.carSystemCode"
-                    placeholder="请输入"
-                    clearable
-                    style="width: 100%"
-                  />
+                <el-form-item label="前端钣金工时">
+                  <el-input v-model="repairInfo.repairInfoDtoList[1].fMetalpHour" :disabled="true" />
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="车型代码">
-                  <el-input
-                    v-model="queryForm.modelCode"
-                    placeholder="请输入"
-                    clearable
-                    style="width: 100%"
-                  />
+                <el-form-item label="前端喷漆工时">
+                  <el-input v-model="repairInfo.repairInfoDtoList[1].fSpraypHour" :disabled="true" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="后端维修费用">
+                  <el-input v-model="repairInfo.repairInfoDtoList[1].bRepairFee" :disabled="true" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="后端配件费用">
+                  <el-input v-model="repairInfo.repairInfoDtoList[1].bPartsFee" :disabled="true" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="后端拆装工时">
+                  <el-input v-model="repairInfo.repairInfoDtoList[1].bDismountHour" :disabled="true" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="后端钣金工时">
+                  <el-input v-model="repairInfo.repairInfoDtoList[1].bMetalpHour" :disabled="true" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="后端喷漆工时">
+                  <el-input v-model="repairInfo.repairInfoDtoList[1].bSpraypHour" :disabled="true" />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -388,16 +367,17 @@
 
     <div class="Notice">
       <el-tabs v-model="activeName" class="customcard">
-        <el-tab-pane label="车型" name="first">
+        <el-tab-pane label="零配件明细" name="first">
           <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
             <el-row class="row-bg" justify="space-around">
-              <el-col v-for="item in 9" :key="item" :span="8">
-                <el-form-item :label="'字段'+item">
+              <el-col v-for="(item,index) in repairInfo.repairPartDtoList" :key="index" :span="8">
+                <el-form-item :label="item.codeCname">
                   <el-input
-                    v-model="queryForm.modelCode"
+                    v-model="item.value"
                     placeholder="请输入"
                     clearable
                     style="width: 100%"
+                    :disabled="true"
                   />
                 </el-form-item>
               </el-col>
@@ -419,13 +399,8 @@ export default {
       type: Object,
       default: function() {
         return {
-          /* right: '50px',
-          bottom: '50px',
-          width: '40px',
-          height: '40px',
-          'border-radius': '4px',
-          'line-height': '45px',
-          background: '#e7eaf1'*/
+          repairInfoDtoList: [],
+          repairPartDtoList: []
         }
       }
     },
