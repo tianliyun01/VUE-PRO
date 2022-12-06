@@ -32,4 +32,20 @@ export function brandRecurInfo(data) {
     params: data
   })
 }
+// 维修明细查看
+export function queryRepairInfo(data) {
+  return request({
+    url: 'api/bs/standardPay/queryRepairInfo',
+    method: 'get',
+    params: data
+  })
+}
+// 计算
+export function calculatePay(data) {
+  return request({
+    url: 'api/bs/standardPay/calculatePay',
+    method: 'post',
+    data
+  })
+}
 
