@@ -79,8 +79,8 @@
                     clearable
                     style="width: 100%"
                     value-key="productCode"
+                    :disabled="brandForbidden"
                     @change="changeBrand(queryForm.brandId)"
-                    @click.native="getBrand()"
                   >
                     <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.id" />
                   </el-select>
@@ -97,6 +97,8 @@
                     clearable
                     style="width: 100%"
                     value-key="productCode"
+                    :disabled="carSystemForbidden"
+                    @change="changeCarSystem(queryForm.carSystemId)"
                   >
                     <el-option v-for="item in carSystemList" :key="item.id" :label="item.name" :value="item.id" />
                   </el-select>
@@ -112,30 +114,32 @@
                     clearable
                     style="width: 100%"
                     value-key="productCode"
+                    :disabled="carsForbidden"
+                    @change="changeCars(queryForm.carsId)"
                   >
                     <el-option v-for="item in carsList" :key="item.id" :label="item.name" :value="item.id" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="车型">
+                <el-form-item label="年款">
                   <el-select
-                    v-model="queryForm.modelId"
+                    v-model="queryForm.yearParagraph"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
                     clearable
                     style="width: 100%"
-                    value-key="productCode"
+                    :disabled="modelForbidden"
                   >
-                    <el-option v-for="item in modelList" :key="item.id" :label="item.name" :value="item.id" />
+                    <el-option v-for="item in yearParagraphList" :key="item" :label="item" :value="item" />
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <!--<el-col :span="8">
                 <el-form-item label="车系代码">
                   <el-input
-                    v-model="queryForm.carSystemCode"
+                    v-model="queryForm.carSystemEncode"
                     placeholder="请输入"
                     clearable
                     style="width: 100%"
@@ -145,13 +149,13 @@
               <el-col :span="8">
                 <el-form-item label="车型代码">
                   <el-input
-                    v-model="queryForm.modelCode"
+                    v-model="queryForm.modelEncode"
                     placeholder="请输入"
                     clearable
                     style="width: 100%"
                   />
                 </el-form-item>
-              </el-col>
+              </el-col>-->
             </el-row>
           </el-form>
         </el-tab-pane>
@@ -164,44 +168,57 @@
     <div class="query mgt-14">
       <div class="query-header clearfix">
         <div class="header-title fl">查询结果</div>
-        <!-- <el-button class="query-header-btn fr" size="mini" type="primary" plain @click="add">对比</el-button> -->
+        <!--<el-button class="query-header-btn fr" size="mini" type="primary" plain @click="add">添加</el-button>-->
       </div>
       <div>
         <el-table :data="pageInfo" style="width: 100%">
-          <el-table-column prop="activeType" label="" width="120" />
-          <el-table-column prop="activeType" label="赔付风险等级" width="120" />
-          <el-table-column prop="activeType" label="风险保费" width="120" show-overflow-tooltip />
-          <el-table-column prop="activeType" label="案均赔款" width="120" show-overflow-tooltip />
-          <el-table-column prop="activeType" label="18件配件价格" width="120" show-overflow-tooltip />
-          <el-table-column prop="activeType" label="出险风险等级" width="120" show-overflow-tooltip />
+          <el-table-column type="index" label="序号" width="120" />
+          <el-table-column prop="brandName" label="品牌" width="150" />
+          <el-table-column prop="carSystemName" label="车系" width="150" show-overflow-tooltip />
+          <el-table-column prop="carSystemEncode" label="车系代码" width="150" show-overflow-tooltip />
+          <el-table-column prop="carsName" label="车组" width="150" show-overflow-tooltip />
+          <el-table-column prop="modelName" label="车型" width="150" show-overflow-tooltip />
+          <el-table-column prop="modelEncode" label="车型代码" width="150" show-overflow-tooltip />
+          <!-- <el-table-column prop="estimateAvgIndemnity" label="CIRI案均" width="120" show-overflow-tooltip />
+          <el-table-column prop="accidentRate" label="CIRI出险率" width="120" show-overflow-tooltip />-->
+          <!--  <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
           <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
           <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
           <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
-          <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
-          <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
-          <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
+          <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />-->
           <el-table-column fixed="right" label="操作" width="150">
             <template slot-scope="scope">
-              <el-button type="text" size="mini" @click="edit(scope.row)">禁用</el-button>
-              <el-button type="text" size="mini" @click="edit(scope.row)">权限设置</el-button>
+              <!--              <el-button type="text" size="mini" @click="edit(scope.row)">禁用</el-button>-->
+              <el-button type="text" size="mini" @click="edit(scope.row)">添加对比</el-button>
             </template>
           </el-table-column>
         </el-table>
+      </div>
+      <div class="block footer-page">
+        <el-pagination
+          :current-page="currentPage"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          :page-sizes="[10, 15, 20, 30, 50, 100]"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
       </div>
     </div>
   </div>
 </template>
 <script>
-import { initData, queryPayByPage, getBrandByFactory, brandRecurInfo } from '../../api/compensation'
+import { initData, queryPremiumByPage, getBrandByFactory, brandRecurInfo, queryYearParagraph } from '../../api/vehicle-proposal'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'VehicleProposalIndex',
+  name: 'CartypeCompensationIndex',
   components: {},
   data() {
     return {
       activeName: 'first',
-      queryForm: {},
+      queryForm: { yearParagraph: null },
       regionList: [],
       carTypeList: [],
       dataTypeList: [],
@@ -210,7 +227,13 @@ export default {
       carSystemList: [],
       carsList: [],
       modelList: [],
+      yearParagraphList: [],
+      brandForbidden: true,
+      carSystemForbidden: true,
+      carsForbidden: true,
+      modelForbidden: true,
       insurerCodeList: [],
+      menuId: '12',
       pageInfo: [],
       loading: false,
       // acurl: '',
@@ -225,7 +248,6 @@ export default {
   created() {
     this.initData()
     console.log(this.userName, 'userName')
-    // this.acurl = process.env.VUE_APP_BASE_API + '/portservice/riskUser/readUserExcel'
   },
   methods: {
     initData() {
@@ -246,47 +268,66 @@ export default {
       this.brandList = []
       this.carSystemList = []
       this.carsList = []
-      this.modelList = []
+      this.yearParagraphList = []
       this.queryForm.brandId = null
       this.queryForm.carSystemId = null
       this.queryForm.carsId = null
-      this.queryForm.modelId = null
-      var param = { factoryId: factoryId }
-      getBrandByFactory(param).then(res => {
-        if (res.state === '0000') {
-          this.brandList = res.brandDtoList
-        }
-      })
-    },
-    // 点击品牌
-    getBrand() {
-      if (!this.queryForm.factoryId || this.queryForm.factoryId === '') {
-        this.$message.error('请先选择厂商!')
-        return false
+      this.queryForm.yearParagraph = null
+      this.brandForbidden = false
+      if (factoryId) {
+        var param = { factoryId: factoryId }
+        getBrandByFactory(param).then(res => {
+          if (res.state === '0000') {
+            this.brandList = res.brandDtoList
+          }
+        })
       }
     },
     // 改变品牌
     changeBrand(superId) {
       this.carSystemList = []
       this.carsList = []
-      this.modelList = []
+      this.yearParagraphList = []
       this.queryForm.carSystemId = null
       this.queryForm.carsId = null
-      this.queryForm.modelId = null
+      this.queryForm.yearParagraph = null
+      this.carSystemForbidden = false
       if (superId) {
         var param = { superId: superId }
-        this.carSystemList = brandRecurInfo(param)
+        brandRecurInfo(param).then(res => {
+          this.carSystemList = res
+        })
       }
     },
-    brandRecurInfo(superId, list) {
-      // 联级查询的接口
-      brandRecurInfo(superId).then(res => {
-        list(res.data)
-      })
+    // 改变车系
+    changeCarSystem(superId) {
+      this.carsList = []
+      this.yearParagraphList = []
+      this.queryForm.carsId = null
+      this.queryForm.yearParagraph = null
+      this.carsForbidden = false
+      if (superId) {
+        var param = { superId: superId }
+        brandRecurInfo(param).then(res => {
+          this.carsList = res
+        })
+      }
+    },
+    // 改变车组
+    changeCars(superId) {
+      this.yearParagraphList = []
+      this.queryForm.yearParagraph = null
+      this.modelForbidden = false
+      if (superId) {
+        var param = { carsId: superId }
+        queryYearParagraph(param).then(res => {
+          this.yearParagraphList = res.yearParagraphList
+        })
+      }
     },
     queryData() {
       var param = {
-        globalUserCode: this.userCode,
+        // globalUserCode: this.userCode,
         pageNo: this.pageNo,
         pageSize: this.pageSize,
         regionId: this.queryForm.regionId,
@@ -297,61 +338,38 @@ export default {
         brandId: this.queryForm.brandId,
         carSystemId: this.queryForm.carSystemId,
         carsId: this.queryForm.carsId,
-        modelId: this.queryForm.modelId
+        modelId: this.queryForm.modelId,
+        carSystemEncode: this.queryForm.carSystemEncode,
+        modelEncode: this.queryForm.modelEncode,
+        yearParagraph: this.queryForm.yearParagraph,
+        menuId: this.menuId
         // modelId: this.queryForm.modelId,
         // modelId: this.queryForm.modelId,
       }
-      queryPayByPage(param).then(res => {
+      queryPremiumByPage(param).then(res => {
         if (res.state === '0000') {
-          console.log(res)
+          if (res.content && res.content.length > 0) {
+            for (let i = 0; i < res.content.length; i++) {
+              res.content[i].sourceType = 'A'
+              res.content[i].sourceTypeName = '目标车型'
+            }
+          }
+          this.pageInfo = res.content
+          this.total = res.totalCount
+        } else {
+          this.$message.error(res.msg)
         }
       })
     },
-    /* queryForm() {
-      const param = {
-        comcode: '',
-        riskcode: '',
-        editType: 'ADD'
-      }
-      productEditPage(param).then(res => {
-        if (res.code === 200) {
-          this.prpdCompanyList = res.data.prpdCompanyList
-          this.riskCodeList = res.data.findProductDtoMap.riskList
-          this.riskCodeList[0].spread = '1'
-          this.activeType = res.data.activeType
-          this.formList[0].activeType = res.data.activeType
-          this.total = res.data.totalCount
+    edit(item) {
+      this.$router.push({
+        name: 'VehicleProposalEdit',
+        query: {
+          // editType: 'EDIT',
+          info: item
         }
       })
-    },*/
-    // 查询列表
-    /* queryData() {
-      const param = {
-        userCode: this.comcodes,
-        userName: this.userName,
-        riskcode: this.riskCode,
-        spread: this.type,
-        delMenuType: this.menuType,
-        currentPage: this.currentPage,
-        pageSize: this.pageSize
-      }
-      riskUserQueryListPage(param).then(res => {
-        if (res.code === 200) {
-          if (!res.data) {
-            this.systemListResult = []
-            this.currentPage = 0
-            this.total = 0
-            return
-          }
-          this.riskCodeList = res.data.riskMap.riskList
-          this.spreadClassDtoList = res.data.spreadClassDtoList
-          this.menuTypeList = res.data.menuTypeList
-          this.systemListResult = res.data.portRiskUserDtoIPage.records
-          this.currentPage = res.data.portRiskUserDtoIPage.current
-          this.total = res.data.portRiskUserDtoIPage.total
-        }
-      })
-    },*/
+    },
     handleSizeChange(val) {
       this.pageSize = val
       this.queryData()
@@ -362,19 +380,15 @@ export default {
     },
     // 重置
     reset() {
-      this.selectedRiskCode = ''
-      this.comcodes = ''
-      this.userName = ''
-      this.riskCode = ''
-      this.menuType = ''
-      this.type = ''
+      this.queryForm = { yearParagraph: null }
+      this.brandForbidden = true
+      this.carSystemForbidden = true
+      this.carsForbidden = true
+      this.modelForbidden = true
     },
     changepage() {}
   }
 }
 </script>
-<style lang="scss" >
-.el-divider--horizontal{
-  margin-top: 0;
-}
+<style lang="scss" scoped>
 </style>
