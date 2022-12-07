@@ -88,6 +88,11 @@ export default {
           url: '/role/index'
         },
         {
+          menuCName: '车型风险级别查询',
+          menuIcon: 'documentation',
+          url: '/risk-level/index'
+        },
+        {
           menuCName: '承保风险查询',
           menuIcon: 'documentation',
           url: '/risk-premium/index'

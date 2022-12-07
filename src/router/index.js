@@ -288,6 +288,28 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/risk-level',
+    component: Layout,
+    redirect: '/risk-level/index',
+    alwaysShow: true,
+    name: '',
+    meta: { title: 'risk-level', icon: 'menu' },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/risk-level/index'),
+        name: 'RiskLevelIndex',
+        meta: { title: '车型风险级别查询', keepAlive: true }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/risk-level/edit'),
+        name: 'RiskLevelEdit',
+        meta: { title: '车型风险级别对比', keepAlive: true }
+      }
+    ]
+  },
+  {
     path: '/profile',
     component: Layout,
     redirect: '/profile/index',
