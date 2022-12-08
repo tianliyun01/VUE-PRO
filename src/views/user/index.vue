@@ -57,8 +57,8 @@
           <el-table-column prop="userName" label="姓名" width="120" />
           <el-table-column prop="userEname" label="英文名" width="120" />
           <el-table-column prop="sex" label="性别" width="130" :formatter="formatter" />
-          <el-table-column prop="userCompany" label="公司" width="180" :formatter="spreadFormatter" show-overflow-tooltip />
-          <el-table-column prop="department" label="部门" min-width="180" show-overflow-tooltip />
+          <el-table-column prop="userCompany" label="公司" width="180" />
+          <!-- <el-table-column prop="department" label="部门" min-width="180" show-overflow-tooltip /> -->
           <el-table-column prop="mobile" label="手机号码" min-width="150" show-overflow-tooltip />
           <el-table-column prop="email" label="邮箱" min-width="150" show-overflow-tooltip />
           <el-table-column prop="phone" label="座机号码" min-width="180" show-overflow-tooltip />
@@ -138,11 +138,18 @@ export default {
       this.formDate.pageSize = this.pageSize
       queryByPage(this.formDate).then(res => {
         if (res.state === '0000') {
-          this.userCompany = res.content
+          this.userCompany = res.userCompanyList
           this.userResult = res.content
           this.total = res.totalCount
         }
       })
+    },
+    formatter(row, column) {
+      if (row.sex === '0') {
+        return '男'
+      } else {
+        return '女'
+      }
     },
     handleSizeChange(val) {
       this.pageSize = val
@@ -163,13 +170,6 @@ export default {
       console.log(val)
       this.riskCode = val.productCode
       console.log(this.riskCode)
-    },
-    formatter(row, column) {
-      if (row.state === '0') {
-        return '无效'
-      } else if (row.state === '1') {
-        return '有效'
-      }
     },
     spreadFormatter(row, column) {
       if (!row.spread) return ''

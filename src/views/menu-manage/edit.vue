@@ -177,7 +177,7 @@ export default {
         this.parentIddisabled = false
         getLevelInfo({ level: this.editForm.level }).then(res => {
           if (res.state === '0000') {
-            this.menuList = res.menuList
+            this.menuList = res.levelInfo
           }
         })
       }

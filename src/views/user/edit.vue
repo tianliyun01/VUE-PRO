@@ -194,7 +194,9 @@ export default {
         userEname: '',
         endTime: '',
         selectTimes: '',
-        selectTimesType: ''
+        selectTimesType: '',
+        selectArea: [],
+        insuCompany: []
       },
       rules: {
         userCode: [{ required: true, message: '人员代码不能为空', trigger: 'blur' }],
@@ -254,8 +256,17 @@ export default {
         this.insurerCodeList = res.insurerCodeList
         this.regionList = res.regionList
         if (this.editType === 'EDIT') {
+          res.userDto.selectArea = []
+          res.userDto.insuCompany = []
           this.editForm = res.userDto
           this.editForm.oriUserCode = res.userDto.userCode
+          for (var userPer of res.userPermissions) {
+            if (userPer.type === '1') {
+              this.editForm.selectArea.push(userPer.refId)
+            } else if (userPer.type === '2') {
+              this.editForm.insuCompany.push(userPer.refId)
+            }
+          }
         }
       }
     })

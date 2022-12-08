@@ -50,6 +50,7 @@
                   node-key="id"
                   highlight-current
                   :props="defaultProps"
+                  :default-checked-keys="checkedKeys"
                   @check="handleNodeClick"
                 />
               </el-row>
@@ -95,6 +96,7 @@ export default {
       spreadClassDtoList: [],
       menuTypeList: [],
       treeDto: [],
+      checkedKeys: [],
       defaultProps: {
         children: 'menuTreeDtoList',
         label: 'menuName'
@@ -129,6 +131,8 @@ export default {
         // this.treeDto.push(res.menuTreeDto)
         this.treeDto = res.menuTreeDto
         if (this.editType === 'EDIT') {
+          debugger
+          this.checkedKeys = res.roleDto.roleMenuIds
           this.listQuery = res.roleDto
         }
       }
