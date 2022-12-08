@@ -217,13 +217,13 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/risk-premium/index'),
         name: 'RiskPremiumIndex',
-        meta: { title: '车型当前赔付情况分析', keepAlive: true }
+        meta: { title: '承保风险查询及自定义计算', keepAlive: true }
       },
       {
         path: 'edit',
         component: () => import('@/views/risk-premium/edit'),
         name: 'RiskPremiumEdit',
-        meta: { title: '车型当前赔付情况分析', keepAlive: true }
+        meta: { title: '承保风险查询及自定义计算', keepAlive: true }
       }
     ]
   },

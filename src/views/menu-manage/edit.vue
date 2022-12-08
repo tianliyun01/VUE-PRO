@@ -106,6 +106,7 @@ export default {
   data() {
     return {
       activeName: 'first',
+      parentIddisabled: true,
       editForm: {
         systemItem: '',
         systemClass: '',
@@ -201,24 +202,26 @@ export default {
       this.$forceUpdate()
     },
     blurMenuName(menuName, event) {
-      var params = {
-        menuName: menuName
-      }
-      if (this.editType === 'ADD') {
-        isExisted(params).then(res => {
-          if (res.isExisted === true) {
-            this.$message.error('菜单名称已存在!')
-            event.target.focus()
-          }
-        })
-      } else if (this.editType === 'EDIT') {
-        if (menuName && this.editForm.oriMenuName !== menuName) {
+      if (menuName) {
+        var params = {
+          menuName: menuName
+        }
+        if (this.editType === 'ADD') {
           isExisted(params).then(res => {
             if (res.isExisted === true) {
               this.$message.error('菜单名称已存在!')
               event.target.focus()
             }
           })
+        } else if (this.editType === 'EDIT') {
+          if (menuName && this.editForm.oriMenuName !== menuName) {
+            isExisted(params).then(res => {
+              if (res.isExisted === true) {
+                this.$message.error('菜单名称已存在!')
+                event.target.focus()
+              }
+            })
+          }
         }
       }
     },
@@ -248,11 +251,11 @@ export default {
         if (valid) {
           this.editForm.editType = this.editType
           saveOrUpdate(this.editForm).then(res => {
-            if (res.data.length > 0) {
-              this.$message.warning(this.formList[index].userCode + '已存在' + res.data.join(',') + '险种，不允许重复添加！')
-              for (var item of res.data) {
-                this.formList[index].riskCodeList.splice(this.formList[index].riskCodeList.indexOf(item), 1)
-              }
+            if (res.state === '0000') {
+              this.$message.success(res.msg)
+              this.$router.push('/menu-manage/index')
+            } else {
+              this.$message.error(res.msg)
             }
           })
         }

@@ -217,9 +217,9 @@ export default {
         { lable: '技术部', value: '3' }
       ],
       selectTimesType: [
-        { value: '年', lable: '1' },
-        { value: '月', lable: '2' },
-        { value: '日', lable: '3' }
+        { value: '1', label: '年' },
+        { value: '2', label: '月' },
+        { value: '3', label: '日' }
       ],
       riskCodeList: [],
       spreadClassDtoList: [],
