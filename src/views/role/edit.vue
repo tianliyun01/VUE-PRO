@@ -131,7 +131,6 @@ export default {
         // this.treeDto.push(res.menuTreeDto)
         this.treeDto = res.menuTreeDto
         if (this.editType === 'EDIT') {
-          debugger
           this.checkedKeys = res.roleDto.roleMenuIds
           this.listQuery = res.roleDto
         }

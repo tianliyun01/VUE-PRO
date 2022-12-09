@@ -167,10 +167,9 @@ export default {
     queryData() {
       this.formDate.pageNo = this.currentPage
       this.formDate.pageSize = this.pageSize
-      this.formDate.pageSize = this.pageSize
       queryPermissionData(this.formDate).then(res => {
         if (res.state === '0000') {
-          this.userCompany = res.userCompany
+          this.userCompany = res.userCompanyList
           this.systemListResult = res.content
           this.total = res.totalCount
           this.insurerCodeList = res.insurerCodeList

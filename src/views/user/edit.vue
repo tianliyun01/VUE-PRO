@@ -42,20 +42,6 @@
                     />
                   </el-form-item>
                 </el-col>
-                <!-- <el-col :span="8">
-                  <el-form-item label="部门" prop="department">
-                    <el-select
-                      v-model="editForm.department"
-                      class="quick-select"
-                      placeholder="请选择"
-                      filterable
-                      style="width: 100%"
-                      value-key="productCode"
-                    >
-                      <el-option v-for="item in department" :key="item.value" :label="item.lable" :value="item.value" />
-                    </el-select>
-                  </el-form-item>
-                </el-col> -->
                 <el-col :span="8">
                   <el-form-item label="邮箱" prop="email">
                     <el-input
@@ -204,18 +190,9 @@ export default {
         userCompany: [{ required: true, message: '所属公司不能为空', trigger: 'change' }],
         department: [{ required: true, message: '所属部门不能为空', trigger: 'change' }],
         userEname: [{ required: true, message: '人员英文名不能为空', trigger: 'blur' }],
-        endTime: [{ required: true, message: '权限截止时间不能为空', trigger: 'change' }]
+        endTime: [{ required: true, message: '权限截止时间不能为空', trigger: 'change' }],
+        email: [{ required: true, message: '邮箱不能为空', trigger: 'blur' }]
       },
-      userCompany: [
-        { lable: '中保研', value: '1' },
-        { lable: '阳光保险', value: '2' },
-        { lable: '国寿', value: '3' }
-      ],
-      department: [
-        { lable: '客服部', value: '1' },
-        { lable: '人事部', value: '2' },
-        { lable: '技术部', value: '3' }
-      ],
       selectTimesType: [
         { value: '年', lable: '1' },
         { value: '月', lable: '2' },

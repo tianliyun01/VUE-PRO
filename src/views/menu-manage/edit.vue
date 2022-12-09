@@ -98,7 +98,7 @@
   </div>
 </template>
 <script>
-import { getMenuInfo, saveOrUpdate, isExisted, getLevelInfo } from '../../api/menu'
+import { getMenuInfo, saveOrUpdate, getLevelInfo } from '../../api/menu'
 import { mapGetters } from 'vuex'
 export default {
   name: 'MenuManageEdie',
@@ -117,7 +117,7 @@ export default {
         menuUrl: [{ required: true, message: '菜单URL不能为空', trigger: 'blur' }],
         description: [{ required: true, message: '描述不能为空', trigger: 'blur' }],
         isValidate: [{ required: true, message: '菜单状态不能为空', trigger: 'blur' }],
-        // parentId: [{ required: true, message: '父菜单不能为空', trigger: 'blur' }],
+        isAsMenu: [{ required: true, message: '不能为空', trigger: 'blur' }],
         level: [{ required: true, message: '菜单级别不能为空', trigger: 'blur' }]
       },
       riskCodeList: [],
@@ -200,28 +200,28 @@ export default {
       console.log('onInput')
       this.$forceUpdate()
     },
-    blurMenuName(menuName, event) {
-      var params = {
-        menuName: menuName
-      }
-      if (this.editType === 'ADD') {
-        isExisted(params).then(res => {
-          if (res.isExisted === true) {
-            this.$message.error('菜单名称已存在!')
-            event.target.focus()
-          }
-        })
-      } else if (this.editType === 'EDIT') {
-        if (menuName && this.editForm.oriMenuName !== menuName) {
-          isExisted(params).then(res => {
-            if (res.isExisted === true) {
-              this.$message.error('菜单名称已存在!')
-              event.target.focus()
-            }
-          })
-        }
-      }
-    },
+    // blurMenuName(menuName, event) {
+    //   var params = {
+    //     menuName: menuName
+    //   }
+    //   if (this.editType === 'ADD') {
+    //     isExisted(params).then(res => {
+    //       if (res.isExisted === true) {
+    //         this.$message.error('菜单名称已存在!')
+    //         event.target.focus()
+    //       }
+    //     })
+    //   } else if (this.editType === 'EDIT') {
+    //     if (menuName && this.editForm.oriMenuName !== menuName) {
+    //       isExisted(params).then(res => {
+    //         if (res.isExisted === true) {
+    //           this.$message.error('菜单名称已存在!')
+    //           event.target.focus()
+    //         }
+    //       })
+    //     }
+    //   }
+    // },
     checkChange(index) {
       this.comChange(this.formList[index])
       if (this.formList[index].spreadList.length === 0) return
@@ -248,6 +248,10 @@ export default {
         if (valid) {
           this.editForm.editType = this.editType
           saveOrUpdate(this.editForm).then(res => {
+            if (res.state === '0000') {
+              this.$message.success('保存成功')
+              this.$router.push('/menu-manage/index')
+            }
             if (res.data.length > 0) {
               this.$message.warning(this.formList[index].userCode + '已存在' + res.data.join(',') + '险种，不允许重复添加！')
               for (var item of res.data) {
