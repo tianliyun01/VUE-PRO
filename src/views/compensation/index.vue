@@ -210,6 +210,17 @@
         </el-table>
       </div>
     </div>
+    <div class="block footer-page">
+      <el-pagination
+        :current-page="currentPage"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        :page-sizes="[10, 15, 20, 30, 50, 100]"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -340,7 +351,7 @@ export default {
     queryData() {
       var param = {
         // globalUserCode: this.userCode,
-        pageNo: this.pageNo,
+        pageNo: this.currentPage,
         pageSize: this.pageSize,
         regionId: this.queryForm.regionId,
         insurerCode: this.queryForm.insurerCode,

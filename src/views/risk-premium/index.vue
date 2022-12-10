@@ -208,7 +208,7 @@
       <div>
         <el-table :data="pageInfo" style="width: 100%">
           <el-table-column type="index" label="序号" width="120" />
-          <el-table-column prop="dataSourceName" label="数据来源" width="150" show-overflow-tooltip />
+          <el-table-column prop="dataSourceName" label="结果类型" width="150" show-overflow-tooltip />
           <el-table-column prop="undrewRiskLevel" label="承保风险等级" width="100" />
           <el-table-column prop="estimateRiskPremium" label="预估风险保费" width="100" />
           <el-table-column prop="payRiskLevel" label="赔付风险等级" width="100" show-overflow-tooltip />
@@ -372,7 +372,8 @@ export default {
             modelEncode: this.queryForm.modelEncode,
             customAvgIndemnity: this.queryForm.customAvgIndemnity,
             customAccidentRate: this.queryForm.customAccidentRate,
-            menuId: this.menuId
+            menuId: this.menuId,
+            sourceType: 'A'
             // modelId: this.queryForm.modelId,
             // modelId: this.queryForm.modelId,
           }
@@ -380,7 +381,7 @@ export default {
             if (res.state === '0000') {
               if (res.riskPremiumDtoList && res.riskPremiumDtoList.length > 0) {
                 for (let i = 0; i < res.riskPremiumDtoList.length; i++) {
-                  // 数据来源(A中保研测算值,B自定义案均测算值,C自定义出险率测算值D自定义案均&出险率测算值)
+                  // 结果类型(A中保研测算值,B自定义案均测算值,C自定义出险率测算值D自定义案均&出险率测算值)
                   if (res.riskPremiumDtoList[i].dataSource === 'A') {
                     res.riskPremiumDtoList[i].dataSourceName = '中保研测算值'
                   } else if (res.riskPremiumDtoList[i].dataSource === 'B') {
@@ -402,7 +403,7 @@ export default {
     },
     edit(item) {
       this.$router.push({
-        name: 'CartypeCompensationEdit',
+        name: 'RiskPremiumEdit',
         query: {
           // editType: 'EDIT',
           info: item
