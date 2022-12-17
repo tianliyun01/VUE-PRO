@@ -391,6 +391,9 @@ export default {
                   } else if (res.riskPremiumDtoList[i].dataSource === 'D') {
                     res.riskPremiumDtoList[i].dataSourceName = '自定义案均&出险率测算值'
                   }
+                  if (res.riskPremiumDtoList[i].sourceType === 'A') {
+                    res.riskPremiumDtoList[i].sourceTypeName = '目标车型'
+                  }
                 }
                 this.pageInfo = res.riskPremiumDtoList
               }

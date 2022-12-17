@@ -1,19 +1,25 @@
 <template>
   <div class="app-container">
     <div class="Notice">
-      <el-button class="query-header-btn" style="position: absolute;right: 90px;z-index: 200;" size="mini" type="primary" plain @click="add">添加</el-button>
-      <el-button class="query-header-btn" style="position: absolute;right: 20px;z-index: 200;" size="mini" type="primary" plain @click="contrast">对比</el-button>
       <el-tabs v-model="activeName" class="customcard">
         <el-tab-pane label="对比列表" name="first">
           <el-table :data="compareList" style="width: 100%">
             <el-table-column type="index" align="center" label="序号" width="100" />
-            <el-table-column prop="sourceTypeName" align="center" label="结果来源" min-width="100" show-overflow-tooltip />
-            <el-table-column prop="dataSourceName" align="center" label="结果类型" min-width="100" show-overflow-tooltip>
+            <el-table-column prop="sourceTypeName" align="center" label="结果类型" min-width="100" show-overflow-tooltip>
               <template slot-scope="scope">
-                <el-input v-model="scope.row.sourceTypeName" :disabled="true" />
+                <el-tooltip class="item" effect="dark" :content="scope.row.sourceTypeName" placement="top-start">
+                  <el-input v-model="scope.row.sourceTypeName" :disabled="true" />
+                </el-tooltip>
               </template>
             </el-table-column>
-            <el-table-column prop="regionName" align="center" label="地域" min-width="180" show-overflow-tooltip>
+            <el-table-column prop="dataSourceName" align="center" label="结果类型" min-width="100" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-tooltip class="item" effect="dark" :content="scope.row.dataSourceName" placement="top-start">
+                  <el-input v-model="scope.row.dataSourceName" :disabled="true" />
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <!--<el-table-column prop="regionName" align="center" label="地域" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.regionName" placement="top-start">
                   <el-input v-model="scope.row.regionName" :disabled="true" />
@@ -33,7 +39,7 @@
                   <el-input v-model="scope.row.insurerCodeName" :disabled="true" />
                 </el-tooltip>
               </template>
-            </el-table-column>
+            </el-table-column>-->
             <el-table-column prop="brandName" align="center" label="品牌" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.brandName" placement="top-start">
@@ -67,9 +73,19 @@
                 <el-input v-model="scope.row.undrewRiskLevel" :disabled="true" />
               </template>
             </el-table-column>
+            <el-table-column prop="estimateRiskPremium" align="center" label="预估风险保费" min-width="180" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.estimateRiskPremium" :disabled="true" />
+              </template>
+            </el-table-column>
             <el-table-column prop="payRiskLevel" align="center" label="赔付风险等级" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.payRiskLevel" :disabled="true" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="estimateAvgIndemnity" align="center" label="预估案均赔款" min-width="180" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.estimateAvgIndemnity" :disabled="true" />
               </template>
             </el-table-column>
             <el-table-column prop="accidentLevel" align="center" label="出险风险等级" min-width="180" show-overflow-tooltip>
@@ -77,9 +93,19 @@
                 <el-input v-model="scope.row.accidentLevel" :disabled="true" />
               </template>
             </el-table-column>
+            <el-table-column prop="accidentRate" align="center" label="出险率" min-width="180" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.accidentRate" :disabled="true" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="partFee" align="center" label="常用配件价格" min-width="180" show-overflow-tooltip>
+              <template slot-scope="scope">
+                <el-input v-model="scope.row.partFee" :disabled="true" />
+              </template>
+            </el-table-column>
             <el-table-column fixed="right" label="操作" width="150">
               <template slot-scope="scope">
-                <el-button :disabled="scope.row.sourceType==='A'" type="text" size="mini" @click="delRow(scope.$index)">删除</el-button>
+                <el-button type="text" size="mini" @click="delRow(scope.$index)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -176,8 +202,28 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="自定义案均">
+              <el-input
+                v-model="queryForm.customAvgIndemnity"
+                placeholder="请输入"
+                clearable
+                style="width: 100%"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="自定义出险率">
+              <el-input
+                v-model="queryForm.customAccidentRate"
+                placeholder="请输入"
+                clearable
+                style="width: 100%"
+              />
+            </el-form-item>
+          </el-col>
         </el-row>
-        <el-row size="mini" label-position="right" label-width="108px" style="padding-left: 82px;padding-bottom: 18px">
+        <!--<el-row size="mini" label-position="right" label-width="108px" style="padding-left: 82px;padding-bottom: 18px">
           <el-col :span="5">
             <template>
               <el-checkbox v-model="queryForm.checked1">同承保风险等级</el-checkbox>
@@ -193,7 +239,7 @@
               <el-checkbox v-model="queryForm.checked3">同出险风险等级</el-checkbox>
             </template>
           </el-col>
-        </el-row>
+        </el-row>-->
       </el-form>
       <div class="search-footer">
         <el-button size="small" type="primary" plain @click="reset">重置</el-button>
@@ -206,12 +252,13 @@
       </div>
       <el-button class="query-header-btn" style="position: absolute;right: 20px;z-index: 200;top: 0" size="mini" type="primary" plain @click="add">添加</el-button>
       <div>
-        <el-table :data="pageInfoList" style="width: 100%" @selection-change="handleSelectionChange">>
+        <el-table :data="pageInfo" style="width: 100%" @selection-change="handleSelectionChange">>
           <el-table-column
             type="selection"
             width="55"
           />
           <el-table-column type="index" label="序号" width="120" />
+          <el-table-column prop="dataSourceName" label="结果类型" width="120" show-overflow-tooltip />
           <el-table-column prop="regionName" label="地域" width="120" />
           <el-table-column prop="carTypeName" label="车辆类型" width="120" />
           <el-table-column prop="insurerCodeName" label="保险公司" width="120" show-overflow-tooltip />
@@ -220,8 +267,12 @@
           <el-table-column prop="carsName" label="车组" width="120" show-overflow-tooltip />
           <el-table-column prop="modelName" label="车型" width="120" show-overflow-tooltip />
           <el-table-column prop="undrewRiskLevel" label="承保风险等级" width="120" show-overflow-tooltip />
+          <el-table-column prop="estimateRiskPremium" label="预估风险保费" width="120" show-overflow-tooltip />
           <el-table-column prop="payRiskLevel" label="赔付风险等级" width="120" show-overflow-tooltip />
+          <el-table-column prop="estimateAvgIndemnity" label="预估案均赔款" width="120" show-overflow-tooltip />
           <el-table-column prop="accidentLevel" label="出险风险等级" width="120" show-overflow-tooltip />
+          <el-table-column prop="accidentRate" label="出险率" width="120" show-overflow-tooltip />
+          <el-table-column prop="partFee" label="常用配件价格" width="120" show-overflow-tooltip />
           <!--<el-table-column type="index" label="序号" width="100" />
           <el-table-column prop="riskName" label="品牌" min-width="200" show-overflow-tooltip>
             <template slot-scope="scope">
@@ -278,14 +329,22 @@ export default {
       insurerCodeList: [],
       menuId: '14',
       pageInfo: [],
-      loading: false
+      multipleSelection: [],
+      loading: false,
+      pageSize: 15,
+      currentPage: 1,
+      total: 0
     }
   },
   computed: {
-    ...mapGetters(['userName', 'userCode'])
+    ...mapGetters(['userName', 'userCode']),
+    target() {
+      return this.$route.query.info
+    }
   },
   created() {
-    this.queryData()
+    this.initData()
+    this.compareList.push(this.target)
   },
   methods: {
     delRow(index) {
@@ -412,6 +471,7 @@ export default {
               res.riskPremiumDtoList[i].sourceTypeName = '比较车型'
             }
             this.pageInfo = res.riskPremiumDtoList
+            this.total = res.riskPremiumDtoList.length
           }
         } else {
           this.$message.error(res.msg)
