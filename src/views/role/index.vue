@@ -25,7 +25,7 @@
                     clearable
                     style="width: 100%"
                   >
-                    <el-option label="已启用" value="1" />
+                    <el-option label="启用" value="1" />
                     <el-option label="禁用" value="0" />
                     <!--                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />-->
                   </el-select>
@@ -49,7 +49,7 @@
         <el-table :data="systemListResult" style="width: 100%">
           <el-table-column type="index" label="序号" width="100" />
           <el-table-column prop="name" label="名称" min-width="200" show-overflow-tooltip />
-          <el-table-column prop="isValidate" label="状态" width="120" />
+          <el-table-column prop="isValidate" label="状态" width="120" :formatter="formatter" />
           <el-table-column prop="des" label="描述" width="320" show-overflow-tooltip />
           <el-table-column fixed="right" label="操作" width="150">
             <template slot-scope="scope">
@@ -155,10 +155,10 @@ export default {
       console.log(this.riskCode)
     },
     formatter(row, column) {
-      if (row.state === '0') {
-        return '无效'
-      } else if (row.state === '1') {
-        return '有效'
+      if (row.isValidate === '0') {
+        return '禁用'
+      } else {
+        return '启用'
       }
     },
     spreadFormatter(row, column) {

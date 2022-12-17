@@ -91,7 +91,7 @@
           <el-table-column prop="userCode" label="人员代码" width="100" />
           <el-table-column prop="userCompany" label="公司" width="120" />
           <el-table-column prop="userName" label="姓名" width="320" show-overflow-tooltip />
-          <el-table-column prop="validStatus" label="是否启用" width="220" show-overflow-tooltip />
+          <el-table-column prop="validStatus" label="是否启用" width="220" :formatter="formatter" />
           <el-table-column prop="phone" label="手机号码" width="300" show-overflow-tooltip />
           <el-table-column prop="email" label="邮箱" width="220" show-overflow-tooltip />
           <el-table-column prop="roleName" label="角色" width="220" show-overflow-tooltip />
@@ -179,6 +179,13 @@ export default {
         }
       })
     },
+    formatter(row, column) {
+      if (row.validStatus === '0') {
+        return '无效'
+      } else {
+        return '有效'
+      }
+    },
     handleSizeChange(val) {
       this.pageSize = val
       this.queryData()
@@ -200,13 +207,6 @@ export default {
       console.log(val)
       this.riskCode = val.productCode
       console.log(this.riskCode)
-    },
-    formatter(row, column) {
-      if (row.state === '0') {
-        return '无效'
-      } else if (row.state === '1') {
-        return '有效'
-      }
     },
     spreadFormatter(row, column) {
       if (!row.spread) return ''
