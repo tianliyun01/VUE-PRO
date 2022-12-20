@@ -212,6 +212,17 @@
           </el-table-column>
         </el-table>
       </div>
+      <div class="block footer-page">
+        <el-pagination
+          :current-page="currentPage"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          :page-sizes="[10, 15, 20, 30, 50, 100]"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
     </div>
   </div>
 </template>

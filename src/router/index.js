@@ -277,12 +277,18 @@ export const constantRoutes = [
     redirect: '/repair-hours/index',
     alwaysShow: true,
     name: '',
-    meta: { title: '维修工时数据查询', icon: 'menu' },
+    meta: { title: 'repair-hours', icon: 'menu' },
     children: [
       {
         path: 'index',
         component: () => import('@/views/repair-hours/index'),
-        name: 'CartypeCompensationIndex',
+        name: 'RepairHoursIndex',
+        meta: { title: '维修工时数据查询', keepAlive: true }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/repair-hours/edit'),
+        name: 'RepairHoursEdit',
         meta: { title: '维修工时数据查询', keepAlive: true }
       }
     ]
