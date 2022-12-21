@@ -48,4 +48,11 @@ export function calculateLosses(data) {
     data
   })
 }
+export function getParts(data) {
+  return request({
+    url: 'api/bs/managementHour/getPartsQuery',
+    method: 'get',
+    params: data
+  })
+}
 

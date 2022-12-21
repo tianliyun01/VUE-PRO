@@ -2,13 +2,16 @@
   <div class="app-container" style="overflow-y: auto;height:calc(100vh - 78px)">
     <div class="Notice">
       <el-tabs v-model="activeName" class="customcard">
+        <div class="query-header clearfix">
+          <div class="header-title fl">喷漆设置</div>
+        </div>
         <el-tab-pane label="维修工时数据查询" name="first">
           <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
             <el-row class="row-bg" justify="space-around">
               <el-col :span="8">
-                <el-form-item label="品牌">
+                <el-form-item label="漆料">
                   <el-select
-                    v-model="type"
+                    v-model="queryForm.paintType"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -16,14 +19,14 @@
                     style="width: 100%"
                     value-key="productCode"
                   >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    <el-option v-for="item in paintTypeList" :key="item.key" :label="item.value" :value="item.key" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="厂商">
+                <el-form-item label="层数">
                   <el-select
-                    v-model="type"
+                    v-model="queryForm.layers"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -31,14 +34,14 @@
                     style="width: 100%"
                     value-key="productCode"
                   >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    <el-option v-for="item in layerList" :key="item.key" :label="item.value" :value="item.key" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="车系">
+                <el-form-item label="低覆盖力">
                   <el-select
-                    v-model="type"
+                    v-model="queryForm.isLowCoverage"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -46,14 +49,74 @@
                     style="width: 100%"
                     value-key="productCode"
                   >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                    <el-option v-for="item in booleanList" :key="item.key" :label="item.value" :value="item.key" />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="车系代码">
+                <el-form-item label="调色">
+                  <el-select
+                    v-model="queryForm.toning"
+                    class="quick-select"
+                    placeholder="请选择"
+                    filterable
+                    clearable
+                    style="width: 100%"
+                    value-key="productCode"
+                  >
+                    <el-option v-for="item in toningList" :key="item.key" :label="item.value" :value="item.key" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="色板">
+                  <el-select
+                    v-model="queryForm.isColorPalette"
+                    class="quick-select"
+                    placeholder="请选择"
+                    filterable
+                    clearable
+                    style="width: 100%"
+                    value-key="productCode"
+                  >
+                    <el-option v-for="item in booleanList" :key="item.key" :label="item.value" :value="item.key" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="抛光">
+                  <el-select
+                    v-model="queryForm.isPolishing"
+                    class="quick-select"
+                    placeholder="请选择"
+                    filterable
+                    clearable
+                    style="width: 100%"
+                    value-key="productCode"
+                  >
+                    <el-option v-for="item in booleanList" :key="item.key" :label="item.value" :value="item.key" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="喷漆面数">
+                  <el-select
+                    v-model="queryForm.side"
+                    class="quick-select"
+                    placeholder="请选择"
+                    filterable
+                    clearable
+                    style="width: 100%"
+                    value-key="productCode"
+                  >
+                    <el-option v-for="item in paintSideList" :key="item.key" :label="item.value" :value="item.key" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="拆装工时单价">
                   <el-input
-                    v-model="comcodes"
+                    v-model="queryForm.dismountUnitPrice"
                     placeholder="请输入"
                     clearable
                     style="width: 100%"
@@ -61,59 +124,23 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="车型">
-                  <el-select
-                    v-model="type"
-                    class="quick-select"
-                    placeholder="请选择"
-                    filterable
+                <el-form-item label="喷漆工时单价">
+                  <el-input
+                    v-model="queryForm.paintUnitPrice"
+                    placeholder="请输入"
                     clearable
                     style="width: 100%"
-                    value-key="productCode"
-                  >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="8">
-                <el-form-item label="漆料">
-                  <el-select
-                    v-model="type"
-                    class="quick-select"
-                    placeholder="请选择"
-                    filterable
-                    clearable
-                    style="width: 100%"
-                    value-key="productCode"
-                  >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="8">
-                <el-form-item label="层数">
-                  <el-input-number
-                    v-model="num"
-                    controls-position="right"
-                    style="width: 100%"
-                    :min="1"
-                    :max="10"
                   />
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="地覆盖">
-                  <el-select
-                    v-model="type"
-                    class="quick-select"
-                    placeholder="请选择"
-                    filterable
+                <el-form-item label="钣金工时单价">
+                  <el-input
+                    v-model="queryForm.metalUnitPrice"
+                    placeholder="请输入"
                     clearable
                     style="width: 100%"
-                    value-key="productCode"
-                  >
-                    <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-                  </el-select>
+                  />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -122,18 +149,86 @@
       </el-tabs>
       <div class="search-footer">
         <el-button size="small" type="primary" plain @click="reset">重置</el-button>
-        <el-button size="small" type="primary" @click="currentPage=1,queryData()">查询</el-button>
+        <!--<el-button size="small" type="primary" @click="currentPage=1,queryData()">查询</el-button>-->
       </div>
     </div>
     <div class="query mgt-14">
       <div class="query-header clearfix">
-        <div class="header-title fl">喷漆配件</div>
-        <el-button class="query-header-btn fr" size="mini" type="primary" plain @click="add">添加</el-button>
+        <div class="header-title fl">配件列表</div>
+        <el-button class="query-header-btn fr" size="mini" type="primary" plain @click="addPart">添加</el-button>
       </div>
       <div>
-        <el-table :data="systemListResult" style="width: 100%">
+        <el-table :data="partList" style="width: 100%">
           <el-table-column type="index" label="序号" width="100" />
-          <el-table-column prop="riskName" label="喷漆配件" min-width="200" show-overflow-tooltip>
+          <el-table-column prop="riskName" label="配件名称" min-width="200" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-select
+                v-model="scope.row.partNo"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+              >
+                <el-option v-for="item in parts" :key="item.partNo" :label="item.partName" :value="item.partNo" />
+              </el-select>
+              <!--<el-input
+                v-model="scope.row.partNo"
+                placeholder="请选择"
+                clearable
+                style="width: 100%"
+                ondblclick=""
+              />-->
+            </template>
+          </el-table-column>
+          <el-table-column prop="riskName" label="是否喷漆" min-width="200" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-select
+                v-model="scope.row.isPaint"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+              >
+                <el-option v-for="item in booleanList" :key="item.key" :label="item.value" :value="item.key" />
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column prop="riskName" label="损伤位置" min-width="200" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-select
+                v-model="scope.row.damageCode"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+              >
+                <el-option v-for="item in damagePartList" :key="item.key" :label="item.value" :value="item.key" />
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column prop="riskName" label="喷漆损伤" min-width="200" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-select
+                v-model="scope.row.paintDamage"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+                :disabled="scope.row.isPaint==='0' || !scope.row.isPaint"
+              >
+                <el-option v-for="item in paintDamageList" :key="item.key" :label="item.value" :value="item.key" />
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column prop="riskName" label="更换或维修" min-width="200" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-select
                 v-model="scope.row.pj"
@@ -145,13 +240,28 @@
                 value-key="productCode"
               >
                 <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column prop="riskName" label="材质" min-width="200" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-select
+                v-model="scope.row.material"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+              >
+                <el-option v-for="item in materialList" :key="item.key" :label="item.value" :value="item.key" />
               </el-select>
             </template>
           </el-table-column>
           <el-table-column prop="riskName" label="损坏情况" min-width="200" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-select
-                v-model="scope.row.pj"
+                v-model="scope.row.damageCondition"
                 class="quick-select"
                 placeholder="请选择"
                 filterable
@@ -159,22 +269,7 @@
                 style="width: 100%"
                 value-key="productCode"
               >
-                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-              </el-select>
-            </template>
-          </el-table-column>
-          <el-table-column prop="riskName" label="配件材料" min-width="200" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-select
-                v-model="scope.row.pj"
-                class="quick-select"
-                placeholder="请选择"
-                filterable
-                clearable
-                style="width: 100%"
-                value-key="productCode"
-              >
-                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                <el-option v-for="item in damageConditionList" :key="item.key" :label="item.value" :value="item.key" />
               </el-select>
             </template>
           </el-table-column>
@@ -267,73 +362,97 @@
 
     <div class="query mgt-14">
       <div class="query-header clearfix">
-        <div class="header-title fl">工时费用计算</div>
+        <div class="header-title fl">对比列表</div>
       </div>
-      <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
-        <el-row class="row-bg" justify="space-around">
-          <el-col :span="8">
-            <el-form-item label="拆装工时单价">
-              <el-input
-                v-model="comcodes"
-                placeholder="请输入"
-                clearable
-                style="width: 100%"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="喷漆工时单价">
-              <el-input
-                v-model="comcodes"
-                placeholder="请输入"
-                clearable
-                style="width: 100%"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <div class="search-footer">
-          <el-button size="small" type="primary" plain @click="reset">重置</el-button>
-          <el-button size="small" type="primary" @click="currentPage=1,queryData()">查询</el-button>
-        </div>
-        <el-row class="row-bg" justify="space-around">
-          <el-col :span="8">
-            <el-form-item label="喷漆工时費用">
-              <el-input
-                v-model="comcodes"
-                placeholder="请输入"
-                clearable
-                style="width: 100%"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="钣金工时費用">
-              <el-input
-                v-model="comcodes"
-                placeholder="请输入"
-                clearable
-                style="width: 100%"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="拆装工时費用">
-              <el-input
-                v-model="comcodes"
-                placeholder="请输入"
-                clearable
-                style="width: 100%"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
+      <el-tab-pane label="对比列表" name="first">
+        <el-table :data="compareList" style="width: 100%">
+          <el-table-column type="index" align="center" label="序号" width="100" />
+          <el-table-column prop="sourceTypeName" align="center" label="结果类型" min-width="100" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.sourceTypeName" :disabled="true" />
+            </template>
+          </el-table-column>
+          <!--   <el-table-column prop="factoryName" label="厂商" min-width="100" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.factoryName" disabled="true"></el-input>
+            </template>
+          </el-table-column>-->
+          <el-table-column prop="regionName" align="center" label="地域" min-width="180" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-tooltip class="item" effect="dark" :content="scope.row.regionName" placement="top-start">
+                <el-input v-model="scope.row.regionName" :disabled="true" />
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column prop="carTypeName" align="center" label="车辆类型" min-width="180" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-tooltip class="item" effect="dark" :content="scope.row.carTypeName" placement="top-start">
+                <el-input v-model="scope.row.carTypeName" :disabled="true" />
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column prop="insurerCodeName" align="center" label="公司" min-width="180" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-tooltip class="item" effect="dark" :content="scope.row.insurerCodeName" placement="top-start">
+                <el-input v-model="scope.row.insurerCodeName" :disabled="true" />
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column prop="brandName" align="center" label="品牌" min-width="180" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-tooltip class="item" effect="dark" :content="scope.row.brandName" placement="top-start">
+                <el-input v-model="scope.row.brandName" :disabled="true" />
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column prop="carSystemName" align="center" label="车系" min-width="180" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-tooltip class="item" effect="dark" :content="scope.row.carSystemName" placement="top-start">
+                <el-input v-model="scope.row.carSystemName" :disabled="true" />
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column prop="carsName" align="center" label="车组" min-width="180" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-tooltip class="item" effect="dark" :content="scope.row.carsName" placement="top-start">
+                <el-input v-model="scope.row.carsName" :disabled="true" />
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column prop="modelName" align="center" label="车型" min-width="180" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-tooltip class="item" effect="dark" :content="scope.row.modelName" placement="top-start">
+                <el-input v-model="scope.row.modelName" :disabled="true" />
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column prop="undrewRiskLevel" align="center" label="承保风险等级" min-width="180" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.undrewRiskLevel" :disabled="true" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="payRiskLevel" align="center" label="赔付风险等级" min-width="180" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.payRiskLevel" :disabled="true" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="accidentLevel" align="center" label="出险风险等级" min-width="180" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.accidentLevel" :disabled="true" />
+            </template>
+          </el-table-column>
+          <el-table-column fixed="right" label="操作" width="150">
+            <template slot-scope="scope">
+              <el-button :disabled="scope.row.sourceType==='A'" type="text" size="mini" @click="delRow(scope.$index)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
     </div>
   </div>
 </template>
 <script>
-import { riskUserQueryListPage, riskUserDeleteById, productEditPage, queryCompanyList, fileDownload, deleteRiskUserBatch } from '../../api/user'
+import { initData, getParts } from '../../api/repair-hours'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -342,71 +461,70 @@ export default {
   data() {
     return {
       activeName: 'first',
-      selectedRiskCode: '',
-      comcodes: '',
-      riskcode: '',
-      userName: '',
-      loading: false,
-      type: '',
-      menuType: '',
-      systemListResult: [],
-      spreadClassDtoList: [],
-      menuTypeList: [],
-      prpdCompanyList: [],
-      riskCodeList: [],
-      riskId: [],
-      acurl: '',
+      queryForm: {},
+      factoryList: [],
+      paintTypeList: [],
+      layerList: [],
+      booleanList: [],
+      damagePartList: [],
+      materialList: [],
+      damageConditionList: [],
+      compareList: [],
+      toningList: [],
+      paintSideList: [],
+      paintDamageList: [],
+      partList: [],
+      parts: [],
       pageSize: 15,
       currentPage: 1,
-      total: 0,
-      cascaderConfig: {
-        lazy: true,
-        label: 'comcname',
-        expandTrigger: 'click',
-        checkStrictly: true,
-        value: 'comcode',
-        children: 'children',
-        lazyLoad(node, resolve) {
-          if (node.level !== 1) return
-          queryCompanyList({ comcode: node.value }).then((response) => {
-            if (!response.data.length) resolve()
-            response.data.forEach(l => {
-              l.leaf = 1
-            })
-            resolve(response.data)
-          })
-        }
-      }
+      total: 0
     }
   },
   computed: {
-    ...mapGetters(['systemClassList', 'integrationModeList', 'userInfo', 'token'])
+    ...mapGetters(['userName', 'userCode']),
+    target() {
+      return this.$route.query.info
+    }
   },
   created() {
-    this.queryData()
-    this.acurl = process.env.VUE_APP_BASE_API + '/portservice/riskUser/readUserExcel'
+    this.initData()
+    this.getParts()
+    this.compareList.push(this.target)
   },
   methods: {
-    queryForm() {
-      const param = {
-        comcode: '',
-        riskcode: '',
-        editType: 'ADD'
-      }
-      productEditPage(param).then(res => {
-        if (res.code === 200) {
-          this.prpdCompanyList = res.data.prpdCompanyList
-          this.riskCodeList = res.data.findProductDtoMap.riskList
-          this.riskCodeList[0].spread = '1'
-          this.activeType = res.data.activeType
-          this.formList[0].activeType = res.data.activeType
-          this.total = res.data.totalCount
+    initData() {
+      var param = { userCode: this.userCode }
+      initData(param).then(res => {
+        if (res.state === '0000') {
+          this.factoryList = res.factoryList ? res.factoryList : []
+          this.booleanList = res.booleanList ? res.booleanList : []
+          this.paintTypeList = res.paintTypeList ? res.paintTypeList : []
+          this.layerList = res.layerList ? res.layerList : []
+          this.damagePartList = res.damagePartList ? res.damagePartList : []
+          this.materialList = res.materialList ? res.materialList : []
+          this.toningList = res.toningList ? res.toningList : []
+          this.damageConditionList = res.damageConditionList ? res.damageConditionList : []
+          this.paintSideList = res.paintSideList ? res.paintSideList : []
+          this.paintDamageList = res.paintDamageList ? res.paintDamageList : []
+          // console.log(res)
         }
       })
     },
+    getParts() {
+      var param = { carsId: this.target.carsId }
+      getParts(param).then(res => {
+        if (res.state === '0000') {
+          this.parts = res.partList
+          // console.log(res)
+        }
+      })
+    },
+    addPart() {
+      this.partList.push({})
+    },
     // 查询列表
     queryData() {
-      const param = {
+      /* const param = {
         userCode: this.comcodes,
         userName: this.userName,
         riskcode: this.riskCode,
@@ -414,8 +532,8 @@ export default {
         delMenuType: this.menuType,
         currentPage: this.currentPage,
         pageSize: this.pageSize
-      }
-      riskUserQueryListPage(param).then(res => {
+      }*/
+      /* riskUserQueryListPage(param).then(res => {
         if (res.code === 200) {
           if (!res.data) {
             this.systemListResult = []
@@ -430,7 +548,7 @@ export default {
           this.currentPage = res.data.portRiskUserDtoIPage.current
           this.total = res.data.portRiskUserDtoIPage.total
         }
-      })
+      })*/
     },
     handleSizeChange(val) {
       this.pageSize = val
@@ -442,156 +560,9 @@ export default {
     },
     // 重置
     reset() {
-      this.selectedRiskCode = ''
-      this.comcodes = ''
-      this.userName = ''
-      this.riskCode = ''
-      this.menuType = ''
-      this.type = ''
+      this.queryForm = {}
     },
 
-    changeRiskCode(val) {
-      console.log(val)
-      this.riskCode = val.productCode
-      console.log(this.riskCode)
-    },
-    formatter(row, column) {
-      if (row.state === '0') {
-        return '无效'
-      } else if (row.state === '1') {
-        return '有效'
-      }
-    },
-    spreadFormatter(row, column) {
-      if (!row.spread) return ''
-      const spreads = row.spread.split(';')
-      const spreadss = []
-      for (var item of spreads) {
-        for (var item1 of this.spreadClassDtoList) {
-          if (item === item1.spreadCode) {
-            spreadss.push(item1.spreadName)
-          }
-        }
-      }
-      return spreadss.join('/')
-    },
-    menuTypeFormatter(row, column) {
-      if (!row.delMenuType) return ''
-      const delMenuTypes = row.delMenuType.split(';')
-      const delMenuTypess = []
-      for (var item of delMenuTypes) {
-        for (var item1 of this.menuTypeList) {
-          if (item === item1.menuCode) {
-            delMenuTypess.push(item1.menuName)
-          }
-        }
-      }
-      return delMenuTypess.join('/')
-    },
-    handleBeforeUpload(file) {
-      const isExcel = file.type === '.xls' || '.xlsx'
-      const isLt10M = file.size / 1024 / 1024 < 10
-
-      if (!isExcel) {
-        this.$message.error('上传文件只能是xls或xlsx格式!')
-      }
-      if (!isLt10M) {
-        this.$message.error('上传文件大小不能超过 1MB!')
-      }
-      return isExcel && isLt10M
-    },
-    // 新增
-    add() {
-      this.$router.push({
-        name: 'CartypeCompensationEdit',
-        query: {
-          editType: 'ADD'
-        }
-      })
-    },
-    edit(item) {
-      this.$router.push({
-        name: 'CartypeCompensationEdit',
-        query: {
-          editType: 'EDIT',
-          userCode: item.userCode,
-          riskCode: item.riskCode
-        }
-      })
-    },
-    handleSelectionChange(e) {
-      this.riskId = []
-      e.forEach(item => {
-        this.riskId.push({ riskCode: item.riskCode, userCode: item.userCode })
-      })
-    },
-    deleteAll() {
-      this.$confirm('确定批量删除选中记录吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        deleteRiskUserBatch({ riskDeleteList: this.riskId }).then(res => {
-          if (res.code === 200) {
-            this.$message.success('删除信息成功')
-            this.queryData()
-          }
-        })
-      })
-    },
-    del(item) {
-      this.$confirm('确定删除该条记录吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        const { userCode, riskCode } = item
-        riskUserDeleteById({ userCode, riskCode, createdBy: this.userInfo.userCode }).then(res => {
-          if (res.code === 200) {
-            this.$message.success('删除信息成功')
-            this.queryData()
-          }
-        })
-      })
-    },
-    uploadSuccess(res) {
-      if (res.code === 200) {
-        if (res.data === '1' || res.data === 1) {
-          this.$message({
-            message: '上传成功',
-            type: 'success'
-          })
-          this.currentPage = 1
-          this.queryData()
-        }
-      } else {
-        this.$message({
-          message: res.msg,
-          type: 'error'
-        })
-      }
-    },
-    downLoadTemplate() {
-      fileDownload({ fileCode: 'USERTEMPLATE' }).then((res) => {
-        console.log(res)
-        const blob = new Blob([res.data]) // 将服务端返回的文件流（二进制）excel文件转化为blob
-        // const fileName = 'webagent' + '.zip';
-        const fileName = '用户模板.xlsx'
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE
-          window.navigator.msSaveOrOpenBlob(blob, fileName)
-        } else {
-          const objectUrl = (window.URL || window.webkitURL).createObjectURL(blob)
-          const downFile = document.createElement('a')
-          downFile.style.display = 'none'
-          downFile.href = objectUrl
-          downFile.download = fileName // 下载后文件名
-          document.body.appendChild(downFile)
-          downFile.click()
-          document.body.removeChild(downFile) // 下载完成移除元素
-          window.URL.revokeObjectURL(objectUrl) // 只要映射存在，Blob就不能进行垃圾回收，因此一旦不再需要引用，就必须小心撤销URL，释放掉blob对象。
-        }
-      })
-    },
     changepage() {}
   }
 }
