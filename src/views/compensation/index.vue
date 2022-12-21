@@ -54,6 +54,21 @@
             <el-divider style="    margin-top: 0;" />
             <el-row class="row-bg" justify="space-around">
               <el-col :span="8">
+                <el-form-item label="维度" prop="dataType">
+                  <el-select
+                    v-model="queryForm.dataType"
+                    class="quick-select"
+                    placeholder="请选择"
+                    filterable
+                    clearable
+                    style="width: 100%"
+                    value-key="productCode"
+                  >
+                    <el-option v-for="item in dataTypeList" :key="item.codeCode" :label="item.codeCname" :value="item.codeCode" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
                 <el-form-item label="厂商">
                   <el-select
                     v-model="queryForm.factoryId"
@@ -195,6 +210,17 @@
         </el-table>
       </div>
     </div>
+    <div class="block footer-page">
+      <el-pagination
+        :current-page="currentPage"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        :page-sizes="[10, 15, 20, 30, 50, 100]"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -325,7 +351,7 @@ export default {
     queryData() {
       var param = {
         // globalUserCode: this.userCode,
-        pageNo: this.pageNo,
+        pageNo: this.currentPage,
         pageSize: this.pageSize,
         regionId: this.queryForm.regionId,
         insurerCode: this.queryForm.insurerCode,

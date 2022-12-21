@@ -93,7 +93,7 @@ export default {
           url: '/risk-level/index'
         },
         {
-          menuCName: '承保风险查询',
+          menuCName: '风险保费查询及自定义计算',
           menuIcon: 'documentation',
           url: '/risk-premium/index'
         },

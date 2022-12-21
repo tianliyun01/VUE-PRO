@@ -217,13 +217,13 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/risk-premium/index'),
         name: 'RiskPremiumIndex',
-        meta: { title: '车型当前赔付情况分析', keepAlive: true }
+        meta: { title: '承保风险查询及自定义计算', keepAlive: true }
       },
       {
         path: 'edit',
         component: () => import('@/views/risk-premium/edit'),
         name: 'RiskPremiumEdit',
-        meta: { title: '车型当前赔付情况分析', keepAlive: true }
+        meta: { title: '承保风险查询及自定义计算', keepAlive: true }
       }
     ]
   },
@@ -277,12 +277,18 @@ export const constantRoutes = [
     redirect: '/repair-hours/index',
     alwaysShow: true,
     name: '',
-    meta: { title: '维修工时数据查询', icon: 'menu' },
+    meta: { title: 'repair-hours', icon: 'menu' },
     children: [
       {
         path: 'index',
         component: () => import('@/views/repair-hours/index'),
-        name: 'CartypeCompensationIndex',
+        name: 'RepairHoursIndex',
+        meta: { title: '维修工时数据查询', keepAlive: true }
+      },
+      {
+        path: 'edit',
+        component: () => import('@/views/repair-hours/edit'),
+        name: 'RepairHoursEdit',
         meta: { title: '维修工时数据查询', keepAlive: true }
       }
     ]
