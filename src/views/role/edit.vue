@@ -19,7 +19,7 @@
                 <el-col :span="8">
                   <el-form-item label="角色状态" prop="isValidate">
                     <el-radio-group v-model="listQuery.isValidate">
-                      <el-radio label="1" value="1">已启用</el-radio>
+                      <el-radio label="1" value="1">启用</el-radio>
                       <el-radio label="0" value="0">禁用</el-radio>
                     </el-radio-group>
                   </el-form-item>

@@ -16,7 +16,6 @@
     </div>
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
-        :default-active="2"
         :collapse="isCollapse"
         :background-color="variables.menuBg"
         :text-color="variables.menuText"

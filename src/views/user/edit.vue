@@ -2,7 +2,7 @@
   <div class="app-container white customcard">
     <div>
       <el-tabs v-model="activeName">
-        <el-tab-pane label="用户管理" name="first">
+        <el-tab-pane label="基本信息" name="first">
           <div style="overflow-y: auto;height:calc(100vh - 195px)">
             <el-form ref="editForm" :model="editForm" :rules="rules" size="mini" label-position="right" label-width="108px" class="pdt-18">
               <el-row class="row-bg">
@@ -48,6 +48,7 @@
                       v-model="editForm.email"
                       placeholder="请输入"
                       style="width: 100%"
+                      @blur="bluremail(editForm.email,$event)"
                     />
                   </el-form-item>
                 </el-col>
@@ -83,8 +84,8 @@
                     <el-date-picker
                       v-model="editForm.endTime"
                       type="date"
-                      value-format="yyyy-MM-dd"
                       placeholder="选择日期"
+                      value-format="yyyy-MM-dd"
                       style="width: 100%"
                     />
                   </el-form-item>
@@ -98,7 +99,7 @@
                 <el-row class="row-bg" justify="space-around">
                   <el-col :span="8">
                     <el-form-item label="查询次数" prop="selectTimes">
-                      <el-input-number v-model="editForm.selectTimes" controls-position="right" :min="1" :max="10" />
+                      <el-input-number v-model="editForm.selectTimes" controls-position="right" :min="1" />
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
@@ -111,7 +112,7 @@
                         style="width: 100%"
                         value-key="productCode"
                       >
-                        <el-option v-for="item in selectTimesType" :key="item.value" :label="item.label" :value="item.value" />
+                        <el-option v-for="item in selectTimesType" :key="item.label" :label="item.value" :value="item.lable" />
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -191,7 +192,8 @@ export default {
         department: [{ required: true, message: '所属部门不能为空', trigger: 'change' }],
         userEname: [{ required: true, message: '人员英文名不能为空', trigger: 'blur' }],
         endTime: [{ required: true, message: '权限截止时间不能为空', trigger: 'change' }],
-        email: [{ required: true, message: '邮箱不能为空', trigger: 'blur' }]
+        email: [{ required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }]
       },
       selectTimesType: [
         { value: '年', lable: '1' },

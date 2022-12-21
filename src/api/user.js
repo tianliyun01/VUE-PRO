@@ -71,3 +71,18 @@ export function isExisted(data) {
   })
 }
 
+export function isExistedEmail(data) {
+  return request({
+    url: '/api/bs/user/isExistedEmail',
+    method: 'get',
+    params: data
+  })
+}
+
+export function updatePassWord(data) {
+  return request({
+    url: '/api/bs/user/updatePassWord',
+    method: 'get',
+    params: data
+  })
+}

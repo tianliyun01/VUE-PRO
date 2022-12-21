@@ -65,8 +65,8 @@
                     style="width: 100%"
                     value-key="productCode"
                   >
-                    <el-option label="有效" value="1" />
-                    <el-option label="无效" value="0" />
+                    <el-option label="启用" value="1" />
+                    <el-option label="禁用" value="0" />
                     <!-- <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" /> -->
                   </el-select>
                 </el-form-item>
@@ -87,14 +87,13 @@
       </div>
       <div>
         <el-table :data="systemListResult" style="width: 100%">
-          <el-table-column type="index" label="序号" width="100" />
-          <el-table-column prop="userCode" label="人员代码" width="100" />
-          <el-table-column prop="userCompany" label="公司" width="120" />
-          <el-table-column prop="userName" label="姓名" width="320" show-overflow-tooltip />
-          <el-table-column prop="validStatus" label="是否启用" width="220" :formatter="formatter" />
-          <el-table-column prop="phone" label="手机号码" width="300" show-overflow-tooltip />
-          <el-table-column prop="email" label="邮箱" width="220" show-overflow-tooltip />
-          <el-table-column prop="roleName" label="角色" width="220" show-overflow-tooltip />
+          <el-table-column type="index" label="序号" min-width="100" />
+          <el-table-column prop="userCode" label="人员代码" min-width="120" />
+          <el-table-column prop="userCompany" label="公司" min-width="120" />
+          <el-table-column prop="userName" label="姓名" min-width="120" show-overflow-tooltip />
+          <el-table-column prop="validStatus" label="是否启用" min-width="80" :formatter="formatter" />
+          <el-table-column prop="phone" label="手机号码" min-width="100" show-overflow-tooltip />
+          <el-table-column prop="email" label="邮箱" min-width="220" show-overflow-tooltip />
           <el-table-column fixed="right" label="操作" width="150">
             <template slot-scope="scope">
               <el-button type="text" size="mini" @click="edit(scope.row)">权限设置</el-button>
@@ -133,8 +132,9 @@ export default {
         userName: '',
         validStatus: ''
       },
-      systemListResultL: [],
+      systemListResult: [],
       authorityPageDtoList: [],
+      roleList: [],
       companyList: [],
       userCompany: [],
       pageSize: 15,
@@ -181,9 +181,9 @@ export default {
     },
     formatter(row, column) {
       if (row.validStatus === '0') {
-        return '无效'
+        return '禁用'
       } else {
-        return '有效'
+        return '启用'
       }
     },
     handleSizeChange(val) {

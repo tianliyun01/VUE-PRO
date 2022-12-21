@@ -75,7 +75,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
   },
@@ -101,19 +101,19 @@ export const constantRoutes = [
     redirect: '/menu-manage/index',
     alwaysShow: true,
     name: 'MenuManage',
-    meta: { title: 'MenuManage', icon: 'menu' },
+    meta: { title: '菜单管理', icon: 'menu' },
     children: [
       {
         path: 'index',
         component: () => import('@/views/menu-manage/index'),
         name: 'MenuManageIndex',
-        meta: { title: '菜单管理', keepAlive: true }
+        meta: { title: '首页', keepAlive: true }
       },
       {
         path: 'edit',
         component: () => import('@/views/menu-manage/edit'),
         name: 'MenuManageEdie',
-        meta: { title: '菜单管理', keepAlive: true }
+        meta: { title: '编辑', keepAlive: true }
       }
     ]
   },
@@ -123,19 +123,19 @@ export const constantRoutes = [
     redirect: '/user/index',
     alwaysShow: true,
     name: '',
-    meta: { title: 'User', icon: 'menu' },
+    meta: { title: '用户管理', icon: 'menu' },
     children: [
       {
         path: 'index',
         component: () => import('@/views/user/index'),
         name: 'UserIndex',
-        meta: { title: '用户管理', keepAlive: true }
+        meta: { title: '首页', keepAlive: true }
       },
       {
         path: 'edit',
         component: () => import('@/views/user/edit'),
         name: 'UserEdie',
-        meta: { title: '用户管理', keepAlive: true }
+        meta: { title: '编辑', keepAlive: true }
       }
     ]
   },
@@ -145,19 +145,19 @@ export const constantRoutes = [
     redirect: '/role/index',
     alwaysShow: true,
     name: '',
-    meta: { title: 'Role', icon: 'menu' },
+    meta: { title: '角色管理', icon: 'menu' },
     children: [
       {
         path: 'index',
         component: () => import('@/views/role/index'),
         name: 'RoleIndex',
-        meta: { title: '角色管理', keepAlive: true }
+        meta: { title: '首页', keepAlive: true }
       },
       {
         path: 'edit',
         component: () => import('@/views/role/edit'),
         name: 'RoleEdie',
-        meta: { title: '角色管理', keepAlive: true }
+        meta: { title: '编辑', keepAlive: true }
       }
     ]
   },
@@ -167,41 +167,41 @@ export const constantRoutes = [
     redirect: '/permission/index',
     alwaysShow: true,
     name: '',
-    meta: { title: 'permission', icon: 'menu' },
+    meta: { title: '权限管理', icon: 'menu' },
     children: [
       {
         path: 'index',
         component: () => import('@/views/permission/index'),
         name: 'PermissionIndex',
-        meta: { title: '权限管理', keepAlive: true }
+        meta: { title: '首页', keepAlive: true }
       },
       {
         path: 'edit',
         component: () => import('@/views/permission/edit'),
         name: 'PermissionEdie',
-        meta: { title: '权限管理', keepAlive: true }
+        meta: { title: '编辑', keepAlive: true }
       }
     ]
   },
   {
     path: '/cartype-compensation',
     component: Layout,
-    redirect: '/cartype-compensation/index',
+    redirect: '/cartcompensationype-/index',
     alwaysShow: true,
     name: '',
-    meta: { title: 'cartype-compensation', icon: 'menu' },
+    meta: { title: '车型扭亏分析', icon: 'menu' },
     children: [
       {
         path: 'index',
         component: () => import('@/views/cartype-compensation/index'),
         name: 'CartypeCompensationIndex',
-        meta: { title: '车型扭亏分析', keepAlive: true }
+        meta: { title: '首页', keepAlive: true }
       },
       {
         path: 'edit',
         component: () => import('@/views/cartype-compensation/edit'),
         name: 'CartypeCompensationEdit',
-        meta: { title: '车型扭亏分析对比', keepAlive: true }
+        meta: { title: '对比页', keepAlive: true }
       }
     ]
   },
@@ -211,19 +211,19 @@ export const constantRoutes = [
     redirect: '/risk-premium/index',
     alwaysShow: true,
     name: '',
-    meta: { title: 'risk-premium', icon: 'menu' },
+    meta: { title: '当前赔付情况', icon: 'menu' },
     children: [
       {
         path: 'index',
         component: () => import('@/views/risk-premium/index'),
         name: 'RiskPremiumIndex',
-        meta: { title: '车型当前赔付情况分析', keepAlive: true }
+        meta: { title: '首页', keepAlive: true }
       },
       {
         path: 'edit',
         component: () => import('@/views/risk-premium/edit'),
         name: 'RiskPremiumEdit',
-        meta: { title: '车型当前赔付情况分析', keepAlive: true }
+        meta: { title: '对比页', keepAlive: true }
       }
     ]
   },
@@ -233,13 +233,13 @@ export const constantRoutes = [
     redirect: '/vehicle-proposal/index',
     alwaysShow: true,
     name: '',
-    meta: { title: 'vehicle-proposal', icon: 'menu' },
+    meta: { title: '车损险各车型保费', icon: 'menu' },
     children: [
       {
         path: 'index',
         component: () => import('@/views/vehicle-proposal/index'),
         name: 'VehicleProposalIndex',
-        meta: { title: '车损险各车型保费建议', keepAlive: true }
+        meta: { title: '首页', keepAlive: true }
       },
       {
         path: 'edit',
@@ -255,19 +255,19 @@ export const constantRoutes = [
     redirect: '/compensation/index',
     alwaysShow: true,
     name: '',
-    meta: { title: 'compensation', icon: 'menu' },
+    meta: { title: '车型当前赔付情况', icon: 'menu' },
     children: [
       {
         path: 'index',
         component: () => import('@/views/compensation/index'),
         name: 'CompensationIndex',
-        meta: { title: '车型当前赔付情况分析', keepAlive: true }
+        meta: { title: '首页', keepAlive: true }
       },
       {
         path: 'edit',
         component: () => import('@/views/compensation/edit'),
         name: 'CompensationEdit',
-        meta: { title: '车型当前赔付对比', keepAlive: true }
+        meta: { title: '对比页', keepAlive: true }
       }
     ]
   },
@@ -293,19 +293,19 @@ export const constantRoutes = [
     redirect: '/risk-level/index',
     alwaysShow: true,
     name: '',
-    meta: { title: 'risk-level', icon: 'menu' },
+    meta: { title: '车型风险级别', icon: 'menu' },
     children: [
       {
         path: 'index',
         component: () => import('@/views/risk-level/index'),
         name: 'RiskLevelIndex',
-        meta: { title: '车型风险级别查询', keepAlive: true }
+        meta: { title: '首页', keepAlive: true }
       },
       {
         path: 'edit',
         component: () => import('@/views/risk-level/edit'),
         name: 'RiskLevelEdit',
-        meta: { title: '车型风险级别对比', keepAlive: true }
+        meta: { title: '对比页', keepAlive: true }
       }
     ]
   },

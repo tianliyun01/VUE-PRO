@@ -65,6 +65,7 @@
           <el-table-column fixed="right" label="操作" width="150">
             <template slot-scope="scope">
               <el-button type="text" size="mini" @click="edit(scope.row)">编辑</el-button>
+              <el-button type="text" size="mini" @click="updatePassword(scope.row)">修改密码</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -81,10 +82,50 @@
         />
       </div>
     </div>
+    <el-dialog :visible.sync="dialogVisible" title="修改密码" width="500px">
+      <el-form ref="passwordForm" :model="row" :rules="passwordRules" size="mini" label-position="right" label-width="108px" class="pdt-18">
+        <el-row>
+          <el-form-item label="人员代码" prop="userCode">
+            <el-input
+              v-model="row.userCode"
+              placeholder="请输入"
+              disabled
+              style="width: 100%"
+              @blur="blurUserCode(editForm.userCode,$event)"
+            />
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-form-item label="密码" prop="newPassWord">
+            <el-input
+              v-model="row.newPassWord"
+              placeholder="请输入"
+              show-password
+              autocomplete="new-password"
+              style="width: 100%"
+            />
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-form-item label="确认密码" prop="confirmPassword">
+            <el-input
+              v-model="row.confirmPassword"
+              placeholder="请输入"
+              show-password
+              style="width: 100%"
+            />
+          </el-form-item>
+        </el-row>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="savePassword">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
-import { queryByPage } from '../../api/user'
+import { queryByPage, updatePassWord } from '../../api/user'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -99,9 +140,15 @@ export default {
         userName: '',
         userCompany: ''
       },
+      row: {},
       userResult: [],
       userCompany: [],
       companyList: [],
+      passwordRules: {
+        newPassWord: [{ required: true, message: '密码不能为空', trigger: 'blur' }],
+        confirmPassword: [{ required: true, message: '二次密码不可为空', trigger: 'blur' }]
+      },
+      dialogVisible: false,
       pageSize: 15,
       currentPage: 1,
       total: 0
@@ -115,23 +162,6 @@ export default {
     this.acurl = process.env.VUE_APP_BASE_API + '/portservice/riskUser/readUserExcel'
   },
   methods: {
-    // queryForm() {
-    //   const param = {
-    //     comcode: '',
-    //     riskcode: '',
-    //     editType: 'ADD'
-    //   }
-    //   productEditPage(param).then(res => {
-    //     if (res.code === 200) {
-    //       this.prpdCompanyList = res.data.prpdCompanyList
-    //       this.riskCodeList = res.data.findProductDtoMap.riskList
-    //       this.riskCodeList[0].spread = '1'
-    //       this.activeType = res.data.activeType
-    //       this.formList[0].activeType = res.data.activeType
-    //       this.total = res.data.totalCount
-    //     }
-    //   })
-    // },
     // 查询列表
     queryData() {
       this.formDate.pageNo = this.currentPage
@@ -141,6 +171,14 @@ export default {
           this.userCompany = res.userCompanyList
           this.userResult = res.content
           this.total = res.totalCount
+        }
+      })
+    },
+    savePassword() {
+      updatePassWord(this.row).then(res => {
+        if (res.state === '0000') {
+          this.$message.success('修改成功')
+          this.$router.push('/user/index')
         }
       })
     },
@@ -197,18 +235,6 @@ export default {
       }
       return delMenuTypess.join('/')
     },
-    handleBeforeUpload(file) {
-      const isExcel = file.type === '.xls' || '.xlsx'
-      const isLt10M = file.size / 1024 / 1024 < 10
-
-      if (!isExcel) {
-        this.$message.error('上传文件只能是xls或xlsx格式!')
-      }
-      if (!isLt10M) {
-        this.$message.error('上传文件大小不能超过 1MB!')
-      }
-      return isExcel && isLt10M
-    },
     // 新增
     add() {
       this.$router.push({
@@ -226,6 +252,10 @@ export default {
           id: item.id
         }
       })
+    },
+    updatePassword(row) {
+      this.row = JSON.parse(JSON.stringify(row))
+      this.dialogVisible = true
     },
     handleSelectionChange(e) {
       this.riskId = []

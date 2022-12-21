@@ -59,16 +59,14 @@
       <div>
         <el-table :data="menuResult" style="width: 100%">
           <el-table-column type="index" label="序号" width="100" />
-          <el-table-column prop="menuName" label="菜单名称" min-width="200" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <span class="riskcode">{{ scope.row.menuName }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column prop="menuUrl" label="菜单URL" width="120" />
-          <el-table-column prop="description" label="描述" width="130" />
-          <el-table-column prop="createdBy" label="创建人" width="180" show-overflow-tooltip />
+          <el-table-column prop="menuName" label="菜单名称" min-width="150" show-overflow-tooltip />
+          <el-table-column prop="menuUrl" label="菜单URL" min-width="120" />
+          <!-- <el-table-column prop="description" label="描述" min-width="130" /> -->
+          <el-table-column prop="isValidate" label="菜单状态" min-width="130" :formatter="formatter" />
+          <el-table-column prop="level" label="菜单级别" min-width="130" :formatter="formatter1" />
+          <el-table-column prop="createdBy" label="创建人" min-width="100" show-overflow-tooltip />
           <el-table-column prop="createdTime" label="创建时间" min-width="180" show-overflow-tooltip />
-          <el-table-column prop="updatedBy" label="更新人" min-width="150" show-overflow-tooltip />
+          <el-table-column prop="updatedBy" label="更新人" min-width="100" show-overflow-tooltip />
           <el-table-column prop="updatedTime" label="更新时间" min-width="180" show-overflow-tooltip />
           <el-table-column fixed="right" label="操作" width="150">
             <template slot-scope="scope">
@@ -155,6 +153,22 @@ export default {
           this.total = res.totalCount
         }
       })
+    },
+    formatter(row, column) {
+      if (row.isValidate === '0') {
+        return '无效'
+      } else {
+        return '有效'
+      }
+    },
+    formatter1(row, column) {
+      if (row.level === '1') {
+        return '一级菜单'
+      } else if (row.level === '2') {
+        return '二级菜单'
+      } else {
+        return '三级菜单'
+      }
     },
     handleSizeChange(val) {
       this.pageSize = val
