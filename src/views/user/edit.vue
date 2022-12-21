@@ -99,7 +99,7 @@
                 <el-row class="row-bg" justify="space-around">
                   <el-col :span="8">
                     <el-form-item label="查询次数" prop="selectTimes">
-                      <el-input-number v-model="editForm.selectTimes" controls-position="right" :min="1" />
+                      <el-input-number v-model="editForm.selectTimes" controls-position="right" :min="1" :max="999" />
                     </el-form-item>
                   </el-col>
                   <el-col :span="8">
@@ -196,9 +196,9 @@ export default {
           { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }]
       },
       selectTimesType: [
-        { value: '年', lable: '1' },
-        { value: '月', lable: '2' },
-        { value: '日', lable: '3' }
+        { value: '1', label: '年' },
+        { value: '2', label: '月' },
+        { value: '3', label: '日' }
       ],
       riskCodeList: [],
       spreadClassDtoList: [],
