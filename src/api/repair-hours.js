@@ -41,9 +41,9 @@ export function queryRepairInfo(data) {
   })
 }
 // 计算
-export function calculateLosses(data) {
+export function calculateHour(data) {
   return request({
-    url: 'api/bs/managementHour/calculateLosses',
+    url: 'api/bs/managementHour/calculateWorkHour',
     method: 'post',
     data
   })

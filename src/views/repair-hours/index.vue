@@ -323,6 +323,12 @@ export default {
       }
       queryRepairByPage(param).then(res => {
         if (res.state === '0000') {
+          if (res.content && res.content.length > 0) {
+            for (let i = 0; i < res.content.length; i++) {
+              res.content[i].sourceType = 'A'
+              res.content[i].sourceTypeName = '目标车组'
+            }
+          }
           this.pageInfo = res.content
           this.total = res.totalCount
         } else {

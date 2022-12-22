@@ -6,12 +6,12 @@
           <div class="header-title fl">喷漆设置</div>
         </div>
         <el-tab-pane label="维修工时数据查询" name="first">
-          <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
+          <el-form ref="paintForm" :model="paintForm" :rules="paintFormRules" size="mini" label-position="right" label-width="108px" class="pdt-18">
             <el-row class="row-bg" justify="space-around">
               <el-col :span="8">
-                <el-form-item label="漆料">
+                <el-form-item label="漆料" prop="paintType">
                   <el-select
-                    v-model="queryForm.paintType"
+                    v-model="paintForm.paintType"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -24,9 +24,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="层数">
+                <el-form-item label="层数" prop="layers">
                   <el-select
-                    v-model="queryForm.layers"
+                    v-model="paintForm.layers"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -39,9 +39,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="低覆盖力">
+                <el-form-item label="低覆盖力" prop="isLowCoverage">
                   <el-select
-                    v-model="queryForm.isLowCoverage"
+                    v-model="paintForm.isLowCoverage"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -54,9 +54,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="调色">
+                <el-form-item label="调色" prop="toning">
                   <el-select
-                    v-model="queryForm.toning"
+                    v-model="paintForm.toning"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -69,9 +69,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="色板">
+                <el-form-item label="色板" prop="isColorPalette">
                   <el-select
-                    v-model="queryForm.isColorPalette"
+                    v-model="paintForm.isColorPalette"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -84,9 +84,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="抛光">
+                <el-form-item label="抛光" prop="isPolishing">
                   <el-select
-                    v-model="queryForm.isPolishing"
+                    v-model="paintForm.isPolishing"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -99,9 +99,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="喷漆面数">
+                <el-form-item label="喷漆面数" prop="side">
                   <el-select
-                    v-model="queryForm.side"
+                    v-model="paintForm.side"
                     class="quick-select"
                     placeholder="请选择"
                     filterable
@@ -114,9 +114,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="拆装工时单价">
+                <el-form-item label="拆装工时单价" prop="dismountUnitPrice">
                   <el-input
-                    v-model="queryForm.dismountUnitPrice"
+                    v-model="paintForm.dismountUnitPrice"
                     placeholder="请输入"
                     clearable
                     style="width: 100%"
@@ -124,9 +124,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="喷漆工时单价">
+                <el-form-item label="喷漆工时单价" prop="paintUnitPrice">
                   <el-input
-                    v-model="queryForm.paintUnitPrice"
+                    v-model="paintForm.paintUnitPrice"
                     placeholder="请输入"
                     clearable
                     style="width: 100%"
@@ -134,9 +134,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="钣金工时单价">
+                <el-form-item label="钣金工时单价" prop="metalUnitPrice">
                   <el-input
-                    v-model="queryForm.metalUnitPrice"
+                    v-model="paintForm.metalUnitPrice"
                     placeholder="请输入"
                     clearable
                     style="width: 100%"
@@ -197,21 +197,6 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column prop="riskName" label="损伤位置" min-width="200" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-select
-                v-model="scope.row.damageCode"
-                class="quick-select"
-                placeholder="请选择"
-                filterable
-                clearable
-                style="width: 100%"
-                value-key="productCode"
-              >
-                <el-option v-for="item in damagePartList" :key="item.key" :label="item.value" :value="item.key" />
-              </el-select>
-            </template>
-          </el-table-column>
           <el-table-column prop="riskName" label="喷漆损伤" min-width="200" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-select
@@ -228,10 +213,10 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column prop="riskName" label="更换或维修" min-width="200" show-overflow-tooltip>
+          <el-table-column prop="riskName" label="拆装或更换" min-width="200" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-select
-                v-model="scope.row.pj"
+                v-model="scope.row.laborProject"
                 class="quick-select"
                 placeholder="请选择"
                 filterable
@@ -239,7 +224,7 @@
                 style="width: 100%"
                 value-key="productCode"
               >
-                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
+                <el-option v-for="item in laborProjectList" :key="item.key" :label="item.value" :value="item.key" />
               </el-select>
             </template>
           </el-table-column>
@@ -258,9 +243,25 @@
               </el-select>
             </template>
           </el-table-column>
+          <el-table-column prop="riskName" label="损伤位置" min-width="200" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-select
+                v-model="scope.row.damageCode"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+              >
+                <el-option v-for="item in damagePartList" :key="item.key" :label="item.value" :value="item.key" />
+              </el-select>
+            </template>
+          </el-table-column>
           <el-table-column prop="riskName" label="损坏情况" min-width="200" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-select
+                v-if="scope.row.material==='01'||scope.row.material==='02'"
                 v-model="scope.row.damageCondition"
                 class="quick-select"
                 placeholder="请选择"
@@ -268,14 +269,28 @@
                 clearable
                 style="width: 100%"
                 value-key="productCode"
+                :disabled="!scope.row.material"
               >
-                <el-option v-for="item in damageConditionList" :key="item.key" :label="item.value" :value="item.key" />
+                <el-option v-for="item in metalList" :key="item.key" :label="item.value" :value="item.key" />
+              </el-select>
+              <el-select
+                v-if="scope.row.material==='03'||scope.row.material==='04'"
+                v-model="scope.row.damageCondition"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+                :disabled="!scope.row.material"
+              >
+                <el-option v-for="item in nonmetalList" :key="item.key" :label="item.value" :value="item.key" />
               </el-select>
             </template>
           </el-table-column>
           <el-table-column fixed="right" label="操作" width="150">
             <template slot-scope="scope">
-              <el-button type="text" size="mini" @click="edit(scope.row)">删除</el-button>
+              <el-button type="text" size="mini" @click="delPart(scope.$index)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -284,72 +299,82 @@
 
     <div class="query mgt-14">
       <div class="query-header clearfix">
-        <div class="header-title fl">拆装配件</div>
-        <el-button class="query-header-btn fr" size="mini" type="primary" plain @click="add">计算</el-button>
-      </div>
-      <el-form size="mini" label-position="right" label-width="0" class="pdt-18">
-        <el-row class="row-bg" justify="space-around">
-          <el-col :span="24">
-            <el-form-item label="">
-              <el-select
-                v-model="type"
-                class="quick-select"
-                placeholder="请选择"
-                filterable
-                clearable
-                multiple
-                style="width: 100%"
-                value-key="productCode"
-              >
-                <el-option v-for="item in spreadClassDtoList" :key="item.spreadCode" :label="item.spreadName" :value="item.spreadCode" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="row-bg" justify="space-around">
-          <el-col :span="8">
-            <el-form-item label="选项" label-width="108px">
-              <el-checkbox v-model="checked" />
-              <el-radio-group v-model="radio" style="margin-left: 20px;">
-                <el-radio :label="3">更换</el-radio>
-                <el-radio :label="6">不更换</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-    </div>
-
-    <div class="query mgt-14">
-      <div class="query-header clearfix">
-        <div class="header-title fl">工时计算</div>
+        <div class="header-title fl">添加比较</div>
       </div>
       <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
         <el-row class="row-bg" justify="space-around">
           <el-col :span="8">
-            <el-form-item label="喷漆工时">
-              <el-input
-                v-model="comcodes"
-                placeholder="请输入"
+            <el-form-item label="厂商">
+              <el-select
+                v-model="queryForm.factoryId"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
                 clearable
                 style="width: 100%"
-              />
+                value-key="productCode"
+                @change="changeFactory(queryForm.factoryId)"
+              >
+                <el-option v-for="item in factoryList" :key="item.factoryId" :label="item.factoryName" :value="item.factoryId" />
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="钣金工时">
-              <el-input
-                v-model="comcodes"
-                placeholder="请输入"
+            <el-form-item label="品牌">
+              <el-select
+                v-model="queryForm.brandId"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
                 clearable
                 style="width: 100%"
-              />
+                value-key="productCode"
+                :disabled="brandForbidden"
+                @change="changeBrand(queryForm.brandId)"
+              >
+                <el-option v-for="item in brandList" :key="item.id" :label="item.name" :value="item.id" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="8">
+            <el-form-item label="车系">
+              <el-select
+                v-model="queryForm.carSystemId"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+                :disabled="carSystemForbidden"
+                @change="changeCarSystem(queryForm.carSystemId)"
+              >
+                <el-option v-for="item in carSystemList" :key="item.id" :label="item.name" :value="item.id" />
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="拆装工时">
+            <el-form-item label="车组">
+              <el-select
+                v-model="queryForm.carsId"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+                :disabled="carsForbidden"
+                @change="changeCars(queryForm.carsId)"
+              >
+                <el-option v-for="item in carsList" :key="item.id" :label="item.name" :value="item.id" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="车系代码">
               <el-input
-                v-model="comcodes"
+                v-model="queryForm.carSystemEncode"
                 placeholder="请输入"
                 clearable
                 style="width: 100%"
@@ -358,101 +383,76 @@
           </el-col>
         </el-row>
       </el-form>
+      <div class="search-footer">
+        <el-button size="small" type="primary" plain @click="resetQuery">重置</el-button>
+        <el-button size="small" type="primary" @click="currentPage=1,queryData()">查询</el-button>
+      </div>
     </div>
 
-    <div class="query mgt-14">
+    <div class="query mgt-14" style="position: relative;">
+      <div class="query-header clearfix">
+        <div class="header-title fl">比较车组列表</div>
+      </div>
+      <el-button class="query-header-btn" style="position: absolute;right: 20px;z-index: 200;top: 0" size="mini" type="primary" plain @click="add">添加</el-button>
+      <div>
+        <el-table :data="pageInfoList" style="width: 100%" @selection-change="handleSelectionChange">>
+          <el-table-column
+            type="selection"
+            width="120"
+            align="center"
+          />
+          <el-table-column align="center" type="index" label="序号" width="180" />
+          <el-table-column align="center" prop="factoryName" label="厂商" width="180" />
+          <el-table-column align="center" prop="brandName" label="品牌" width="180" />
+          <el-table-column align="center" prop="carSystemName" label="车系" width="180" show-overflow-tooltip />
+          <el-table-column align="center" prop="carsName" label="车组" width="180" show-overflow-tooltip />
+          <el-table-column align="center" prop="carSystemEncode" label="车系代码" width="180" show-overflow-tooltip />
+        </el-table>
+      </div>
+      <div class="block footer-page">
+        <el-pagination
+          :current-page="currentPage"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          :page-sizes="[10, 15, 20, 30, 50, 100]"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
+    </div>
+    <div class="query mgt-14" style="position: relative;">
       <div class="query-header clearfix">
         <div class="header-title fl">对比列表</div>
       </div>
-      <el-tab-pane label="对比列表" name="first">
+      <el-button class="query-header-btn" style="position: absolute;right: 20px;z-index: 200;top: 0" size="mini" type="primary" plain @click="calculate">计算</el-button>
+      <div>
         <el-table :data="compareList" style="width: 100%">
-          <el-table-column type="index" align="center" label="序号" width="100" />
-          <el-table-column prop="sourceTypeName" align="center" label="结果类型" min-width="100" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.sourceTypeName" :disabled="true" />
-            </template>
-          </el-table-column>
-          <!--   <el-table-column prop="factoryName" label="厂商" min-width="100" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.factoryName" disabled="true"></el-input>
-            </template>
-          </el-table-column>-->
-          <el-table-column prop="regionName" align="center" label="地域" min-width="180" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-tooltip class="item" effect="dark" :content="scope.row.regionName" placement="top-start">
-                <el-input v-model="scope.row.regionName" :disabled="true" />
-              </el-tooltip>
-            </template>
-          </el-table-column>
-          <el-table-column prop="carTypeName" align="center" label="车辆类型" min-width="180" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-tooltip class="item" effect="dark" :content="scope.row.carTypeName" placement="top-start">
-                <el-input v-model="scope.row.carTypeName" :disabled="true" />
-              </el-tooltip>
-            </template>
-          </el-table-column>
-          <el-table-column prop="insurerCodeName" align="center" label="公司" min-width="180" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-tooltip class="item" effect="dark" :content="scope.row.insurerCodeName" placement="top-start">
-                <el-input v-model="scope.row.insurerCodeName" :disabled="true" />
-              </el-tooltip>
-            </template>
-          </el-table-column>
-          <el-table-column prop="brandName" align="center" label="品牌" min-width="180" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-tooltip class="item" effect="dark" :content="scope.row.brandName" placement="top-start">
-                <el-input v-model="scope.row.brandName" :disabled="true" />
-              </el-tooltip>
-            </template>
-          </el-table-column>
-          <el-table-column prop="carSystemName" align="center" label="车系" min-width="180" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-tooltip class="item" effect="dark" :content="scope.row.carSystemName" placement="top-start">
-                <el-input v-model="scope.row.carSystemName" :disabled="true" />
-              </el-tooltip>
-            </template>
-          </el-table-column>
-          <el-table-column prop="carsName" align="center" label="车组" min-width="180" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-tooltip class="item" effect="dark" :content="scope.row.carsName" placement="top-start">
-                <el-input v-model="scope.row.carsName" :disabled="true" />
-              </el-tooltip>
-            </template>
-          </el-table-column>
-          <el-table-column prop="modelName" align="center" label="车型" min-width="180" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-tooltip class="item" effect="dark" :content="scope.row.modelName" placement="top-start">
-                <el-input v-model="scope.row.modelName" :disabled="true" />
-              </el-tooltip>
-            </template>
-          </el-table-column>
-          <el-table-column prop="undrewRiskLevel" align="center" label="承保风险等级" min-width="180" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.undrewRiskLevel" :disabled="true" />
-            </template>
-          </el-table-column>
-          <el-table-column prop="payRiskLevel" align="center" label="赔付风险等级" min-width="180" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.payRiskLevel" :disabled="true" />
-            </template>
-          </el-table-column>
-          <el-table-column prop="accidentLevel" align="center" label="出险风险等级" min-width="180" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-input v-model="scope.row.accidentLevel" :disabled="true" />
-            </template>
-          </el-table-column>
-          <el-table-column fixed="right" label="操作" width="150">
+          <el-table-column align="center" type="index" label="序号" width="100" />
+          <el-table-column align="center" prop="sourceTypeName" label="结果来源" width="120" />
+          <el-table-column align="center" prop="factoryName" label="厂商" width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="brandName" label="品牌" width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="carSystemName" label="车系" width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="carsName" label="车组" width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="carSystemEncode" label="车系代码" width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="dismountHour" label="拆装工时" width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="paintHour" label="喷漆工时" width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="metalHour" label="钣金工时" width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="dismountFee" label="拆装工时费用" width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="paintFee" label="喷漆工时费用" width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="metalFee" label="钣金工时费用" width="120" show-overflow-tooltip />
+          <el-table-column fixed="right" label="操作" width="100">
             <template slot-scope="scope">
               <el-button :disabled="scope.row.sourceType==='A'" type="text" size="mini" @click="delRow(scope.$index)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
-      </el-tab-pane>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import { initData, getParts } from '../../api/repair-hours'
+import { initData, getParts, getBrandByFactory, brandRecurInfo, queryRepairByPage, calculateHour } from '../../api/repair-hours'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -461,7 +461,7 @@ export default {
   data() {
     return {
       activeName: 'first',
-      queryForm: {},
+      paintForm: {},
       factoryList: [],
       paintTypeList: [],
       layerList: [],
@@ -473,11 +473,46 @@ export default {
       toningList: [],
       paintSideList: [],
       paintDamageList: [],
+      metalList: [],
+      laborProjectList: [
+        {
+          key: '1',
+          value: '拆装'
+        },
+        {
+          key: '2',
+          value: '更换'
+        }
+      ],
+      nonmetalList: [],
       partList: [],
       parts: [],
+      queryForm: {},
+      brandList: [],
+      carSystemList: [],
+      carsList: [],
+      brandForbidden: true,
+      carSystemForbidden: true,
+      carsForbidden: true,
+      pageInfoList: [],
+      multipleSelection: [],
+      menuId: '16',
       pageSize: 15,
       currentPage: 1,
-      total: 0
+      total: 0,
+      paintFormRules: {
+        paintType: [{ required: true, message: '请选择漆料', trigger: 'change' }],
+        layers: [{ required: true, message: '请选择层数', trigger: 'change' }],
+        isLowCoverage: [{ required: true, message: '请选择是否低覆盖力', trigger: 'change' }],
+        toning: [{ required: true, message: '请选择调色', trigger: 'change' }],
+        isColorPalette: [{ required: true, message: '请选择是否需要色板', trigger: 'change' }],
+        isPolishing: [{ required: true, message: '请选择是否抛光', trigger: 'change' }],
+        side: [{ required: true, message: '请选择喷漆面数', trigger: 'change' }],
+        dismountUnitPrice: [{ required: true, message: '请输入拆装工时单价', trigger: 'blur' }],
+        paintUnitPrice: [{ required: true, message: '请输入喷漆工时单价', trigger: 'blur' }],
+        metalUnitPrice: [{ required: true, message: '请输入钣金工时单价', trigger: 'blur' }]
+        // userEname: [{ required: true, message: '人员英文名不能为空', trigger: 'blur' }],
+      }
     }
   },
   computed: {
@@ -506,6 +541,8 @@ export default {
           this.damageConditionList = res.damageConditionList ? res.damageConditionList : []
           this.paintSideList = res.paintSideList ? res.paintSideList : []
           this.paintDamageList = res.paintDamageList ? res.paintDamageList : []
+          this.nonmetalList = res.nonmetalList ? res.nonmetalList : []
+          this.metalList = res.metalList ? res.metalList : []
           // console.log(res)
         }
       })
@@ -522,33 +559,97 @@ export default {
     addPart() {
       this.partList.push({})
     },
-    // 查询列表
-    queryData() {
-      /* const param = {
-        userCode: this.comcodes,
-        userName: this.userName,
-        riskcode: this.riskCode,
-        spread: this.type,
-        delMenuType: this.menuType,
-        currentPage: this.currentPage,
-        pageSize: this.pageSize
-      }*/
-      /* riskUserQueryListPage(param).then(res => {
-        if (res.code === 200) {
-          if (!res.data) {
-            this.systemListResult = []
-            this.currentPage = 0
-            this.total = 0
-            return
+    delPart(index) {
+      this.$confirm('确定删除该配件吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.partList.splice(index, 1)
+      })
+    },
+    delRow(index) {
+      this.$confirm('确定删除该车组吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.compareList.splice(index, 1)
+      })
+    },
+    // 改变厂商
+    changeFactory(factoryId) {
+      this.brandList = []
+      this.carSystemList = []
+      this.carsList = []
+      this.queryForm.brandId = null
+      this.queryForm.carSystemId = null
+      this.queryForm.carsId = null
+      this.brandForbidden = false
+      if (factoryId) {
+        var param = { factoryId: factoryId }
+        getBrandByFactory(param).then(res => {
+          if (res.state === '0000') {
+            this.brandList = res.brandDtoList
           }
-          this.riskCodeList = res.data.riskMap.riskList
-          this.spreadClassDtoList = res.data.spreadClassDtoList
-          this.menuTypeList = res.data.menuTypeList
-          this.systemListResult = res.data.portRiskUserDtoIPage.records
-          this.currentPage = res.data.portRiskUserDtoIPage.current
-          this.total = res.data.portRiskUserDtoIPage.total
+        })
+      }
+    },
+    // 改变品牌
+    changeBrand(superId) {
+      this.carSystemList = []
+      this.carsList = []
+      this.queryForm.carSystemId = null
+      this.queryForm.carsId = null
+      this.carSystemForbidden = false
+      if (superId) {
+        var param = { superId: superId }
+        brandRecurInfo(param).then(res => {
+          this.carSystemList = res
+        })
+      }
+    },
+    // 改变车系
+    changeCarSystem(superId) {
+      this.carsList = []
+      this.modelList = []
+      this.queryForm.carsId = null
+      this.carsForbidden = false
+      if (superId) {
+        var param = { superId: superId }
+        brandRecurInfo(param).then(res => {
+          this.carsList = res
+        })
+      }
+    },
+    queryData() {
+      var param = {
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+        factoryId: this.queryForm.factoryId,
+        brandId: this.queryForm.brandId,
+        carSystemId: this.queryForm.carSystemId,
+        carsId: this.queryForm.carsId,
+        carSystemEncode: this.queryForm.carSystemEncode,
+        modelEncode: this.queryForm.modelEncode,
+        menuId: this.menuId
+        // modelId: this.queryForm.modelId,
+        // modelId: this.queryForm.modelId,
+      }
+      queryRepairByPage(param).then(res => {
+        if (res.state === '0000') {
+          if (res.content && res.content.length > 0) {
+            for (let i = 0; i < res.content.length; i++) {
+              res.content[i].sourceType = 'B'
+              res.content[i].sourceTypeName = '比较车组'
+            }
+          }
+          this.pageInfoList = res.content
+          this.total = res.totalCount
+        } else {
+          this.$message.error(res.msg)
         }
-      })*/
+      })
     },
     handleSizeChange(val) {
       this.pageSize = val
@@ -560,9 +661,64 @@ export default {
     },
     // 重置
     reset() {
-      this.queryForm = {}
+      this.paintForm = {}
     },
-
+    resetQuery() {
+      this.queryForm = {}
+      this.brandForbidden = true
+      this.carSystemForbidden = true
+      this.carsForbidden = true
+      this.modelForbidden = true
+    },
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
+    add() {
+      // var select = this.pageInfoList.filter(item => item.checked === true)
+      if (this.multipleSelection.length === 0) {
+        this.$message.error('请先选择比较车型!')
+        return false
+      }
+      this.multipleSelection.forEach(item => {
+        this.compareList.push(item)
+      })
+    },
+    // 计算
+    calculate() {
+      for (let i = 0; i < this.compareList.length; i++) {
+        this.compareList[i].partsDtoList = this.partList
+        this.compareList[i].paintType = this.paintForm.paintType
+        this.compareList[i].layers = this.paintForm.layers
+        this.compareList[i].isLowCoverage = this.paintForm.isLowCoverage
+        this.compareList[i].toning = this.paintForm.toning
+        this.compareList[i].isColorPalette = this.paintForm.isColorPalette
+        this.compareList[i].isPolishing = this.paintForm.isPolishing
+        this.compareList[i].side = this.paintForm.side
+        this.compareList[i].dismountUnitPrice = this.paintForm.dismountUnitPrice
+        this.compareList[i].paintUnitPrice = this.paintForm.paintUnitPrice
+        this.compareList[i].metalUnitPrice = this.paintForm.metalUnitPrice
+      }
+      this.$refs['paintForm'].validate((valid) => {
+        if (valid) {
+          calculateHour(this.compareList).then(res => {
+            if (res.state === '0000') {
+              if (res.calculateDtoList && res.calculateDtoList.length > 0) {
+                for (let i = 0; i < res.calculateDtoList.length; i++) {
+                  if (res.calculateDtoList[i].sourceType === 'A') {
+                    res.calculateDtoList[i].sourceTypeName = '目标车组'
+                  } else {
+                    res.calculateDtoList[i].sourceTypeName = '比较车组'
+                  }
+                }
+              }
+              this.compareList = res.calculateDtoList
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+        }
+      })
+    },
     changepage() {}
   }
 }
