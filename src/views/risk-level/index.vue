@@ -3,10 +3,10 @@
     <div class="Notice">
       <el-tabs v-model="activeName" class="customcard">
         <el-tab-pane label="车型风险级别查询" name="first">
-          <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
+          <el-form ref="queryForm" :model="queryForm" :rules="queryFormRules" size="mini" label-position="right" label-width="108px" class="pdt-18">
             <el-row class="row-bg" justify="space-around">
               <el-col :span="8">
-                <el-form-item label="区域">
+                <el-form-item label="区域" prop="regionId">
                   <el-select
                     v-model="queryForm.regionId"
                     class="quick-select"
@@ -21,7 +21,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="保险公司">
+                <el-form-item label="保险公司" prop="insurerCode">
                   <el-select
                     v-model="queryForm.insurerCode"
                     class="quick-select"
@@ -147,6 +147,7 @@
                     style="width: 100%"
                     value-key="productCode"
                     :disabled="modelForbidden"
+                    @change="changeSelect"
                   >
                     <el-option v-for="item in modelList" :key="item.id" :label="item.name" :value="item.id" />
                   </el-select>
@@ -254,6 +255,10 @@ export default {
       pageInfo: [],
       loading: false,
       // acurl: '',
+      queryFormRules: {
+        regionId: [{ required: true, message: '请选择区域', trigger: 'change' }],
+        insurerCode: [{ required: true, message: '请选择保险公司', trigger: 'change' }]
+      },
       pageSize: 15,
       currentPage: 1,
       total: 0
@@ -352,37 +357,41 @@ export default {
       return list
     },*/
     queryData() {
-      var param = {
-        // globalUserCode: this.userCode,
-        pageNo: this.pageNo,
-        pageSize: this.pageSize,
-        regionId: this.queryForm.regionId,
-        insurerCode: this.queryForm.insurerCode,
-        carType: this.queryForm.carType,
-        dataType: this.queryForm.dataType,
-        factoryId: this.queryForm.factoryId,
-        brandId: this.queryForm.brandId,
-        carSystemId: this.queryForm.carSystemId,
-        carsId: this.queryForm.carsId,
-        modelId: this.queryForm.modelId,
-        carSystemEncode: this.queryForm.carSystemEncode,
-        modelEncode: this.queryForm.modelEncode,
-        menuId: this.menuId
-        // modelId: this.queryForm.modelId,
-        // modelId: this.queryForm.modelId,
-      }
-      queryRiskLevelByPage(param).then(res => {
-        if (res.state === '0000') {
-          if (res.content && res.content.length > 0) {
-            for (let i = 0; i < res.content.length; i++) {
-              res.content[i].sourceType = 'A'
-              res.content[i].sourceTypeName = '目标车型'
-            }
+      this.$refs['queryForm'].validate((valid) => {
+        if (valid) {
+          var param = {
+            // globalUserCode: this.userCode,
+            pageNo: this.pageNo,
+            pageSize: this.pageSize,
+            regionId: this.queryForm.regionId,
+            insurerCode: this.queryForm.insurerCode,
+            carType: this.queryForm.carType,
+            dataType: this.queryForm.dataType,
+            factoryId: this.queryForm.factoryId,
+            brandId: this.queryForm.brandId,
+            carSystemId: this.queryForm.carSystemId,
+            carsId: this.queryForm.carsId,
+            modelId: this.queryForm.modelId,
+            carSystemEncode: this.queryForm.carSystemEncode,
+            modelEncode: this.queryForm.modelEncode,
+            menuId: this.menuId
+            // modelId: this.queryForm.modelId,
+            // modelId: this.queryForm.modelId,
           }
-          this.pageInfo = res.content
-          this.total = res.totalCount
-        } else {
-          this.$message.error(res.msg)
+          queryRiskLevelByPage(param).then(res => {
+            if (res.state === '0000') {
+              if (res.content && res.content.length > 0) {
+                for (let i = 0; i < res.content.length; i++) {
+                  res.content[i].sourceType = 'A'
+                  res.content[i].sourceTypeName = '目标车型'
+                }
+              }
+              this.pageInfo = res.content
+              this.total = res.totalCount
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
         }
       })
     },
@@ -456,7 +465,9 @@ export default {
       this.carsForbidden = true
       this.modelForbidden = true
     },
-    changepage() {}
+    changeSelect() {
+      this.$forceUpdate()
+    }
   }
 }
 </script>

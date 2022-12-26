@@ -6,80 +6,91 @@
         <el-tab-pane label="对比列表" name="first">
           <el-table :data="compareList" style="width: 100%">
             <el-table-column type="index" align="center" label="序号" width="100" />
-            <el-table-column prop="sourceTypeName" align="center" label="结果类型" min-width="100" show-overflow-tooltip>
+            <el-table-column prop="sourceTypeName" label="结果类型" width="100" show-overflow-tooltip />
+            <!--<el-table-column prop="sourceTypeName" align="center" label="结果类型" min-width="100" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.sourceTypeName" :disabled="true" />
               </template>
-            </el-table-column>
+            </el-table-column>-->
             <!--   <el-table-column prop="factoryName" label="厂商" min-width="100" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.factoryName" disabled="true"></el-input>
               </template>
             </el-table-column>-->
-            <el-table-column prop="regionName" align="center" label="地域" min-width="180" show-overflow-tooltip>
+            <el-table-column prop="regionName" label="地域" width="100" show-overflow-tooltip />
+            <!--<el-table-column prop="regionName" align="center" label="地域" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.regionName" placement="top-start">
                   <el-input v-model="scope.row.regionName" :disabled="true" />
                 </el-tooltip>
               </template>
-            </el-table-column>
-            <el-table-column prop="carTypeName" align="center" label="车辆类型" min-width="180" show-overflow-tooltip>
+            </el-table-column>-->
+            <el-table-column prop="carTypeName" label="车辆类型" width="100" show-overflow-tooltip />
+            <!--<el-table-column prop="carTypeName" align="center" label="车辆类型" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.carTypeName" placement="top-start">
                   <el-input v-model="scope.row.carTypeName" :disabled="true" />
                 </el-tooltip>
               </template>
-            </el-table-column>
-            <el-table-column prop="insurerCodeName" align="center" label="公司" min-width="180" show-overflow-tooltip>
+            </el-table-column>-->
+            <el-table-column prop="insurerCodeName" label="保险公司" width="100" show-overflow-tooltip />
+            <!--<el-table-column prop="insurerCodeName" align="center" label="公司" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.insurerCodeName" placement="top-start">
                   <el-input v-model="scope.row.insurerCodeName" :disabled="true" />
                 </el-tooltip>
               </template>
-            </el-table-column>
-            <el-table-column prop="brandName" align="center" label="品牌" min-width="180" show-overflow-tooltip>
+            </el-table-column>-->
+            <el-table-column prop="brandName" label="品牌" width="100" show-overflow-tooltip />
+            <!--<el-table-column prop="brandName" align="center" label="品牌" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.brandName" placement="top-start">
                   <el-input v-model="scope.row.brandName" :disabled="true" />
                 </el-tooltip>
               </template>
-            </el-table-column>
-            <el-table-column prop="carSystemName" align="center" label="车系" min-width="180" show-overflow-tooltip>
+            </el-table-column>-->
+            <el-table-column prop="carSystemName" label="车系" width="100" show-overflow-tooltip />
+            <!--<el-table-column prop="carSystemName" align="center" label="车系" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.carSystemName" placement="top-start">
                   <el-input v-model="scope.row.carSystemName" :disabled="true" />
                 </el-tooltip>
               </template>
-            </el-table-column>
-            <el-table-column prop="carsName" align="center" label="车组" min-width="180" show-overflow-tooltip>
+            </el-table-column>-->
+            <el-table-column prop="carsName" label="车组" width="100" show-overflow-tooltip />
+            <!--<el-table-column prop="carsName" align="center" label="车组" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.carsName" placement="top-start">
                   <el-input v-model="scope.row.carsName" :disabled="true" />
                 </el-tooltip>
               </template>
-            </el-table-column>
-            <el-table-column prop="modelName" align="center" label="车型" min-width="180" show-overflow-tooltip>
+            </el-table-column>-->
+            <el-table-column prop="modelName" label="车型" width="100" show-overflow-tooltip />
+            <!--<el-table-column prop="modelName" align="center" label="车型" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.modelName" placement="top-start">
                   <el-input v-model="scope.row.modelName" :disabled="true" />
                 </el-tooltip>
               </template>
-            </el-table-column>
-            <el-table-column prop="undrewRiskLevel" align="center" label="承保风险等级" min-width="180" show-overflow-tooltip>
+            </el-table-column>-->
+            <el-table-column prop="undrewRiskLevel" label="承保风险等级" width="100" show-overflow-tooltip />
+            <!--<el-table-column prop="undrewRiskLevel" align="center" label="承保风险等级" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.undrewRiskLevel" :disabled="true" />
               </template>
-            </el-table-column>
-            <el-table-column prop="payRiskLevel" align="center" label="赔付风险等级" min-width="180" show-overflow-tooltip>
+            </el-table-column>-->
+            <el-table-column prop="payRiskLevel" label="赔付风险等级" width="100" show-overflow-tooltip />
+            <!--<el-table-column prop="payRiskLevel" align="center" label="赔付风险等级" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.payRiskLevel" :disabled="true" />
               </template>
-            </el-table-column>
-            <el-table-column prop="accidentLevel" align="center" label="出险风险等级" min-width="180" show-overflow-tooltip>
+            </el-table-column>-->
+            <el-table-column prop="accidentLevel" label="出险风险等级" width="100" show-overflow-tooltip />
+            <!--<el-table-column prop="accidentLevel" align="center" label="出险风险等级" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.accidentLevel" :disabled="true" />
               </template>
-            </el-table-column>
+            </el-table-column>-->
             <!--<el-table-column prop="riskName" label="品牌" min-width="100" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-select v-model="scope.row.type" placeholder="请选择">
@@ -219,6 +230,7 @@
                 style="width: 100%"
                 value-key="productCode"
                 :disabled="modelForbidden"
+                @change="changeSelect"
               >
                 <el-option v-for="item in modelList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
@@ -548,6 +560,9 @@ export default {
       this.multipleSelection.forEach(item => {
         this.compareList.push(item)
       })
+    },
+    changeSelect() {
+      this.$forceUpdate()
     }
   }
 }
