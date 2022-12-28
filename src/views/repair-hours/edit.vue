@@ -170,6 +170,7 @@
                 clearable
                 style="width: 100%"
                 value-key="productCode"
+                @change="changePartNo(scope.row)"
               >
                 <el-option v-for="item in parts" :key="item.partNo" :label="item.partName" :value="item.partNo" />
               </el-select>
@@ -182,49 +183,20 @@
               />-->
             </template>
           </el-table-column>
-          <el-table-column prop="riskName" label="是否喷漆" min-width="200" align="center" show-overflow-tooltip>
+          <el-table-column prop="isDamaged" label="是否损伤" min-width="200" align="center" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-select
-                v-model="scope.row.isPaint"
+                v-model="scope.row.isDamaged"
                 class="quick-select"
                 placeholder="请选择"
                 filterable
                 clearable
                 style="width: 100%"
                 value-key="productCode"
+                :disabled="!scope.row.partNo"
+                @change="changeIsDamaged(scope.row)"
               >
                 <el-option v-for="item in booleanList" :key="item.key" :label="item.value" :value="item.key" />
-              </el-select>
-            </template>
-          </el-table-column>
-          <el-table-column prop="riskName" label="喷漆损伤" min-width="200" align="center" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-select
-                v-model="scope.row.paintDamage"
-                class="quick-select"
-                placeholder="请选择"
-                filterable
-                clearable
-                style="width: 100%"
-                value-key="productCode"
-                :disabled="scope.row.isPaint==='0' || !scope.row.isPaint"
-              >
-                <el-option v-for="item in paintDamageList" :key="item.key" :label="item.value" :value="item.key" />
-              </el-select>
-            </template>
-          </el-table-column>
-          <el-table-column prop="riskName" label="拆装或更换" min-width="200" align="center" show-overflow-tooltip>
-            <template slot-scope="scope">
-              <el-select
-                v-model="scope.row.laborProject"
-                class="quick-select"
-                placeholder="请选择"
-                filterable
-                clearable
-                style="width: 100%"
-                value-key="productCode"
-              >
-                <el-option v-for="item in laborProjectList" :key="item.key" :label="item.value" :value="item.key" />
               </el-select>
             </template>
           </el-table-column>
@@ -238,6 +210,8 @@
                 clearable
                 style="width: 100%"
                 value-key="productCode"
+                :disabled="!scope.row.isDamaged || scope.row.isDamaged==='0'"
+                @change="changeMaterial(scope.row)"
               >
                 <el-option v-for="item in materialList" :key="item.key" :label="item.value" :value="item.key" />
               </el-select>
@@ -253,6 +227,7 @@
                 clearable
                 style="width: 100%"
                 value-key="productCode"
+                :disabled="!scope.row.isDamaged || scope.row.isDamaged==='0'"
               >
                 <el-option v-for="item in damagePartList" :key="item.key" :label="item.value" :value="item.key" />
               </el-select>
@@ -269,7 +244,8 @@
                 clearable
                 style="width: 100%"
                 value-key="productCode"
-                :disabled="!scope.row.material"
+                :disabled="!scope.row.isDamaged || scope.row.isDamaged==='0' || !scope.row.material || !scope.row.isDamaged || scope.row.isDamaged==='0'"
+                @change="changeDamageCondition(scope.row)"
               >
                 <el-option v-for="item in metalList" :key="item.key" :label="item.value" :value="item.key" />
               </el-select>
@@ -283,8 +259,86 @@
                 style="width: 100%"
                 value-key="productCode"
                 :disabled="!scope.row.material"
+                @change="changeDamageCondition(scope.row)"
               >
                 <el-option v-for="item in nonmetalList" :key="item.key" :label="item.value" :value="item.key" />
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column prop="riskName" label="拆装或更换" min-width="200" align="center" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-select
+                v-if="scope.row.damageCondition && scope.row.damageCondition==='13'"
+                v-model="scope.row.laborProject"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+                :disabled="!scope.row.damageCondition"
+                @change="changeLaborProject(scope.row)"
+              >
+                <el-option v-for="item in laborProjectList1" :key="item.key" :label="item.value" :value="item.key" :disabled="item.disabled" />
+              </el-select>
+              <el-select
+                v-if="(scope.row.damageCondition && scope.row.damageCondition!=='13') || scope.row.isDamaged==='0'"
+                v-model="scope.row.laborProject"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+                :disabled="!scope.row.damageCondition && scope.row.isDamaged==='1'"
+                @change="changeLaborProject(scope.row)"
+              >
+                <el-option v-for="item in laborProjectList2" :key="item.key" :label="item.value" :value="item.key" :disabled="item.disabled" />
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column prop="riskName" label="是否喷漆" min-width="200" align="center" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-select
+                v-model="scope.row.isPaint"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+                :disabled="!scope.row.isDamaged || scope.row.isDamaged==='0'"
+                @change="changeIsPaint(scope.row)"
+              >
+                <el-option v-for="item in booleanList" :key="item.key" :label="item.value" :value="item.key" />
+              </el-select>
+            </template>
+          </el-table-column>
+          <el-table-column prop="riskName" label="喷漆损伤" min-width="200" align="center" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <el-select
+                v-if="scope.row.isPaint && scope.row.isPaint==='1' && scope.row.laborProject && scope.row.laborProject==='2' "
+                v-model="scope.row.paintDamage"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+              >
+                <el-option v-for="item in paintDamageList2" :key="item.key" :label="item.value" :value="item.key" :disabled="item.disabled" />
+              </el-select>
+              <el-select
+                v-if="scope.row.isPaint && scope.row.isPaint==='1' && scope.row.laborProject && scope.row.laborProject==='1' "
+                v-model="scope.row.paintDamage"
+                class="quick-select"
+                placeholder="请选择"
+                filterable
+                clearable
+                style="width: 100%"
+                value-key="productCode"
+              >
+                <el-option v-for="item in paintDamageList1" :key="item.key" :label="item.value" :value="item.key" :disabled="item.disabled" />
               </el-select>
             </template>
           </el-table-column>
@@ -473,15 +527,31 @@ export default {
       toningList: [],
       paintSideList: [],
       paintDamageList: [],
+      paintDamageList1: [],
+      paintDamageList2: [],
       metalList: [],
-      laborProjectList: [
+      laborProjectList1: [
         {
           key: '1',
-          value: '拆装'
+          value: '拆装',
+          disabled: true
         },
         {
           key: '2',
-          value: '更换'
+          value: '更换',
+          disabled: false
+        }
+      ],
+      laborProjectList2: [
+        {
+          key: '1',
+          value: '拆装',
+          disabled: false
+        },
+        {
+          key: '2',
+          value: '更换',
+          disabled: true
         }
       ],
       nonmetalList: [],
@@ -543,7 +613,21 @@ export default {
           this.paintDamageList = res.paintDamageList ? res.paintDamageList : []
           this.nonmetalList = res.nonmetalList ? res.nonmetalList : []
           this.metalList = res.metalList ? res.metalList : []
-          // console.log(res)
+          for (let i = 0; i < this.paintDamageList.length; i++) {
+            var item1 = JSON.parse(JSON.stringify(this.paintDamageList[i]))
+            var item2 = JSON.parse(JSON.stringify(this.paintDamageList[i]))
+            if (item1.key === '1') {
+              item1.disabled = true
+              this.paintDamageList1.push(item1)
+              item2.disabled = false
+              this.paintDamageList2.push(item2)
+            } else {
+              item1.disabled = false
+              this.paintDamageList1.push(item1)
+              item2.disabled = true
+              this.paintDamageList2.push(item2)
+            }
+          }
         }
       })
     },
@@ -557,7 +641,23 @@ export default {
       })
     },
     addPart() {
-      this.partList.push({})
+      /* var list = []
+      for (let i = 0; i < this.laborProjectList.length; i++) {
+        var info = this.laborProjectList[i]
+        info.disabled = false
+        list.push(info)
+      }*/
+      this.partList.push(
+        {
+          isDamaged: null,
+          material: null,
+          damageCode: null,
+          damageCondition: null,
+          laborProject: '',
+          isPaint: '',
+          paintDamage: null
+        }
+      )
     },
     delPart(index) {
       this.$confirm('确定删除该配件吗？', '提示', {
@@ -721,6 +821,48 @@ export default {
     },
     changeSelect() {
       this.$forceUpdate()
+    },
+    changePartNo(row) {
+      row.isDamaged = null
+      row.material = null
+      row.damageCode = null
+      row.damageCondition = null
+      row.laborProject = null
+      row.isPaint = null
+      row.paintDamage = null
+    },
+    changeIsDamaged(row) {
+      row.material = null
+      row.damageCode = null
+      row.damageCondition = null
+      row.laborProject = null
+      row.isPaint = null
+      row.paintDamage = null
+    },
+    changeMaterial(row) {
+      row.damageCode = null
+      row.damageCondition = null
+      row.laborProject = null
+      row.isPaint = null
+      row.paintDamage = null
+    },
+    changeDamageCode(row) {
+      row.damageCondition = null
+      row.laborProject = null
+      row.isPaint = null
+      row.paintDamage = null
+    },
+    changeDamageCondition(row) {
+      row.laborProject = null
+      row.isPaint = null
+      row.paintDamage = null
+    },
+    changeLaborProject(row) {
+      row.isPaint = null
+      row.paintDamage = null
+    },
+    changeIsPaint(row) {
+      row.paintDamage = null
     }
   }
 }
