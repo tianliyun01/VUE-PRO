@@ -3,10 +3,10 @@
     <div class="Notice">
       <el-tabs v-model="activeName" class="customcard">
         <el-tab-pane label="车损险各车型保费建议" name="first">
-          <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
+          <el-form ref="queryForm" :model="queryForm" :rules="queryFormRules" size="mini" label-position="right" label-width="108px" class="pdt-18">
             <el-row class="row-bg" justify="space-around">
               <el-col :span="8">
-                <el-form-item label="区域">
+                <el-form-item label="区域" prop="regionId">
                   <el-select
                     v-model="queryForm.regionId"
                     class="quick-select"
@@ -21,7 +21,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="保险公司">
+                <el-form-item label="保险公司" prop="insurerCode">
                   <el-select
                     v-model="queryForm.insurerCode"
                     class="quick-select"
@@ -254,7 +254,19 @@ export default {
       // acurl: '',
       pageSize: 15,
       currentPage: 1,
-      total: 0
+      total: 0,
+      queryFormRules: {
+        regionId: [{ required: true, message: '请选择区域', trigger: 'change' }],
+        insurerCode: [{ required: true, message: '请选择保险公司', trigger: 'change' }]
+        /* carType: [{ required: true, message: '请选择车辆类别', trigger: 'change' }],
+        dataType: [{ required: true, message: '请选择数据维度', trigger: 'change' }],
+        factoryId: [{ required: true, message: '请选择厂商', trigger: 'change' }],
+        brandId: [{ required: true, message: '请选择品牌', trigger: 'change' }],
+        carSystemId: [{ required: true, message: '请选择车系', trigger: 'change' }],
+        carsId: [{ required: true, message: '请选择车组', trigger: 'change' }],
+        modelId: [{ required: true, message: '请选择车型', trigger: 'change' }]*/
+        // userEname: [{ required: true, message: '人员英文名不能为空', trigger: 'blur' }],
+      }
     }
   },
   computed: {
@@ -341,38 +353,42 @@ export default {
       }
     },
     queryData() {
-      var param = {
-        // globalUserCode: this.userCode,
-        pageNo: this.pageNo,
-        pageSize: this.pageSize,
-        regionId: this.queryForm.regionId,
-        insurerCode: this.queryForm.insurerCode,
-        carType: this.queryForm.carType,
-        dataType: this.queryForm.dataType,
-        factoryId: this.queryForm.factoryId,
-        brandId: this.queryForm.brandId,
-        carSystemId: this.queryForm.carSystemId,
-        carsId: this.queryForm.carsId,
-        modelId: this.queryForm.modelId,
-        carSystemEncode: this.queryForm.carSystemEncode,
-        modelEncode: this.queryForm.modelEncode,
-        yearParagraph: this.queryForm.yearParagraph,
-        menuId: this.menuId
-        // modelId: this.queryForm.modelId,
-        // modelId: this.queryForm.modelId,
-      }
-      queryPremiumByPage(param).then(res => {
-        if (res.state === '0000') {
-          if (res.content && res.content.length > 0) {
-            for (let i = 0; i < res.content.length; i++) {
-              res.content[i].sourceType = 'A'
-              res.content[i].sourceTypeName = '目标车型'
-            }
+      this.$refs['queryForm'].validate((valid) => {
+        if (valid) {
+          var param = {
+            // globalUserCode: this.userCode,
+            pageNo: this.pageNo,
+            pageSize: this.pageSize,
+            regionId: this.queryForm.regionId,
+            insurerCode: this.queryForm.insurerCode,
+            carType: this.queryForm.carType,
+            dataType: this.queryForm.dataType,
+            factoryId: this.queryForm.factoryId,
+            brandId: this.queryForm.brandId,
+            carSystemId: this.queryForm.carSystemId,
+            carsId: this.queryForm.carsId,
+            modelId: this.queryForm.modelId,
+            carSystemEncode: this.queryForm.carSystemEncode,
+            modelEncode: this.queryForm.modelEncode,
+            yearParagraph: this.queryForm.yearParagraph,
+            menuId: this.menuId
+            // modelId: this.queryForm.modelId,
+            // modelId: this.queryForm.modelId,
           }
-          this.pageInfo = res.content
-          this.total = res.totalCount
-        } else {
-          this.$message.error(res.msg)
+          queryPremiumByPage(param).then(res => {
+            if (res.state === '0000') {
+              if (res.content && res.content.length > 0) {
+                for (let i = 0; i < res.content.length; i++) {
+                  res.content[i].sourceType = 'A'
+                  res.content[i].sourceTypeName = '目标车型'
+                }
+              }
+              this.pageInfo = res.content
+              this.total = res.totalCount
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
         }
       })
     },
@@ -381,7 +397,7 @@ export default {
         name: 'VehicleProposalEdit',
         query: {
           // editType: 'EDIT',
-          info: item
+          info: JSON.stringify(item)
         }
       })
     },
@@ -401,7 +417,9 @@ export default {
       this.carsForbidden = true
       this.modelForbidden = true
     },
-    changepage() {}
+    changeSelect() {
+      this.$forceUpdate()
+    }
   }
 }
 </script>

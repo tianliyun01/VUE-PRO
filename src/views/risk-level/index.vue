@@ -400,7 +400,7 @@ export default {
         name: 'RiskLevelEdit',
         query: {
           // editType: 'EDIT',
-          info: item
+          info: JSON.stringify(item)
         }
       })
     },

@@ -208,7 +208,7 @@
       <div>
         <el-table :data="pageInfo" style="width: 100%">
           <el-table-column type="index" label="序号" width="120" />
-          <el-table-column prop="dataSourceName" label="结果类型" width="150" show-overflow-tooltip />
+          <el-table-column prop="dataSourceName" label="结果来源" width="150" show-overflow-tooltip />
           <el-table-column prop="undrewRiskLevel" label="承保风险等级" width="100" />
           <el-table-column prop="estimateRiskPremium" label="预估风险保费" width="100" />
           <el-table-column prop="payRiskLevel" label="赔付风险等级" width="100" show-overflow-tooltip />
@@ -409,7 +409,7 @@ export default {
         name: 'RiskPremiumEdit',
         query: {
           // editType: 'EDIT',
-          info: item
+          info: JSON.stringify(item)
         }
       })
     },

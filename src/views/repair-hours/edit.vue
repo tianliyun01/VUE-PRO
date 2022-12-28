@@ -159,8 +159,8 @@
       </div>
       <div>
         <el-table :data="partList" style="width: 100%">
-          <el-table-column type="index" label="序号" width="100" />
-          <el-table-column prop="riskName" label="配件名称" min-width="200" show-overflow-tooltip>
+          <el-table-column type="index" label="序号" width="100" align="center" />
+          <el-table-column prop="riskName" label="配件名称" min-width="200" align="center" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-select
                 v-model="scope.row.partNo"
@@ -182,7 +182,7 @@
               />-->
             </template>
           </el-table-column>
-          <el-table-column prop="riskName" label="是否喷漆" min-width="200" show-overflow-tooltip>
+          <el-table-column prop="riskName" label="是否喷漆" min-width="200" align="center" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-select
                 v-model="scope.row.isPaint"
@@ -197,7 +197,7 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column prop="riskName" label="喷漆损伤" min-width="200" show-overflow-tooltip>
+          <el-table-column prop="riskName" label="喷漆损伤" min-width="200" align="center" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-select
                 v-model="scope.row.paintDamage"
@@ -213,7 +213,7 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column prop="riskName" label="拆装或更换" min-width="200" show-overflow-tooltip>
+          <el-table-column prop="riskName" label="拆装或更换" min-width="200" align="center" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-select
                 v-model="scope.row.laborProject"
@@ -228,7 +228,7 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column prop="riskName" label="材质" min-width="200" show-overflow-tooltip>
+          <el-table-column prop="riskName" label="材质" min-width="200" align="center" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-select
                 v-model="scope.row.material"
@@ -243,7 +243,7 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column prop="riskName" label="损伤位置" min-width="200" show-overflow-tooltip>
+          <el-table-column prop="riskName" label="损伤位置" min-width="200" align="center" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-select
                 v-model="scope.row.damageCode"
@@ -258,7 +258,7 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column prop="riskName" label="损坏情况" min-width="200" show-overflow-tooltip>
+          <el-table-column prop="riskName" label="损坏情况" min-width="200" align="center" show-overflow-tooltip>
             <template slot-scope="scope">
               <el-select
                 v-if="scope.row.material==='01'||scope.row.material==='02'"
@@ -365,7 +365,7 @@
                 style="width: 100%"
                 value-key="productCode"
                 :disabled="carsForbidden"
-                @change="changeCars(queryForm.carsId)"
+                @change="changeSelect"
               >
                 <el-option v-for="item in carsList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
@@ -518,7 +518,7 @@ export default {
   computed: {
     ...mapGetters(['userName', 'userCode']),
     target() {
-      return this.$route.query.info
+      return JSON.parse(this.$route.query.info)
     }
   },
   created() {
@@ -719,7 +719,9 @@ export default {
         }
       })
     },
-    changepage() {}
+    changeSelect() {
+      this.$forceUpdate()
+    }
   }
 }
 </script>

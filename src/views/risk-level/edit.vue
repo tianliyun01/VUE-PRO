@@ -380,7 +380,7 @@ export default {
   computed: {
     ...mapGetters(['userName', 'userCode']),
     target() {
-      return this.$route.query.info
+      return JSON.parse(this.$route.query.info)
     }
     /* getHeaders() {
       return this.tableData.reduce((pre, cur, index) => pre.concat(`value${index}`), ['title'])

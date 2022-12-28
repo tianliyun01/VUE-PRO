@@ -7,44 +7,49 @@
         <el-tab-pane label="对比列表" name="first">
           <el-table :data="compareList" style="width: 100%">
             <el-table-column type="index" align="center" label="序号" width="100" />
-            <el-table-column prop="sourceTypeName" align="center" label="结果类型" min-width="100" show-overflow-tooltip>
+            <el-table-column prop="sourceTypeName" align="center" label="结果类型" width="100" show-overflow-tooltip />
+            <!--<el-table-column prop="sourceTypeName" align="center" label="结果类型" min-width="100" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.sourceTypeName" :disabled="true" />
               </template>
-            </el-table-column>
+            </el-table-column>-->
             <!--   <el-table-column prop="factoryName" label="厂商" min-width="100" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.factoryName" disabled="true"></el-input>
               </template>
             </el-table-column>-->
-            <el-table-column prop="brandName" align="center" label="品牌" min-width="180" show-overflow-tooltip>
+            <el-table-column prop="brandName" align="center" label="品牌" width="180" show-overflow-tooltip />
+            <!--<el-table-column prop="brandName" align="center" label="品牌" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.brandName" placement="top-start">
                   <el-input v-model="scope.row.brandName" :disabled="true" />
                 </el-tooltip>
               </template>
-            </el-table-column>
-            <el-table-column prop="carSystemName" align="center" label="车系" min-width="180" show-overflow-tooltip>
+            </el-table-column>-->
+            <el-table-column prop="carSystemName" align="center" label="车系" width="180" show-overflow-tooltip />
+            <!--<el-table-column prop="carSystemName" align="center" label="车系" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.carSystemName" placement="top-start">
                   <el-input v-model="scope.row.carSystemName" :disabled="true" />
                 </el-tooltip>
               </template>
-            </el-table-column>
-            <el-table-column prop="carsName" align="center" label="车组" min-width="180" show-overflow-tooltip>
+            </el-table-column>-->
+            <el-table-column prop="carsName" align="center" label="车组" width="180" show-overflow-tooltip />
+            <!--<el-table-column prop="carsName" align="center" label="车组" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.carsName" placement="top-start">
                   <el-input v-model="scope.row.carsName" :disabled="true" />
                 </el-tooltip>
               </template>
-            </el-table-column>
-            <el-table-column prop="modelName" align="center" label="车型" min-width="180" show-overflow-tooltip>
+            </el-table-column>-->
+            <el-table-column prop="modelName" align="center" label="车型" width="180" show-overflow-tooltip />
+            <!--<el-table-column prop="modelName" align="center" label="车型" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.modelName" placement="top-start">
                   <el-input v-model="scope.row.modelName" :disabled="true" />
                 </el-tooltip>
               </template>
-            </el-table-column>
+            </el-table-column>-->
             <!-- <el-table-column prop="estimateAvgIndemnity" align="center" label="CIRI案均" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.estimateAvgIndemnity" :disabled="true" />
@@ -75,30 +80,34 @@
                 <el-input v-model="scope.row.curPayRate" placeholder="请输入" />
               </template>
             </el-table-column>
-            <el-table-column prop="adjAvgAmount" align="center" label="建议车均保费" min-width="180" show-overflow-tooltip>
+            <el-table-column prop="adjAvgAmount" align="center" label="建议车均保费" width="180" show-overflow-tooltip />
+            <!--<el-table-column prop="adjAvgAmount" align="center" label="建议车均保费" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.adjAvgAmount" :disabled="true" />
               </template>
-            </el-table-column>
-            <el-table-column prop="estimateAvgIndemnity" align="center" label="目标案均赔款" min-width="180" show-overflow-tooltip>
+            </el-table-column>-->
+            <el-table-column prop="estimateAvgIndemnity" align="center" label="目标案均赔款" width="180" show-overflow-tooltip />
+            <!--<el-table-column prop="estimateAvgIndemnity" align="center" label="目标案均赔款" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.estimateAvgIndemnity" :disabled="true" />
               </template>
-            </el-table-column>
-            <el-table-column prop="estimateAvgIndemnity" align="center" label="目标出险率" min-width="180" show-overflow-tooltip>
+            </el-table-column>-->.
+            <el-table-column prop="accidentRate" align="center" label="目标出险率" width="180" show-overflow-tooltip />
+            <!-- <el-table-column prop="accidentRate" align="center" label="目标出险率" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.accidentRate" :disabled="true" />
               </template>
-            </el-table-column>
-            <el-table-column prop="estimateAvgIndemnity" align="center" label="目标赔付费用" min-width="180" show-overflow-tooltip>
+            </el-table-column>-->
+            <el-table-column prop="ciriRiskPremium" align="center" label="目标赔付费用" width="180" show-overflow-tooltip />
+            <!--<el-table-column prop="ciriRiskPremium" align="center" label="目标赔付费用" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.ciriRiskPremium" :disabled="true" />
               </template>
-            </el-table-column>
+            </el-table-column>-->
             <el-table-column fixed="right" label="操作" width="150">
               <template slot-scope="scope">
                 <!--<el-button type="text" size="mini" @click="showInfo(scope.row)">查看</el-button>-->
-                <el-button type="text" size="mini" @click="delRow(scope.$index)">删除</el-button>
+                <el-button type="text" size="mini" :disabled="scope.row.sourceType==='A'" @click="delRow(scope.$index)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -332,7 +341,7 @@ export default {
   computed: {
     ...mapGetters(['userName', 'userCode']),
     target() {
-      return this.$route.query.info
+      return JSON.parse(this.$route.query.info)
     }
   },
   created() {

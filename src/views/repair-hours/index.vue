@@ -115,7 +115,7 @@
                     style="width: 100%"
                     value-key="productCode"
                     :disabled="carsForbidden"
-                    @change="changeCars(queryForm.carsId)"
+                    @change="changeSelect"
                   >
                     <el-option v-for="item in carsList" :key="item.id" :label="item.name" :value="item.id" />
                   </el-select>
@@ -341,7 +341,7 @@ export default {
         name: 'RepairHoursEdit',
         query: {
           // editType: 'EDIT',
-          info: item
+          info: JSON.stringify(item)
         }
       })
     },
@@ -406,7 +406,9 @@ export default {
       this.carsForbidden = true
       this.modelForbidden = true
     },
-    changepage() {}
+    changeSelect() {
+      this.$forceUpdate()
+    }
   }
 }
 </script>

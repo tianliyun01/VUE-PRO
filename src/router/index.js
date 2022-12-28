@@ -211,7 +211,7 @@ export const constantRoutes = [
     redirect: '/risk-premium/index',
     alwaysShow: true,
     name: '',
-    meta: { title: '当前赔付情况', icon: 'menu' },
+    meta: { title: '风险保费查询及自定义计算', icon: 'menu' },
     children: [
       {
         path: 'index',
