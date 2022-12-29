@@ -147,15 +147,15 @@
       </div>
       <div>
         <el-table :data="pageInfo" style="width: 100%">
-          <el-table-column type="index" label="序号" width="120" />
+          <el-table-column type="index" label="序号" width="120" align="center" />
           <!-- <el-table-column prop="regionName" label="地域" width="120" />
           <el-table-column prop="carTypeName" label="车辆类型" width="120" />
           <el-table-column prop="insurerCodeName" label="保险公司" width="120" show-overflow-tooltip />-->
-          <el-table-column prop="factoryName" label="厂商" width="180" show-overflow-tooltip />
-          <el-table-column prop="brandName" label="品牌" width="180" show-overflow-tooltip />
-          <el-table-column prop="carSystemName" label="车系" width="180" show-overflow-tooltip />
-          <el-table-column prop="carSystemEncode" label="车系代码" width="180" show-overflow-tooltip />
-          <el-table-column prop="carsName" label="车组" width="180" show-overflow-tooltip />
+          <el-table-column prop="factoryName" label="厂商" width="180" show-overflow-tooltip align="center" />
+          <el-table-column prop="brandName" label="品牌" width="180" show-overflow-tooltip align="center" />
+          <el-table-column prop="carSystemName" label="车系" width="180" show-overflow-tooltip align="center" />
+          <el-table-column prop="carSystemEncode" label="车系代码" width="180" show-overflow-tooltip align="center" />
+          <el-table-column prop="carsName" label="车组" width="180" show-overflow-tooltip align="center" />
           <!-- <el-table-column prop="undrewRiskLevel" label="承保风险等级" width="120" show-overflow-tooltip />
           <el-table-column prop="payRiskLevel" label="赔付风险等级" width="120" show-overflow-tooltip />
           <el-table-column prop="accidentLevel" label="出险风险等级" width="120" show-overflow-tooltip />-->

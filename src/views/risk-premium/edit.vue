@@ -5,7 +5,7 @@
         <el-tab-pane label="对比列表" name="first">
           <el-table :data="compareList" style="width: 100%">
             <el-table-column type="index" align="center" label="序号" width="100" />
-            <el-table-column prop="sourceTypeName" label="结果类型" width="150" show-overflow-tooltip />
+            <el-table-column prop="sourceTypeName" label="结果类型" width="150" show-overflow-tooltip align="center" />
             <!--<el-table-column prop="sourceTypeName" align="center" label="结果类型" min-width="100" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.sourceTypeName" placement="top-start">
@@ -13,7 +13,7 @@
                 </el-tooltip>
               </template>
             </el-table-column>-->
-            <el-table-column prop="dataSourceName" label="结果来源" width="150" show-overflow-tooltip />
+            <el-table-column prop="dataSourceName" label="结果来源" width="150" show-overflow-tooltip align="center" />
             <!--<el-table-column prop="dataSourceName" align="center" label="结果类型" min-width="100" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.dataSourceName" placement="top-start">
@@ -42,7 +42,7 @@
                 </el-tooltip>
               </template>
             </el-table-column>-->
-            <el-table-column prop="brandName" label="品牌" width="150" show-overflow-tooltip />
+            <el-table-column prop="brandName" label="品牌" width="150" show-overflow-tooltip align="center" />
             <!--<el-table-column prop="brandName" align="center" label="品牌" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.brandName" placement="top-start">
@@ -50,7 +50,7 @@
                 </el-tooltip>
               </template>
             </el-table-column>-->
-            <el-table-column prop="carSystemName" label="车系" width="150" show-overflow-tooltip />
+            <el-table-column prop="carSystemName" label="车系" width="150" show-overflow-tooltip align="center" />
             <!--<el-table-column prop="carSystemName" align="center" label="车系" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.carSystemName" placement="top-start">
@@ -58,7 +58,7 @@
                 </el-tooltip>
               </template>
             </el-table-column>-->
-            <el-table-column prop="carsName" label="车组" width="150" show-overflow-tooltip />
+            <el-table-column prop="carsName" label="车组" width="150" show-overflow-tooltip align="center" />
             <!--<el-table-column prop="carsName" align="center" label="车组" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.carsName" placement="top-start">
@@ -66,7 +66,7 @@
                 </el-tooltip>
               </template>
             </el-table-column>-->
-            <el-table-column prop="modelName" label="车型" width="150" show-overflow-tooltip />
+            <el-table-column prop="modelName" label="车型" width="150" show-overflow-tooltip align="center" />
             <!-- <el-table-column prop="modelName" align="center" label="车型" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-tooltip class="item" effect="dark" :content="scope.row.modelName" placement="top-start">
@@ -74,43 +74,43 @@
                 </el-tooltip>
               </template>
             </el-table-column>-->
-            <el-table-column prop="undrewRiskLevel" label="承保风险等级" width="150" show-overflow-tooltip />
+            <el-table-column prop="undrewRiskLevel" label="承保风险等级" width="150" show-overflow-tooltip align="center" />
             <!--<el-table-column prop="undrewRiskLevel" align="center" label="承保风险等级" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.undrewRiskLevel" :disabled="true" />
               </template>
             </el-table-column>-->
-            <el-table-column prop="estimateRiskPremium" label="预估风险保费" width="150" show-overflow-tooltip />
+            <el-table-column prop="estimateRiskPremium" label="预估风险保费" width="150" show-overflow-tooltip align="center" />
             <!--<el-table-column prop="estimateRiskPremium" align="center" label="预估风险保费" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.estimateRiskPremium" :disabled="true" />
               </template>
             </el-table-column>-->
-            <el-table-column prop="payRiskLevel" label="赔付风险等级" width="150" show-overflow-tooltip />
+            <el-table-column prop="payRiskLevel" label="赔付风险等级" width="150" show-overflow-tooltip align="center" />
             <!--<el-table-column prop="payRiskLevel" align="center" label="赔付风险等级" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.payRiskLevel" :disabled="true" />
               </template>
             </el-table-column>-->
-            <el-table-column prop="estimateAvgIndemnity" label="预估案均赔款" width="150" show-overflow-tooltip />
+            <el-table-column prop="estimateAvgIndemnity" label="预估案均赔款" width="150" show-overflow-tooltip align="center" />
             <!--<el-table-column prop="estimateAvgIndemnity" align="center" label="预估案均赔款" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.estimateAvgIndemnity" :disabled="true" />
               </template>
             </el-table-column>-->
-            <el-table-column prop="accidentLevel" label="出险风险等级" width="150" show-overflow-tooltip />
+            <el-table-column prop="accidentLevel" label="出险风险等级" width="150" show-overflow-tooltip align="center" />
             <!-- <el-table-column prop="accidentLevel" align="center" label="出险风险等级" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.accidentLevel" :disabled="true" />
               </template>
             </el-table-column>-->
-            <el-table-column prop="accidentRate" label="出险率" width="150" show-overflow-tooltip />
+            <el-table-column prop="accidentRate" label="出险率" width="150" show-overflow-tooltip align="center" />
             <!--<el-table-column prop="accidentRate" align="center" label="出险率" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.accidentRate" :disabled="true" />
               </template>
             </el-table-column>-->
-            <el-table-column prop="partFee" label="常用配件价格" width="150" show-overflow-tooltip />
+            <el-table-column prop="partFee" label="常用配件价格" width="150" show-overflow-tooltip align="center" />
             <!--<el-table-column prop="partFee" align="center" label="常用配件价格" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.partFee" :disabled="true" />
@@ -271,22 +271,22 @@
             type="selection"
             width="55"
           />
-          <el-table-column type="index" label="序号" width="120" />
-          <el-table-column prop="dataSourceName" label="结果来源" width="120" show-overflow-tooltip />
-          <el-table-column prop="regionName" label="地域" width="120" />
-          <el-table-column prop="carTypeName" label="车辆类型" width="120" />
-          <el-table-column prop="insurerCodeName" label="保险公司" width="120" show-overflow-tooltip />
-          <el-table-column prop="brandName" label="品牌" width="120" />
-          <el-table-column prop="carSystemName" label="车系" width="120" show-overflow-tooltip />
-          <el-table-column prop="carsName" label="车组" width="120" show-overflow-tooltip />
-          <el-table-column prop="modelName" label="车型" width="120" show-overflow-tooltip />
-          <el-table-column prop="undrewRiskLevel" label="承保风险等级" width="120" show-overflow-tooltip />
-          <el-table-column prop="estimateRiskPremium" label="预估风险保费" width="120" show-overflow-tooltip />
-          <el-table-column prop="payRiskLevel" label="赔付风险等级" width="120" show-overflow-tooltip />
-          <el-table-column prop="estimateAvgIndemnity" label="预估案均赔款" width="120" show-overflow-tooltip />
-          <el-table-column prop="accidentLevel" label="出险风险等级" width="120" show-overflow-tooltip />
-          <el-table-column prop="accidentRate" label="出险率" width="120" show-overflow-tooltip />
-          <el-table-column prop="partFee" label="常用配件价格" width="120" show-overflow-tooltip />
+          <el-table-column type="index" label="序号" width="120" align="center" />
+          <el-table-column prop="dataSourceName" label="结果来源" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="regionName" label="地域" width="120" align="center" />
+          <el-table-column prop="carTypeName" label="车辆类型" width="120" align="center" />
+          <el-table-column prop="insurerCodeName" label="保险公司" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="brandName" label="品牌" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="carSystemName" label="车系" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="carsName" label="车组" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="modelName" label="车型" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="undrewRiskLevel" label="承保风险等级" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="estimateRiskPremium" label="预估风险保费" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="payRiskLevel" label="赔付风险等级" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="estimateAvgIndemnity" label="预估案均赔款" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="accidentLevel" label="出险风险等级" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="accidentRate" label="出险率" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="partFee" label="常用配件价格" width="120" show-overflow-tooltip align="center" />
           <!--<el-table-column type="index" label="序号" width="100" />
           <el-table-column prop="riskName" label="品牌" min-width="200" show-overflow-tooltip>
             <template slot-scope="scope">

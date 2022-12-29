@@ -63,6 +63,7 @@
                     clearable
                     style="width: 100%"
                     value-key="productCode"
+                    @change="changeDataType"
                   >
                     <el-option v-for="item in dataTypeList" :key="item.codeCode" :label="item.codeCname" :value="item.codeCode" />
                   </el-select>
@@ -102,7 +103,7 @@
                 </el-form-item>
               </el-col>
 
-              <el-col :span="8">
+              <el-col v-if="queryForm.dataType>=1" :span="8">
                 <el-form-item label="车系" prop="carSystemId">
                   <el-select
                     v-model="queryForm.carSystemId"
@@ -119,7 +120,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <el-col v-if="queryForm.dataType>=2" :span="8">
                 <el-form-item label="车组" prop="carsId">
                   <el-select
                     v-model="queryForm.carsId"
@@ -136,8 +137,8 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
-                <el-form-item label="车型" prop="modelId">
+              <el-col v-if="queryForm.dataType>=3" :span="8">
+                <el-form-item key="modelId" label="车型" prop="modelId">
                   <el-select
                     v-model="queryForm.modelId"
                     class="quick-select"
@@ -152,7 +153,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <el-col v-if="queryForm.dataType>=1" :span="8">
                 <el-form-item label="车系代码">
                   <el-input
                     v-model="queryForm.carSystemEncode"
@@ -162,7 +163,7 @@
                   />
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <el-col v-if="queryForm.dataType>=3" :span="8">
                 <el-form-item label="车型代码">
                   <el-input
                     v-model="queryForm.modelEncode"
@@ -207,15 +208,15 @@
       </div>
       <div>
         <el-table :data="pageInfo" style="width: 100%">
-          <el-table-column type="index" label="序号" width="120" />
-          <el-table-column prop="dataSourceName" label="结果来源" width="150" show-overflow-tooltip />
-          <el-table-column prop="undrewRiskLevel" label="承保风险等级" width="100" />
-          <el-table-column prop="estimateRiskPremium" label="预估风险保费" width="100" />
-          <el-table-column prop="payRiskLevel" label="赔付风险等级" width="100" show-overflow-tooltip />
-          <el-table-column prop="estimateAvgIndemnity" label="预估案均赔款" width="100" show-overflow-tooltip />
-          <el-table-column prop="accidentLevel" label="出险风险等级" width="100" show-overflow-tooltip />
-          <el-table-column prop="accidentRate" label="出险率" width="100" show-overflow-tooltip />
-          <el-table-column prop="partFee" label="常用配件价格" width="100" show-overflow-tooltip />
+          <el-table-column type="index" label="序号" width="120" align="center" />
+          <el-table-column prop="dataSourceName" label="结果来源" width="150" show-overflow-tooltip align="center" />
+          <el-table-column prop="undrewRiskLevel" label="承保风险等级" width="100" align="center" />
+          <el-table-column prop="estimateRiskPremium" label="预估风险保费" width="100" align="center" />
+          <el-table-column prop="payRiskLevel" label="赔付风险等级" width="100" show-overflow-tooltip align="center" />
+          <el-table-column prop="estimateAvgIndemnity" label="预估案均赔款" width="100" show-overflow-tooltip align="center" />
+          <el-table-column prop="accidentLevel" label="出险风险等级" width="100" show-overflow-tooltip align="center" />
+          <el-table-column prop="accidentRate" label="出险率" width="100" show-overflow-tooltip align="center" />
+          <el-table-column prop="partFee" label="常用配件价格" width="100" show-overflow-tooltip align="center" />
           <el-table-column fixed="right" label="操作" width="150">
             <template slot-scope="scope">
               <el-button type="text" size="mini" @click="edit(scope.row)">添加对比</el-button>
@@ -237,6 +238,11 @@ export default {
     return {
       activeName: 'first',
       queryForm: {
+        regionId: null,
+        insurerCode: null,
+        carType: null,
+        dataType: null,
+        factoryId: null,
         brandId: null,
         carSystemId: null,
         carsId: null,
@@ -355,6 +361,13 @@ export default {
         })
       }
     },
+    changeDataType() {
+      this.carsList = []
+      this.modelList = []
+      this.queryForm.carSystemId = null
+      this.queryForm.carsId = null
+      this.queryForm.modelId = null
+    },
     queryData() {
       this.$refs['queryForm'].validate((valid) => {
         if (valid) {
@@ -424,6 +437,11 @@ export default {
     // 重置
     reset() {
       this.queryForm = {
+        regionId: null,
+        insurerCode: null,
+        carType: null,
+        dataType: null,
+        factoryId: null,
         brandId: null,
         carSystemId: null,
         carsId: null,

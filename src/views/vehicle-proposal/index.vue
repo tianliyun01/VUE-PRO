@@ -63,6 +63,7 @@
                     clearable
                     style="width: 100%"
                     value-key="productCode"
+                    @change="changeDataType"
                   >
                     <el-option v-for="item in dataTypeList" :key="item.codeCode" :label="item.codeCname" :value="item.codeCode" />
                   </el-select>
@@ -102,7 +103,7 @@
                 </el-form-item>
               </el-col>
 
-              <el-col :span="8">
+              <el-col v-if="queryForm.dataType>=1" :span="8">
                 <el-form-item label="车系">
                   <el-select
                     v-model="queryForm.carSystemId"
@@ -119,7 +120,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <el-col v-if="queryForm.dataType>=2" :span="8">
                 <el-form-item label="车组">
                   <el-select
                     v-model="queryForm.carsId"
@@ -136,7 +137,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <el-col v-if="queryForm.dataType>=3" :span="8">
                 <el-form-item label="年款">
                   <el-select
                     v-model="queryForm.yearParagraph"
@@ -187,13 +188,13 @@
       </div>
       <div>
         <el-table :data="pageInfo" style="width: 100%">
-          <el-table-column type="index" label="序号" width="120" />
-          <el-table-column prop="brandName" label="品牌" width="150" />
-          <el-table-column prop="carSystemName" label="车系" width="150" show-overflow-tooltip />
-          <el-table-column prop="carSystemEncode" label="车系代码" width="150" show-overflow-tooltip />
-          <el-table-column prop="carsName" label="车组" width="150" show-overflow-tooltip />
-          <el-table-column prop="modelName" label="车型" width="150" show-overflow-tooltip />
-          <el-table-column prop="modelEncode" label="车型代码" width="150" show-overflow-tooltip />
+          <el-table-column type="index" label="序号" width="120" align="center" />
+          <el-table-column prop="brandName" label="品牌" width="150" align="center" />
+          <el-table-column prop="carSystemName" label="车系" width="150" show-overflow-tooltip align="center" />
+          <el-table-column prop="carSystemEncode" label="车系代码" width="150" show-overflow-tooltip align="center" />
+          <el-table-column prop="carsName" label="车组" width="150" show-overflow-tooltip align="center" />
+          <el-table-column prop="modelName" label="车型" width="150" show-overflow-tooltip align="center" />
+          <el-table-column prop="modelEncode" label="车型代码" width="150" show-overflow-tooltip align="center" />
           <!-- <el-table-column prop="estimateAvgIndemnity" label="CIRI案均" width="120" show-overflow-tooltip />
           <el-table-column prop="accidentRate" label="CIRI出险率" width="120" show-overflow-tooltip />-->
           <!--  <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
@@ -233,7 +234,17 @@ export default {
   data() {
     return {
       activeName: 'first',
-      queryForm: { yearParagraph: null },
+      queryForm: {
+        regionId: null,
+        insurerCode: null,
+        carType: null,
+        dataType: null,
+        factoryId: null,
+        brandId: null,
+        carSystemId: null,
+        carsId: null,
+        yearParagraph: null
+      },
       regionList: [],
       carTypeList: [],
       dataTypeList: [],
@@ -352,6 +363,13 @@ export default {
         })
       }
     },
+    changeDataType() {
+      this.carsList = []
+      this.yearParagraphList = []
+      this.queryForm.carSystemId = null
+      this.queryForm.carsId = null
+      this.queryForm.yearParagraph = null
+    },
     queryData() {
       this.$refs['queryForm'].validate((valid) => {
         if (valid) {
@@ -411,7 +429,17 @@ export default {
     },
     // 重置
     reset() {
-      this.queryForm = { yearParagraph: null }
+      this.queryForm = {
+        regionId: null,
+        insurerCode: null,
+        carType: null,
+        dataType: null,
+        factoryId: null,
+        brandId: null,
+        carSystemId: null,
+        carsId: null,
+        yearParagraph: null
+      }
       this.brandForbidden = true
       this.carSystemForbidden = true
       this.carsForbidden = true
