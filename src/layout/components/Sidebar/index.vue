@@ -53,7 +53,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { functionPermission, getUserCodeTreeMenu } from '../../../api/system'
+import { systemPermission, functionPermission } from '../../../api/system'
 // import Logo from './Logo'
 import MenuTree from './MenuTree'
 import variables from '@/styles/variables.scss'
@@ -67,68 +67,69 @@ export default {
       syetemList: [],
       menuList: [
         {
-          menuName: '菜单管理',
+          menuCName: '菜单管理',
           menuIcon: 'documentation',
-          menuUrl: '/menu-manage/index'
+          url: '/menu-manage/index'
         },
         {
-          menuName: '用户管理',
+          menuCName: '用户管理',
           menuIcon: 'documentation',
-          menuUrl: '/user/index'
+          url: '/user/index'
         },
         {
-          menuName: '权限管理',
+          menuCName: '权限管理',
           menuIcon: 'documentation',
-          menuUrl: '/permission/index'
+          url: '/permission/index'
         },
         {
-          menuName: '角色管理',
+          menuCName: '角色管理',
           menuIcon: 'documentation',
-          menuUrl: '/role/index'
+          url: '/role/index'
         },
         {
-          menuName: '车型风险级别查询',
+          menuCName: '车型风险级别查询',
           menuIcon: 'documentation',
-          menuUrl: '/risk-level/index'
+          url: '/risk-level/index'
         },
         {
-          menuName: '风险保费查询及自定义计算',
+          menuCName: '风险保费查询及自定义计算',
           menuIcon: 'documentation',
-          menuUrl: '/risk-premium/index'
+          url: '/risk-premium/index'
         },
         {
-          menuName: '标准赔付查询',
+          menuCName: '标准赔付查询',
           menuIcon: 'documentation',
+          url: '/compensation/index',
           menuList: [
             {
-              menuName: '车型当前赔付情况分析',
+              menuCName: '车型当前赔付情况分析',
               menuIcon: 'documentation',
-              menuUrl: '/compensation/index'
+              url: '/compensation/index'
             },
             {
-              menuName: '车险扭亏分析',
+              menuCName: '车险扭亏分析',
               menuIcon: 'documentation',
-              menuUrl: '/cartype-compensation/index'
+              url: '/cartype-compensation/index'
             },
             {
-              menuName: '车损险各车型保费建议',
+              menuCName: '车损险各车型保费建议',
               menuIcon: 'documentation',
-              menuUrl: '/vehicle-proposal/index'
+              url: '/vehicle-proposal/index'
             }
 
           ]
         },
         {
-          menuName: '维修工时数据查询',
+          menuCName: '维修工时数据查询',
           menuIcon: 'documentation',
-          menuUrl: '/repair-hours/index'
+          url: '/repair-hours/index'
         }
       ]
     }
   },
   computed: {
     ...mapGetters([
-      'userCode',
+      'permission_routes',
       'sidebar'
     ]),
     activeMenu() {
@@ -151,12 +152,14 @@ export default {
     }
   },
   created() {
-    this.queryMenu()
+    // this.querySystem()
   },
   methods: {
-    queryMenu() {
-      getUserCodeTreeMenu({ userCode: this.userCode }).then(_data => {
-        this.menuList = _data.menuDtos
+    querySystem() {
+      systemPermission().then(_data => {
+        this.syetemList = _data
+        this.systemInfo = _data[0]
+        this.menuQuery()
       })
     },
     handleSystem(item) {
@@ -169,11 +172,11 @@ export default {
       functionPermission({ systemCode: this.systemInfo.systemCode }).then(_data => {
         this.menuList = _data[this.systemInfo.systemCode]
       })
-      getUserCodeTreeMenu()
     },
     jump(e) {
       // 统计菜单
-      this.$router.push({ path: e.menuUrl })
+      // this.$router.push({ path: '/menu', query: { url: e.url }})
+      this.$router.push({ path: e.url })
     }
   }
 }

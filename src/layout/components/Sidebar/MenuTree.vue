@@ -1,7 +1,7 @@
 <template>
   <div class="menutree" :class="meneClass">
     <template v-for="(item,index) in menuData">
-      <el-menu-item v-if="!item.menuList || !item.menuList.length" :key="index" :index="String(item.menuUrl)" @click="jump(item)">
+      <el-menu-item v-if="!item.menuList || !item.menuList.length" :key="index" :index="String(item.url)" @click="jump(item)">
         <!-- <i v-if="!item.imgcode&&item.menuIcon" class="el-icon-location" /> -->
         <svg-icon
           v-if="item.menuIcon"
@@ -15,9 +15,9 @@
           style="width: 20px; height: 20px;margin-left:-6px;margin-right:8px"
           :icon-class="item.menuIconPre"
         />
-        <span slot="title">{{ item.menuName }}</span>
+        <span slot="title">{{ item.menuCName }}</span>
       </el-menu-item>
-      <el-submenu v-if="item.menuList && item.menuList.length" :key="index" :index="String(item.menuUrl)">
+      <el-submenu v-if="item.menuList && item.menuList.length" :key="index" :index="String(item.url)">
         <template slot="title">
           <!-- <i v-if="!item.imgcode&&item.menuIcon" class="el-icon-menu" /> -->
           <svg-icon
@@ -26,7 +26,7 @@
             style="width: 20px; height: 20px;margin-left:-6px;margin-right:8px;"
             :icon-class="item.menuIcon"
           />
-          <span>{{ item.menuName }}</span>
+          <span>{{ item.menuCName }}</span>
         </template>
         <menu-tree :menu-data="item.menuList" :menu-index="menuIndex+1" @jump="jump" />
       </el-submenu>

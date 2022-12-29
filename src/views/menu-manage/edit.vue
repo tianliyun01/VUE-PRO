@@ -67,7 +67,6 @@
                     <el-input
                       v-model="editForm.menuUrl"
                       placeholder="请输入"
-                      :disabled="urlDisabled"
                       style="width: 100%"
                     />
                   </el-form-item>
@@ -124,7 +123,6 @@ export default {
       },
       riskCodeList: [],
       menuList: [],
-      urlDisabled: false,
       menuTypeList: [],
       levels: [
         { lable: '一级菜单', value: '1' },
@@ -149,16 +147,6 @@ export default {
     ...mapGetters(['userInfo']),
     editType() {
       return this.$route.query.editType
-    }
-  },
-  watch: {
-    'editForm.isAsMenu'() {
-      if (this.editForm.isAsMenu === '0') {
-        this.urlDisabled = true
-        this.editForm.menuUrl = ''
-      } else {
-        this.urlDisabled = false
-      }
     }
   },
   created() {
