@@ -14,3 +14,11 @@ export function functionPermission(data) {
     data
   })
 }
+
+export function getUserCodeTreeMenu(data) {
+  return request({
+    url: 'api/bs/menu/getUserCodeTreeMenu',
+    method: 'get',
+    params: data
+  })
+}
