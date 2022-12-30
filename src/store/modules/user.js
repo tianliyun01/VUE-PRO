@@ -6,6 +6,7 @@ const state = {
   token: getToken(),
   userName: '',
   userCode: '',
+  menuId: '',
   introduction: '',
   roles: []
 }
@@ -19,6 +20,10 @@ const mutations = {
   },
   SET_USERNAME: (state, userName) => {
     state.userName = userName
+  },
+  SET_MENUID: (state, menuId) => {
+    state.menuId = menuId
+    window.sessionStorage.menuId = menuId
   },
   SET_USERCODE: (state, userCode) => {
     state.userCode = userCode

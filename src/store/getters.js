@@ -9,6 +9,10 @@ const getters = {
   userName: state => state.user.userName,
   introduction: state => state.user.introduction,
   roles: state => state.user.roles,
+  menuId(state) {
+    state.user.menuId = window.sessionStorage.menuId ? window.sessionStorage.menuId : state.user.menuId
+    return state.user.menuId
+  },
   permission_routes: state => state.permission.routes,
   errorLogs: state => state.errorLog.logs
 }

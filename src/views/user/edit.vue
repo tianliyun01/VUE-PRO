@@ -112,7 +112,7 @@
                         style="width: 100%"
                         value-key="productCode"
                       >
-                        <el-option v-for="item in selectTimesType" :key="item.label" :label="item.value" :value="item.lable" />
+                        <el-option v-for="item in selectTimesType" :key="item.value" :label="item.label" :value="item.value" />
                       </el-select>
                     </el-form-item>
                   </el-col>

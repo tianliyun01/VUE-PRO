@@ -207,7 +207,8 @@ export default {
     },
     handleNodeClick(data, nodes) {
       console.log(data, nodes.checkedNodes)
-      this.listQuery.roleMenuDtoList = nodes.checkedNodes.filter(i => i.isAsMenu === '1')
+      // this.listQuery.roleMenuDtoList = nodes.checkedNodes.filter(i => i.isAsMenu === '1')
+      this.listQuery.roleMenuDtoList = nodes.checkedNodes
     },
     // 确定
     save(item, index) {

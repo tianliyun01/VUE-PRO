@@ -186,7 +186,7 @@ export const constantRoutes = [
   {
     path: '/cartype-compensation',
     component: Layout,
-    redirect: '/cartcompensationype-/index',
+    redirect: '/cartype-compensation/index',
     alwaysShow: true,
     name: '',
     meta: { title: '车型扭亏分析', icon: 'menu' },

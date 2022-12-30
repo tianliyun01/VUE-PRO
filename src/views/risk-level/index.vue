@@ -262,7 +262,6 @@ export default {
       carsForbidden: true,
       modelForbidden: true,
       insurerCodeList: [],
-      menuId: '13',
       pageInfo: [],
       loading: false,
       // acurl: '',
@@ -276,7 +275,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userName', 'userCode'])
+    ...mapGetters(['userName', 'userCode', 'menuId'])
+    // menuId() {
+    //   return this.$route.query.menuId
+    // }
+
   },
   created() {
     this.initData()
@@ -418,7 +421,9 @@ export default {
         name: 'RiskLevelEdit',
         query: {
           // editType: 'EDIT',
-          info: JSON.stringify(item)
+          info: JSON.stringify(item),
+          menuId: this.menuId,
+          dataType: this.queryForm.dataType
         }
       })
     },

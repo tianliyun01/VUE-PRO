@@ -162,7 +162,7 @@
             </el-form-item>
           </el-col>
 
-          <el-col :span="8">
+          <el-col v-if="dataType && dataType>=1" :span="8">
             <el-form-item label="车系">
               <el-select
                 v-model="queryForm.carSystemId"
@@ -179,7 +179,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col v-if="dataType && dataType>=2" :span="8">
             <el-form-item label="车组">
               <el-select
                 v-model="queryForm.carsId"
@@ -196,7 +196,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col v-if="dataType && dataType>=3" :span="8">
             <el-form-item label="车型">
               <el-select
                 v-model="queryForm.modelId"
@@ -213,7 +213,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col v-if="dataType && dataType>=1" :span="8">
             <el-form-item label="车系代码">
               <el-input
                 v-model="queryForm.carSystemEncode"
@@ -223,7 +223,7 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col v-if="dataType && dataType>=3" :span="8">
             <el-form-item label="车型代码">
               <el-input
                 v-model="queryForm.modelEncode"
@@ -308,10 +308,16 @@ export default {
   data() {
     return {
       activeName: 'first',
-      queryForm: {},
+      queryForm: {
+        factoryId: null,
+        brandId: null,
+        carSystemId: null,
+        carsId: null,
+        modelId: null
+      },
       repairInfo: {},
       rowInfo: {},
-      menuId: '11',
+      // menuId: '11',
       pageInfoList: [],
       compareList: [],
       tableData: [{}],
@@ -353,6 +359,12 @@ export default {
     ...mapGetters(['userName', 'userCode']),
     target() {
       return JSON.parse(this.$route.query.info)
+    },
+    menuId() {
+      return this.$route.query.menuId
+    },
+    dataType() {
+      return this.$route.query.dataType
     }
   },
   created() {
@@ -460,7 +472,7 @@ export default {
         regionId: this.queryForm.regionId,
         insurerCode: this.queryForm.insurerCode,
         carType: this.queryForm.carType,
-        dataType: this.queryForm.dataType,
+        dataType: this.dataType,
         factoryId: this.queryForm.factoryId,
         brandId: this.queryForm.brandId,
         carSystemId: this.queryForm.carSystemId,
@@ -497,7 +509,13 @@ export default {
     },
     // 重置
     reset() {
-      this.queryForm = {}
+      this.queryForm = {
+        factoryId: null,
+        brandId: null,
+        carSystemId: null,
+        carsId: null,
+        modelId: null
+      }
       this.brandForbidden = true
       this.carSystemForbidden = true
       this.carsForbidden = true
