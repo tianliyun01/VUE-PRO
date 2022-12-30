@@ -67,6 +67,7 @@
                     <el-input
                       v-model="editForm.menuUrl"
                       placeholder="请输入"
+                      :disabled="urlDisabled"
                       style="width: 100%"
                     />
                   </el-form-item>
@@ -115,7 +116,6 @@ export default {
       },
       rules: {
         menuName: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
-        menuUrl: [{ required: true, message: '菜单URL不能为空', trigger: 'blur' }],
         description: [{ required: true, message: '描述不能为空', trigger: 'blur' }],
         isValidate: [{ required: true, message: '菜单状态不能为空', trigger: 'blur' }],
         isAsMenu: [{ required: true, message: '不能为空', trigger: 'blur' }],
@@ -123,6 +123,7 @@ export default {
       },
       riskCodeList: [],
       menuList: [],
+      urlDisabled: false,
       menuTypeList: [],
       levels: [
         { lable: '一级菜单', value: '1' },
@@ -147,6 +148,16 @@ export default {
     ...mapGetters(['userInfo']),
     editType() {
       return this.$route.query.editType
+    }
+  },
+  watch: {
+    'editForm.isAsMenu'() {
+      if (this.editForm.isAsMenu === '0') {
+        this.urlDisabled = true
+        this.editForm.menuUrl = ''
+      } else {
+        this.urlDisabled = false
+      }
     }
   },
   created() {
