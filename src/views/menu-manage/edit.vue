@@ -116,7 +116,6 @@ export default {
       },
       rules: {
         menuName: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
-        menuUrl: [{ required: true, message: '菜单URL不能为空', trigger: 'blur' }],
         description: [{ required: true, message: '描述不能为空', trigger: 'blur' }],
         isValidate: [{ required: true, message: '菜单状态不能为空', trigger: 'blur' }],
         isAsMenu: [{ required: true, message: '不能为空', trigger: 'blur' }],

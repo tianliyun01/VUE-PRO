@@ -69,7 +69,7 @@ export default {
         {
           menuName: '菜单管理',
           menuIcon: 'documentation',
-          menuUrl: '/menu-manage/index'
+          menmenuUUrl: '/menu-manage/index'
         },
         {
           menuName: '用户管理',
