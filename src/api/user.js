@@ -92,3 +92,11 @@ export function updatePassWord(data) {
     params: data
   })
 }
+
+export function logout(data) {
+  return request({
+    url: '/api/sso/logout',
+    method: 'post',
+    data
+  })
+}

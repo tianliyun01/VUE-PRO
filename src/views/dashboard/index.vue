@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-container">首页</div>
+  <div class="dashboard-container" />
 </template>
 
 <script>
@@ -24,3 +24,11 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.dashboard-container {
+  background-image: url(../../assets/images/index_bg.png) ;
+  width: 1700px;
+  height: 900px;
+  background-size: cover;
+}
+</style>
