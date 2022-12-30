@@ -66,63 +66,63 @@ export default {
       systemInfo: {},
       syetemList: [],
       menuList: [
-        {
-          menuName: '菜单管理',
-          menuIcon: 'documentation',
-          menmenuUUrl: '/menu-manage/index'
-        },
-        {
-          menuName: '用户管理',
-          menuIcon: 'documentation',
-          menuUrl: '/user/index'
-        },
-        {
-          menuName: '权限管理',
-          menuIcon: 'documentation',
-          menuUrl: '/permission/index'
-        },
-        {
-          menuName: '角色管理',
-          menuIcon: 'documentation',
-          menuUrl: '/role/index'
-        },
-        {
-          menuName: '车型风险级别查询',
-          menuIcon: 'documentation',
-          menuUrl: '/risk-level/index'
-        },
-        {
-          menuName: '风险保费查询及自定义计算',
-          menuIcon: 'documentation',
-          menuUrl: '/risk-premium/index'
-        },
-        {
-          menuName: '标准赔付查询',
-          menuIcon: 'documentation',
-          menuList: [
-            {
-              menuName: '车型当前赔付情况分析',
-              menuIcon: 'documentation',
-              menuUrl: '/compensation/index'
-            },
-            {
-              menuName: '车险扭亏分析',
-              menuIcon: 'documentation',
-              menuUrl: '/cartype-compensation/index'
-            },
-            {
-              menuName: '车损险各车型保费建议',
-              menuIcon: 'documentation',
-              menuUrl: '/vehicle-proposal/index'
-            }
-
-          ]
-        },
-        {
-          menuName: '维修工时数据查询',
-          menuIcon: 'documentation',
-          menuUrl: '/repair-hours/index'
-        }
+        // {
+        //   menuName: '菜单管理',
+        //   menuIcon: 'documentation',
+        //   menmenuUUrl: '/menu-manage/index'
+        // },
+        // {
+        //   menuName: '用户管理',
+        //   menuIcon: 'documentation',
+        //   menuUrl: '/user/index'
+        // },
+        // {
+        //   menuName: '权限管理',
+        //   menuIcon: 'documentation',
+        //   menuUrl: '/permission/index'
+        // },
+        // {
+        //   menuName: '角色管理',
+        //   menuIcon: 'documentation',
+        //   menuUrl: '/role/index'
+        // },
+        // {
+        //   menuName: '车型风险级别查询',
+        //   menuIcon: 'documentation',
+        //   menuUrl: '/risk-level/index'
+        // },
+        // {
+        //   menuName: '风险保费查询及自定义计算',
+        //   menuIcon: 'documentation',
+        //   menuUrl: '/risk-premium/index'
+        // },
+        // {
+        //   menuName: '标准赔付查询',
+        //   menuIcon: 'documentation',
+        //   menuList: [
+        //     {
+        //       menuName: '车型当前赔付情况分析',
+        //       menuIcon: 'documentation',
+        //       menuUrl: '/compensation/index'
+        //     },
+        //     {
+        //       menuName: '车险扭亏分析',
+        //       menuIcon: 'documentation',
+        //       menuUrl: '/cartype-compensation/index'
+        //     },
+        //     {
+        //       menuName: '车损险各车型保费建议',
+        //       menuIcon: 'documentation',
+        //       menuUrl: '/vehicle-proposal/index'
+        //     }
+        //
+        //   ]
+        // },
+        // {
+        //   menuName: '维修工时数据查询',
+        //   menuIcon: 'documentation',
+        //   menuUrl: '/repair-hours/index'
+        // }
       ]
     }
   },
@@ -156,7 +156,7 @@ export default {
   methods: {
     queryMenu() {
       getUserCodeTreeMenu({ userCode: this.userCode }).then(_data => {
-        this.menuList = _data.menuDtos
+        this.menuList = _data.menuTreeDtoList
       })
     },
     handleSystem(item) {
@@ -173,7 +173,7 @@ export default {
     },
     jump(e) {
       // 统计菜单
-      this.$router.push({ path: e.menuUrl })
+      this.$router.push({ path: e.menuUrl, query: { menuId: e.id }})
     }
   }
 }
