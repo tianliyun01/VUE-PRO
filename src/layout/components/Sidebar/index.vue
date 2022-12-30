@@ -174,6 +174,7 @@ export default {
     jump(e) {
       // 统计菜单
       this.$router.push({ path: e.menuUrl, query: { menuId: e.id }})
+      this.$store.commit('user/SET_MENUID', e.id)
     }
   }
 }
