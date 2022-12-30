@@ -48,7 +48,6 @@
                       v-model="editForm.email"
                       placeholder="请输入"
                       style="width: 100%"
-                      @blur="bluremail(editForm.email,$event)"
                     />
                   </el-form-item>
                 </el-col>
@@ -76,6 +75,7 @@
                       v-model="editForm.userEname"
                       placeholder="请输入"
                       style="width: 100%"
+                      @blur="blurUserEname(editForm.userEname,$event)"
                     />
                   </el-form-item>
                 </el-col>
@@ -161,7 +161,7 @@
   </div>
 </template>
 <script>
-import { queryUserInfo, saveOrUpdate, isExisted } from '../../api/user'
+import { queryUserInfo, saveOrUpdate, isExisted, isExistedUserEname } from '../../api/user'
 import { mapGetters } from 'vuex'
 export default {
   name: 'UserEdie',
@@ -239,6 +239,7 @@ export default {
           res.userDto.insuCompany = []
           this.editForm = res.userDto
           this.editForm.oriUserCode = res.userDto.userCode
+          this.editForm.oriUserEname = res.userDto.userEname
           for (var userPer of res.userPermissions) {
             if (userPer.type === '1') {
               this.editForm.selectArea.push(userPer.refId)
@@ -288,6 +289,28 @@ export default {
           isExisted(params).then(res => {
             if (res.isExisted === true) {
               this.$message.error('员工代码已存在!')
+              event.target.focus()
+            }
+          })
+        }
+      }
+    },
+    blurUserEname(userEname, event) {
+      var params = {
+        ename: userEname
+      }
+      if (this.editType === 'ADD') {
+        isExistedUserEname(params).then(res => {
+          if (res.isExisted === true) {
+            this.$message.error('英文名已存在!')
+            event.target.focus()
+          }
+        })
+      } else if (this.editType === 'EDIT') {
+        if (userEname && this.editForm.oriUserEname !== userEname) {
+          isExistedUserEname(params).then(res => {
+            if (res.isExisted === true) {
+              this.$message.error('英文名已存在!')
               event.target.focus()
             }
           })

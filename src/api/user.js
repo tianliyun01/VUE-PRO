@@ -70,7 +70,13 @@ export function isExisted(data) {
     params: data
   })
 }
-
+export function isExistedUserEname(data) {
+  return request({
+    url: '/api/bs/user/isExistedEname',
+    method: 'get',
+    params: data
+  })
+}
 export function isExistedEmail(data) {
   return request({
     url: '/api/bs/user/isExistedEmail',
