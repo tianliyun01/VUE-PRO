@@ -87,16 +87,18 @@
       </div>
       <div>
         <el-table :data="systemListResult" style="width: 100%">
-          <el-table-column type="index" label="序号" min-width="100" />
-          <el-table-column prop="userCode" label="人员代码" min-width="120" />
-          <el-table-column prop="userCompany" label="公司" min-width="120" />
-          <el-table-column prop="userName" label="姓名" min-width="120" show-overflow-tooltip />
-          <el-table-column prop="validStatus" label="是否启用" min-width="80" :formatter="formatter" />
-          <el-table-column prop="phone" label="手机号码" min-width="100" show-overflow-tooltip />
-          <el-table-column prop="email" label="邮箱" min-width="220" show-overflow-tooltip />
-          <el-table-column fixed="right" label="操作" width="150">
+          <el-table-column type="index" label="序号" width="100" align="center" />
+          <el-table-column prop="userCode" label="人员代码" min-width="120" align="center" />
+          <el-table-column prop="userCompany" label="公司" min-width="120" align="center" />
+          <el-table-column prop="userName" label="姓名" min-width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="validStatus" label="是否启用" min-width="80" :formatter="formatter" align="center" />
+          <el-table-column prop="phone" label="手机号码" min-width="100" show-overflow-tooltip align="center" />
+          <el-table-column prop="email" label="邮箱" min-width="220" show-overflow-tooltip align="center" />
+          <el-table-column prop="roleName" label="角色" min-width="150" show-overflow-tooltip align="center" />
+          <el-table-column label="操作" width="150" align="center">
             <template slot-scope="scope">
-              <el-button type="text" size="mini" @click="edit(scope.row)">权限设置</el-button>
+              <el-button type="text" size="mini" @click="switchValidStatus(scope.row)">{{ scope.row.validStatus==='0'?'启用':'禁用' }}</el-button>
+              <el-button type="text" size="mini" :disabled="scope.row.validStatus==='1'" @click="edit(scope.row)">权限设置</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -116,7 +118,7 @@
   </div>
 </template>
 <script>
-import { queryPermissionData } from '../../api/permission'
+import { queryPermissionData, switchUserStatus } from '../../api/permission'
 
 export default {
   name: 'PermissionIndex',
@@ -253,6 +255,26 @@ export default {
         query: {
           editType: 'ADD'
         }
+      })
+    },
+    switchValidStatus(row) {
+      var params = {
+        id: row.id,
+        validStatus: row.validStatus === '0' ? '1' : '0'
+      }
+      this.$confirm('确定要' + (row.validStatus === '0' ? '启用' : '禁用') + '该用户吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        switchUserStatus(params).then(res => {
+          if (res.state === '0000') {
+            this.queryData()
+            this.$message.success(res.msg)
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
       })
     },
     edit(item) {

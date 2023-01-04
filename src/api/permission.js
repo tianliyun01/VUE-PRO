@@ -21,3 +21,10 @@ export function queryPowerInfo(data) {
     params: data
   })
 }
+export function switchUserStatus(data) {
+  return request({
+    url: '/api/bs/ex/authority/switchUserStatus',
+    method: 'post',
+    data
+  })
+}

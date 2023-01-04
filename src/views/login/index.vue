@@ -208,7 +208,8 @@ export default {
           auth(this.loginForm).then((res) => {
             if (res.retCode === '200') {
               redirectURL(res.redirectURLs[0]).then((_res) => {
-                this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+                // this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+                this.$router.push({ path: '/dashboard' })
               })
             } else {
               this.refreshVerifyCode()

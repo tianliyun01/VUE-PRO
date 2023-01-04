@@ -58,17 +58,17 @@
       </div>
       <div>
         <el-table :data="menuResult" style="width: 100%">
-          <el-table-column type="index" label="序号" width="100" />
-          <el-table-column prop="menuName" label="菜单名称" min-width="150" show-overflow-tooltip />
-          <el-table-column prop="menuUrl" label="菜单URL" min-width="120" />
+          <el-table-column type="index" label="序号" width="100" align="center" />
+          <el-table-column prop="menuName" label="菜单名称" min-width="150" show-overflow-tooltip align="center" />
+          <el-table-column prop="menuUrl" label="菜单URL" min-width="120" show-overflow-tooltip align="center" />
           <!-- <el-table-column prop="description" label="描述" min-width="130" /> -->
-          <el-table-column prop="isValidate" label="菜单状态" min-width="130" :formatter="formatter" />
-          <el-table-column prop="level" label="菜单级别" min-width="130" :formatter="formatter1" />
-          <el-table-column prop="createdBy" label="创建人" min-width="100" show-overflow-tooltip />
-          <el-table-column prop="createdTime" label="创建时间" min-width="180" show-overflow-tooltip />
-          <el-table-column prop="updatedBy" label="更新人" min-width="100" show-overflow-tooltip />
-          <el-table-column prop="updatedTime" label="更新时间" min-width="180" show-overflow-tooltip />
-          <el-table-column fixed="right" label="操作" width="150">
+          <el-table-column prop="isValidate" label="菜单状态" min-width="130" :formatter="formatter" align="center" />
+          <el-table-column prop="level" label="菜单级别" min-width="130" :formatter="formatter1" align="center" />
+          <el-table-column prop="createdBy" label="创建人" min-width="100" show-overflow-tooltip align="center" />
+          <el-table-column prop="createdTime" label="创建时间" min-width="180" show-overflow-tooltip align="center" />
+          <el-table-column prop="updatedBy" label="更新人" min-width="100" show-overflow-tooltip align="center" />
+          <el-table-column prop="updatedTime" label="更新时间" min-width="180" show-overflow-tooltip align="center" />
+          <el-table-column label="操作" width="150" align="center">
             <template slot-scope="scope">
               <el-button type="text" size="mini" @click="edit(scope.row)">编辑</el-button>
               <el-button type="text" size="mini" @click="del(scope.row)">删除</el-button>

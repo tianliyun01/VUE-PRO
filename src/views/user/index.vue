@@ -51,18 +51,18 @@
         <el-button class="query-header-btn fr" size="mini" type="primary" plain @click="add">添加</el-button>
       </div>
       <div>
-        <el-table :data="userResult" style="width: 100%" height="500">
-          <el-table-column type="index" label="序号" width="100" />
-          <el-table-column prop="userCode" label="人员代码" min-width="150" />
-          <el-table-column prop="userName" label="姓名" width="120" />
-          <el-table-column prop="userEname" label="英文名" width="120" />
-          <el-table-column prop="sex" label="性别" width="130" :formatter="formatter" />
+        <el-table :data="userResult" style="width: 100%">
+          <el-table-column type="index" label="序号" width="100" align="center" />
+          <el-table-column prop="userCode" label="人员代码" min-width="150" align="center" />
+          <el-table-column prop="userName" label="姓名" width="120" align="center" />
+          <el-table-column prop="userEname" label="英文名" width="120" align="center" />
+          <el-table-column prop="sex" label="性别" width="130" :formatter="formatter" align="center" />
           <el-table-column prop="userCompany" label="公司" width="180" />
           <!-- <el-table-column prop="department" label="部门" min-width="180" show-overflow-tooltip /> -->
-          <el-table-column prop="mobile" label="手机号码" min-width="150" show-overflow-tooltip />
-          <el-table-column prop="email" label="邮箱" min-width="150" show-overflow-tooltip />
-          <el-table-column prop="phone" label="座机号码" min-width="180" show-overflow-tooltip />
-          <el-table-column fixed="right" label="操作" width="150">
+          <el-table-column prop="mobile" label="手机号码" min-width="150" show-overflow-tooltip align="center" />
+          <el-table-column prop="email" label="邮箱" min-width="150" show-overflow-tooltip align="center" />
+          <el-table-column prop="phone" label="座机号码" min-width="180" show-overflow-tooltip align="center" />
+          <el-table-column label="操作" width="150" align="center">
             <template slot-scope="scope">
               <el-button type="text" size="mini" @click="edit(scope.row)">编辑</el-button>
               <el-button type="text" size="mini" @click="updatePassword(scope.row)">修改密码</el-button>
@@ -132,6 +132,15 @@ export default {
   name: 'UserIndex',
   components: {},
   data() {
+    var validatePass2 = (rule, value, callback) => {
+      if (!value || value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.row.newPassWord) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     return {
       activeName: 'first',
       selectedRiskCode: '',
@@ -145,8 +154,8 @@ export default {
       userCompany: [],
       companyList: [],
       passwordRules: {
-        newPassWord: [{ required: true, message: '密码不能为空', trigger: 'blur' }],
-        confirmPassword: [{ required: true, message: '二次密码不可为空', trigger: 'blur' }]
+        newPassWord: [{ required: true, message: '新密码不能为空', trigger: 'blur' }],
+        confirmPassword: [{ trigger: 'blur', validator: validatePass2 }]
       },
       dialogVisible: false,
       pageSize: 15,
@@ -175,10 +184,17 @@ export default {
       })
     },
     savePassword() {
-      updatePassWord(this.row).then(res => {
-        if (res.state === '0000') {
-          this.$message.success('修改成功')
-          this.$router.push('/user/index')
+      this.$refs['passwordForm'].validate((valid) => {
+        if (valid) {
+          updatePassWord(this.row).then(res => {
+            if (res.state === '0000') {
+              this.$message.success('修改成功')
+              this.dialogVisible = false
+              // this.$router.push('/user/index')
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
         }
       })
     },

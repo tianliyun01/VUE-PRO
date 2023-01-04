@@ -202,7 +202,7 @@
           <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
           <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
           <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />-->
-          <el-table-column fixed="right" label="操作" width="150">
+          <el-table-column fixed="right" label="操作" width="150" align="center">
             <template slot-scope="scope">
               <!--              <el-button type="text" size="mini" @click="edit(scope.row)">禁用</el-button>-->
               <el-button type="text" size="mini" @click="edit(scope.row)">添加对比</el-button>

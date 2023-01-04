@@ -47,11 +47,11 @@
       </div>
       <div>
         <el-table :data="systemListResult" style="width: 100%">
-          <el-table-column type="index" label="序号" width="100" />
-          <el-table-column prop="name" label="名称" min-width="200" show-overflow-tooltip />
-          <el-table-column prop="isValidate" label="状态" width="120" :formatter="formatter" />
-          <el-table-column prop="des" label="描述" width="320" show-overflow-tooltip />
-          <el-table-column fixed="right" label="操作" width="150">
+          <el-table-column type="index" label="序号" min-width="100" align="center" />
+          <el-table-column prop="name" label="名称" min-width="200" show-overflow-tooltip align="center" />
+          <el-table-column prop="isValidate" label="状态" min-width="120" :formatter="formatter" align="center" />
+          <el-table-column prop="des" label="描述" min-width="320" show-overflow-tooltip align="center" />
+          <el-table-column fixed="right" label="操作" width="150" align="center">
             <template slot-scope="scope">
               <el-button type="text" size="mini" @click="edit(scope.row)">编辑</el-button>
             </template>

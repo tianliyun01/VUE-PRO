@@ -37,7 +37,7 @@
                     </el-radio-group>
                   </el-form-item>
                 </el-col>
-                <el-col :span="8">
+                <el-col v-if="editForm.level==='2' || editForm.level==='3'" :span="8">
                   <el-form-item label="父菜单" prop="parentId">
                     <el-select
                       v-model="editForm.parentId"
@@ -62,7 +62,7 @@
                     />
                   </el-form-item>
                 </el-col>
-                <el-col :span="8">
+                <el-col v-if="editForm.isAsMenu==='1'" :span="8">
                   <el-form-item label="菜单URL" prop="menuUrl">
                     <el-input
                       v-model="editForm.menuUrl"
@@ -109,16 +109,14 @@ export default {
       activeName: 'first',
       parentIddisabled: true,
       editForm: {
-        systemItem: '',
-        systemClass: '',
-        integrationMode: '',
-        systemurl: ''
       },
       rules: {
         menuName: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
+        parentId: [{ required: true, message: '请选择父菜单', trigger: 'change' }],
         description: [{ required: true, message: '描述不能为空', trigger: 'blur' }],
-        isValidate: [{ required: true, message: '菜单状态不能为空', trigger: 'blur' }],
-        isAsMenu: [{ required: true, message: '不能为空', trigger: 'blur' }],
+        isValidate: [{ required: true, message: '请选择菜单状态', trigger: 'change' }],
+        isAsMenu: [{ required: true, message: '请选择是否为菜单', trigger: 'change' }],
+        menuUrl: [{ required: true, message: '菜单URL不能为空', trigger: 'blur' }],
         level: [{ required: true, message: '菜单级别不能为空', trigger: 'blur' }]
       },
       riskCodeList: [],
@@ -182,8 +180,9 @@ export default {
       this.$router.push('/menu-manage/index')
     },
     levelChange() {
+      this.editForm.parentId = ''
+      this.menuList = []
       if (this.editForm.level === '1') {
-        this.editForm.parentId = ''
         this.parentIddisabled = true
       } else {
         this.parentIddisabled = false

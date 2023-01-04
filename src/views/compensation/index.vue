@@ -189,20 +189,20 @@
       </div>
       <div>
         <el-table :data="pageInfo" style="width: 100%">
-          <el-table-column type="index" label="序号" width="120" align="center" />
-          <el-table-column prop="brandName" label="品牌" width="120" align="center" />
-          <el-table-column prop="carSystemName" label="车系" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="carSystemEncode" label="车系代码" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="carsName" label="车组" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="modelName" label="车型" width="120" show-overflow-tooltip align="center" />
+          <el-table-column type="index" label="序号" width="100" align="center" />
+          <el-table-column prop="brandName" label="品牌" width="150" align="center" />
+          <el-table-column prop="carSystemName" label="车系" width="150" show-overflow-tooltip align="center" />
+          <el-table-column prop="carSystemEncode" label="车系代码" width="150" show-overflow-tooltip align="center" />
+          <el-table-column prop="carsName" label="车组" width="150" show-overflow-tooltip align="center" />
+          <el-table-column prop="modelName" label="车型" width="150" show-overflow-tooltip align="center" />
           <el-table-column prop="modelEncode" label="车型代码" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="estimateAvgIndemnity" label="CIRI案均" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="estimateAvgIndemnity" label="CIRI案均" width="150" show-overflow-tooltip align="center" />
           <!--  <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
           <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
           <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
           <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
           <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />-->
-          <el-table-column fixed="right" label="操作" width="150">
+          <el-table-column label="操作" width="150" align="center">
             <template slot-scope="scope">
               <!--              <el-button type="text" size="mini" @click="edit(scope.row)">禁用</el-button>-->
               <el-button type="text" size="mini" @click="edit(scope.row)">添加对比</el-button>
