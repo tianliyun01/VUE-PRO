@@ -51,6 +51,7 @@
                   highlight-current
                   :props="defaultProps"
                   :default-checked-keys="checkedKeys"
+                  @check-change="handleNodeClick"
                   @check="handleNodeClick"
                 />
               </el-row>
@@ -185,20 +186,6 @@ export default {
       console.log('onInput')
       this.$forceUpdate()
     },
-    checkChange(index) {
-      this.comChange(this.formList[index])
-      if (this.formList[index].spreadList.length === 0) return
-      const spreadList = this.formList[index].spreadList
-      const checkSpread = this.spreadClassDtoList.filter(item => item.spreadCode === spreadList[spreadList.length - 1]) // 过滤选中类型item
-      const checkSpreadMutexFlags = this.spreadClassDtoList.filter(item => item.mutexFlag === checkSpread[0].mutexFlag) // 过滤选中类型互斥list
-      if (checkSpreadMutexFlags && checkSpreadMutexFlags.length > 1) { // 判断有互斥类型
-        const checkSpreadNot = checkSpreadMutexFlags.filter(item => item.spreadCode !== checkSpread[checkSpread.length - 1].spreadCode) // 过滤选中类型互斥item
-        const ind = spreadList.indexOf(checkSpreadNot[0].spreadCode)
-        if (ind > -1) {
-          spreadList.splice(ind, 1)
-        }
-      }
-    },
     copyItem(item, index) {
       const form = JSON.parse(JSON.stringify(item))
       form.userCode = ''
@@ -208,13 +195,14 @@ export default {
     handleNodeClick(data, nodes) {
       console.log(data, nodes.checkedNodes)
       // this.listQuery.roleMenuDtoList = nodes.checkedNodes.filter(i => i.isAsMenu === '1')
-      this.listQuery.roleMenuDtoList = nodes.checkedNodes
+      // this.listQuery.roleMenuDtoList = nodes.checkedNodes
+      this.listQuery.roleMenuDtoList = nodes.checkedNodes.concat(nodes.halfCheckedNodes)
     },
     // 确定
     save(item, index) {
       this.$refs['listQuery'].validate((valid) => {
         if (valid) {
-          this.listQuery.editType = this.editType
+          this.listQuery.roleMenuDtoList = this.$refs['tree'].getHalfCheckedNodes().concat(this.$refs['tree'].getCheckedNodes())
           saveOrUpdate(this.listQuery).then(res => {
             if (res.state === '0000') {
               this.$message.success('保存成功')

@@ -26,9 +26,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dashboard-container {
-  background-image: url(../../assets/images/index_bg.png) ;
-  width: 1700px;
+  background-image: url(../../assets/images/dashboard_2.jpg);
+  /*width: 1482px;
   height: 900px;
-  background-size: cover;
+  background-size: cover;*/
+  min-height: 100vh;
+  background-size: 100% 100%;
 }
 </style>

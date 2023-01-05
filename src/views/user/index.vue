@@ -91,7 +91,6 @@
               placeholder="请输入"
               disabled
               style="width: 100%"
-              @blur="blurUserCode(editForm.userCode,$event)"
             />
           </el-form-item>
         </el-row>
@@ -99,9 +98,10 @@
           <el-form-item label="密码" prop="newPassWord">
             <el-input
               v-model="row.newPassWord"
+              type="password"
+              auto-complete="new-password"
               placeholder="请输入"
               show-password
-              autocomplete="new-password"
               style="width: 100%"
             />
           </el-form-item>
@@ -110,6 +110,8 @@
           <el-form-item label="确认密码" prop="confirmPassword">
             <el-input
               v-model="row.confirmPassword"
+              type="password"
+              autocomplete="off"
               placeholder="请输入"
               show-password
               style="width: 100%"

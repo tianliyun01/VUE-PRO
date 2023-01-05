@@ -14,8 +14,9 @@
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
+          <!--          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">-->
+          <!--          <i class="el-icon-caret-bottom" />-->
+          <el-avatar style="font-size: 10px"> {{ userName }} </el-avatar>
         </div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item divided @click.native="logout">
@@ -49,6 +50,7 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
+      'userName',
       'device'
     ])
   },
