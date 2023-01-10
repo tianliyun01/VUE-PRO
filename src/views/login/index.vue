@@ -69,7 +69,7 @@
             >
           </div>
         </el-form-item>
-        <!-- <el-form-item prop="emailCode">
+        <el-form-item prop="emailCode">
           <div v-if="true" class="login-verifyCode">
             <el-input
               ref="emailCode"
@@ -91,7 +91,7 @@
               @click="getVerifyCode()"
             >{{ secondsCount }}</el-button>
           </div>
-        </el-form-item> -->
+        </el-form-item>
 
         <el-button :loading="loading" type="primary" style="width:100%;margin-top:20px;height:40px" @click.native.prevent="handleLogin">Login</el-button>
 
@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import { auth, redirectURL } from '../../api/user'
+import { auth, redirectURL, verifyEmailCode } from '../../api/user'
 export default {
   name: 'Login',
   data() {
@@ -116,8 +116,8 @@ export default {
       loginRules: {
         userCode: [{ required: true, message: '不能为空', trigger: 'blur' }],
         passWord: [{ required: true, message: '不能为空', trigger: 'blur' }],
-        pictureCode: [{ required: true, message: '不能为空', trigger: 'blur' }]
-        // emailCode: [{ required: true, message: '不能为空', trigger: 'blur' }]
+        pictureCode: [{ required: true, message: '不能为空', trigger: 'blur' }],
+        emailCode: [{ required: true, message: '不能为空', trigger: 'blur' }]
       },
       passwordType: 'password',
       verifyimg: '',
@@ -175,19 +175,19 @@ export default {
     refreshVerifyCode() {
       this.verifyimg = process.env.VUE_APP_BASE_API + '/api/sso/api/verifyPictureCode?timestamp=' + Math.random()
     },
-    // getVerifyCode() {
-    //   if (!this.canGetMsg) return
-    //   verifyEmailCode(this.loginForm).then((res) => {
-    //     if (res.code === 200) {
-    //       this.wxVerifyKey = res.data.wxVerifyKey
-    //       this.userType = res.data.userType
-    //       this.$message.success('验证码发送成功')
-    //       this.msgCodeFun()
-    //     } else {
-    //       this.$message.error(res.msg)
-    //     }
-    //   })
-    // },
+    getVerifyCode() {
+      if (!this.canGetMsg) return
+      verifyEmailCode(this.loginForm).then((res) => {
+        if (res.code === 200) {
+          this.wxVerifyKey = res.data.wxVerifyKey
+          this.userType = res.data.userType
+          this.$message.success('验证码发送成功')
+          this.msgCodeFun()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
     msgCodeFun() {
       const self = this
       var time = 60
