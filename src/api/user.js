@@ -7,13 +7,13 @@ export function auth(data) {
     data
   })
 }
-// export function verifyEmailCode(params) {
-//   return request({
-//     url: '/api/sso/api/verifyEmailCode',
-//     method: 'get',
-//     params
-//   })
-// }
+export function verifyEmailCode(params) {
+  return request({
+    url: '/api/sso/api/verifyEmailCode',
+    method: 'get',
+    params
+  })
+}
 
 export function getInfo(token) {
   return request({

@@ -69,7 +69,7 @@
             >
           </div>
         </el-form-item>
-        <!-- <el-form-item prop="emailCode">
+        <el-form-item prop="emailCode">
           <div v-if="true" class="login-verifyCode">
             <el-input
               ref="emailCode"
@@ -89,9 +89,10 @@
               plain
               :disabled="!canGetMsg"
               @click="getVerifyCode()"
-            >{{ secondsCount }}</el-button>
+            >{{ secondsCount }}
+            </el-button>
           </div>
-        </el-form-item> -->
+        </el-form-item>
 
         <el-button :loading="loading" type="primary" style="width:100%;margin-top:20px;height:40px" @click.native.prevent="handleLogin">Login</el-button>
 
@@ -102,7 +103,7 @@
 </template>
 
 <script>
-import { auth, redirectURL } from '../../api/user'
+import { auth, redirectURL, verifyEmailCode } from '../../api/user'
 export default {
   name: 'Login',
   data() {
@@ -175,19 +176,19 @@ export default {
     refreshVerifyCode() {
       this.verifyimg = process.env.VUE_APP_BASE_API + '/api/sso/api/verifyPictureCode?timestamp=' + Math.random()
     },
-    // getVerifyCode() {
-    //   if (!this.canGetMsg) return
-    //   verifyEmailCode(this.loginForm).then((res) => {
-    //     if (res.code === 200) {
-    //       this.wxVerifyKey = res.data.wxVerifyKey
-    //       this.userType = res.data.userType
-    //       this.$message.success('验证码发送成功')
-    //       this.msgCodeFun()
-    //     } else {
-    //       this.$message.error(res.msg)
-    //     }
-    //   })
-    // },
+    getVerifyCode() {
+      if (!this.canGetMsg) return
+      verifyEmailCode(this.loginForm).then((res) => {
+        if (res.code === 200) {
+          this.wxVerifyKey = res.data.wxVerifyKey
+          this.userType = res.data.userType
+          this.$message.success('验证码发送成功')
+          this.msgCodeFun()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
     msgCodeFun() {
       const self = this
       var time = 60
