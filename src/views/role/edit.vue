@@ -196,13 +196,18 @@ export default {
       console.log(data, nodes.checkedNodes)
       // this.listQuery.roleMenuDtoList = nodes.checkedNodes.filter(i => i.isAsMenu === '1')
       // this.listQuery.roleMenuDtoList = nodes.checkedNodes
-      this.listQuery.roleMenuDtoList = nodes.checkedNodes.concat(nodes.halfCheckedNodes)
+      if (nodes.checkedNodes) {
+        this.listQuery.roleMenuDtoList = nodes.checkedNodes.concat(nodes.halfCheckedNodes)
+      }
     },
     // 确定
     save(item, index) {
       this.$refs['listQuery'].validate((valid) => {
         if (valid) {
-          this.listQuery.roleMenuDtoList = this.$refs['tree'].getHalfCheckedNodes().concat(this.$refs['tree'].getCheckedNodes())
+          this.listQuery.editType = this.editType
+          if (this.$refs['tree'].getHalfCheckedNodes()) {
+            this.listQuery.roleMenuDtoList = this.$refs['tree'].getHalfCheckedNodes().concat(this.$refs['tree'].getCheckedNodes())
+          }
           saveOrUpdate(this.listQuery).then(res => {
             if (res.state === '0000') {
               this.$message.success('保存成功')
