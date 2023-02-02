@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="login-con">
-      <img src="../../assets/images/login_con_left.png" class="login_con_left">
+      <img src="../../assets/images/dashboard.jpg" class="login_con_left">
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
         <div class="login_ciri">
           <div class="img_ciri" />
@@ -117,8 +117,8 @@ export default {
       loginRules: {
         userCode: [{ required: true, message: '不能为空', trigger: 'blur' }],
         passWord: [{ required: true, message: '不能为空', trigger: 'blur' }],
-        pictureCode: [{ required: true, message: '不能为空', trigger: 'blur' }]
-        // emailCode: [{ required: true, message: '不能为空', trigger: 'blur' }]
+        pictureCode: [{ required: true, message: '不能为空', trigger: 'blur' }],
+        emailCode: [{ required: true, message: '不能为空', trigger: 'blur' }]
       },
       passwordType: 'password',
       verifyimg: '',
