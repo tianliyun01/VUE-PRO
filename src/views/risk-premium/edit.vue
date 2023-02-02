@@ -80,7 +80,7 @@
                 <el-input v-model="scope.row.undrewRiskLevel" :disabled="true" />
               </template>
             </el-table-column>-->
-            <el-table-column prop="estimateRiskPremium" label="预估风险保费" width="150" show-overflow-tooltip align="center" />
+            <el-table-column prop="estimateRiskPremium" label="CIRI风险保费" width="150" show-overflow-tooltip align="center" />
             <!--<el-table-column prop="estimateRiskPremium" align="center" label="预估风险保费" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.estimateRiskPremium" :disabled="true" />
@@ -92,7 +92,7 @@
                 <el-input v-model="scope.row.payRiskLevel" :disabled="true" />
               </template>
             </el-table-column>-->
-            <el-table-column prop="estimateAvgIndemnity" label="预估案均赔款" width="150" show-overflow-tooltip align="center" />
+            <el-table-column prop="estimateAvgIndemnity" label="CIRI案均赔款" width="150" show-overflow-tooltip align="center" />
             <!--<el-table-column prop="estimateAvgIndemnity" align="center" label="预估案均赔款" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.estimateAvgIndemnity" :disabled="true" />
@@ -281,9 +281,9 @@
           <el-table-column prop="carsName" label="车组" width="120" show-overflow-tooltip align="center" />
           <el-table-column prop="modelName" label="车型" width="120" show-overflow-tooltip align="center" />
           <el-table-column prop="undrewRiskLevel" label="承保风险等级" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="estimateRiskPremium" label="预估风险保费" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="estimateRiskPremium" label="CIRI风险保费" width="120" show-overflow-tooltip align="center" />
           <el-table-column prop="payRiskLevel" label="赔付风险等级" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="estimateAvgIndemnity" label="预估案均赔款" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="estimateAvgIndemnity" label="CIRI案均赔款" width="120" show-overflow-tooltip align="center" />
           <el-table-column prop="accidentLevel" label="出险风险等级" width="120" show-overflow-tooltip align="center" />
           <el-table-column prop="accidentRate" label="出险率" width="120" show-overflow-tooltip align="center" />
           <el-table-column prop="partFee" label="常用配件价格" width="120" show-overflow-tooltip align="center" />

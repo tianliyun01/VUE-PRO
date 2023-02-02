@@ -370,7 +370,7 @@
         <el-tab-pane label="零配件明细" name="first">
           <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
             <el-row class="row-bg" justify="space-around">
-              <el-col v-for="(item,index) in repairInfo.repairPartDtoList" :key="index" :span="8">
+              <el-col v-for="(item,index) in list" :key="index" :span="8">
                 <el-form-item :label="item.codeCname">
                   <el-input
                     v-model="item.value"
@@ -423,7 +423,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userName', 'userCode'])
+    ...mapGetters(['userName', 'userCode']),
+    list() {
+      return this.repairInfo.repairPartDtoList.filter(function(item) {
+        // 过滤零配件
+        return item.partNo !== 'PART01' && item.partNo !== 'PART02' &&
+          item.partNo !== 'PART05' && item.partNo !== 'PART06' && item.partNo !== 'PART08' &&
+          item.partNo !== 'PART09' && item.partNo !== 'PART10' && item.partNo !== 'PART11'
+      })
+    }
   },
   created() {
   },

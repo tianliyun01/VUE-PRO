@@ -197,7 +197,7 @@
           <el-table-column prop="carsName" label="车组" width="120" show-overflow-tooltip align="center" />
           <el-table-column prop="modelName" label="车型" width="120" show-overflow-tooltip align="center" />
           <el-table-column prop="modelEncode" label="车型代码" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="estimateAvgIndemnity" label="CIRI案均" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="estimateAvgIndemnity" label="CIRI案均赔款" width="120" show-overflow-tooltip align="center" />
           <el-table-column prop="accidentRate" label="CIRI出险率" width="120" show-overflow-tooltip align="center" />
           <!--  <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
           <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />

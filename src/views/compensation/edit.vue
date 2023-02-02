@@ -50,7 +50,7 @@
                 </el-tooltip>
               </template>
             </el-table-column>-->
-            <el-table-column prop="estimateAvgIndemnity" align="center" label="CIRI案均" width="180" show-overflow-tooltip />
+            <el-table-column prop="estimateAvgIndemnity" align="center" label="CIRI案均赔款" width="180" show-overflow-tooltip />
             <!--<el-table-column prop="estimateAvgIndemnity" align="center" label="CIRI案均" min-width="180" show-overflow-tooltip>
               <template slot-scope="scope">
                 <el-input v-model="scope.row.estimateAvgIndemnity" :disabled="true" />
@@ -282,7 +282,7 @@
           <el-table-column prop="carsName" label="车组" width="200" show-overflow-tooltip align="center" />
           <el-table-column prop="modelName" label="车型" width="200" show-overflow-tooltip align="center" />
           <el-table-column prop="modelEncode" label="车型代码" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="estimateAvgIndemnity" label="CIRI案均" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="estimateAvgIndemnity" label="CIRI案均赔款" width="120" show-overflow-tooltip align="center" />
           <!--<el-table-column type="index" label="序号" width="100" />
           <el-table-column prop="riskName" label="品牌" min-width="200" show-overflow-tooltip>
             <template slot-scope="scope">
