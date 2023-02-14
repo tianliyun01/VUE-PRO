@@ -47,7 +47,7 @@
       </div>
       <div>
         <el-table :data="systemListResult" style="width: 100%">
-          <el-table-column type="index" label="序号" min-width="100" align="center" />
+          <el-table-column type="index" label="序号" min-width="100" width="120" align="center" />
           <el-table-column prop="name" label="名称" min-width="200" show-overflow-tooltip align="center" />
           <el-table-column prop="isValidate" label="状态" min-width="120" :formatter="formatter" align="center" />
           <el-table-column prop="des" label="描述" min-width="320" show-overflow-tooltip align="center" />
