@@ -209,14 +209,14 @@
       <div>
         <el-table :data="pageInfo" style="width: 100%">
           <el-table-column type="index" label="序号" width="120" align="center" />
-          <el-table-column prop="dataSourceName" label="结果来源" width="150" show-overflow-tooltip align="center" />
-          <el-table-column prop="undrewRiskLevel" label="承保风险等级" width="120" align="center" />
-          <el-table-column prop="estimateRiskPremium" label="CIRI风险保费" width="120" align="center" />
-          <el-table-column prop="payRiskLevel" label="赔付风险等级" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="estimateAvgIndemnity" label="CIRI案均赔款" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="accidentLevel" label="出险风险等级" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="accidentRate" label="出险率" width="100" show-overflow-tooltip align="center" />
-          <el-table-column prop="partFee" label="常用配件价格" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="dataSourceName" label="结果来源" min-width="150" show-overflow-tooltip align="center" />
+          <el-table-column prop="undrewRiskLevel" label="承保风险等级" min-width="120" align="center" />
+          <el-table-column prop="estimateRiskPremium" label="CIRI风险保费" min-width="120" align="center" />
+          <el-table-column prop="payRiskLevel" label="赔付风险等级" min-width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="estimateAvgIndemnity" label="CIRI案均赔款" min-width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="accidentLevel" label="出险风险等级" min-width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="accidentRate" label="出险率" min-width="100" show-overflow-tooltip align="center" />
+          <el-table-column prop="partFee" label="常用配件价格" min-width="120" show-overflow-tooltip align="center" />
           <el-table-column fixed="right" label="操作" width="150" align="center">
             <template slot-scope="scope">
               <el-button type="text" size="mini" @click="edit(scope.row)">添加对比</el-button>

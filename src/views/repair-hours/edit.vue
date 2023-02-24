@@ -456,11 +456,11 @@
             align="center"
           />
           <el-table-column align="center" type="index" label="序号" width="180" />
-          <el-table-column align="center" prop="factoryName" label="厂商" width="180" />
-          <el-table-column align="center" prop="brandName" label="品牌" width="180" />
-          <el-table-column align="center" prop="carSystemName" label="车系" width="180" show-overflow-tooltip />
-          <el-table-column align="center" prop="carsName" label="车组" width="180" show-overflow-tooltip />
-          <el-table-column align="center" prop="carSystemEncode" label="车系代码" width="180" show-overflow-tooltip />
+          <el-table-column align="center" prop="factoryName" label="厂商" min-width="180" />
+          <el-table-column align="center" prop="brandName" label="品牌" min-width="180" />
+          <el-table-column align="center" prop="carSystemName" label="车系" min-width="180" show-overflow-tooltip />
+          <el-table-column align="center" prop="carsName" label="车组" min-width="180" show-overflow-tooltip />
+          <el-table-column align="center" prop="carSystemEncode" label="车系代码" min-width="180" show-overflow-tooltip />
         </el-table>
       </div>
       <div class="block footer-page">
@@ -483,18 +483,18 @@
       <div>
         <el-table :data="compareList" style="width: 100%">
           <el-table-column align="center" type="index" label="序号" width="100" />
-          <el-table-column align="center" prop="sourceTypeName" label="结果来源" width="120" />
-          <el-table-column align="center" prop="factoryName" label="厂商" width="120" show-overflow-tooltip />
-          <el-table-column align="center" prop="brandName" label="品牌" width="120" show-overflow-tooltip />
-          <el-table-column align="center" prop="carSystemName" label="车系" width="120" show-overflow-tooltip />
-          <el-table-column align="center" prop="carsName" label="车组" width="120" show-overflow-tooltip />
-          <el-table-column align="center" prop="carSystemEncode" label="车系代码" width="120" show-overflow-tooltip />
-          <el-table-column align="center" prop="dismountHour" label="拆装工时" width="120" show-overflow-tooltip />
-          <el-table-column align="center" prop="paintHour" label="喷漆工时" width="120" show-overflow-tooltip />
-          <el-table-column align="center" prop="metalHour" label="钣金工时" width="120" show-overflow-tooltip />
-          <el-table-column align="center" prop="dismountFee" label="拆装工时费用" width="120" show-overflow-tooltip />
-          <el-table-column align="center" prop="paintFee" label="喷漆工时费用" width="120" show-overflow-tooltip />
-          <el-table-column align="center" prop="metalFee" label="钣金工时费用" width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="sourceTypeName" label="结果来源" min-width="120" />
+          <el-table-column align="center" prop="factoryName" label="厂商" min-width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="brandName" label="品牌" min-width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="carSystemName" label="车系" min-width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="carsName" label="车组" min-width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="carSystemEncode" label="车系代码" min-width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="dismountHour" label="拆装工时" min-width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="paintHour" label="喷漆工时" min-width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="metalHour" label="钣金工时" min-width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="dismountFee" label="拆装工时费用" min-width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="paintFee" label="喷漆工时费用" min-width="120" show-overflow-tooltip />
+          <el-table-column align="center" prop="metalFee" label="钣金工时费用" min-width="120" show-overflow-tooltip />
           <el-table-column fixed="right" label="操作" width="100">
             <template slot-scope="scope">
               <el-button :disabled="scope.row.sourceType==='A'" type="text" size="mini" @click="delRow(scope.$index)">删除</el-button>

@@ -5,7 +5,7 @@
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
         <div class="login_ciri">
           <div class="img_ciri" />
-          <h3 class="login_word">统一登录平台</h3>
+          <h3 class="login_word">车型风险查询平台</h3>
         </div>
 
         <el-form-item prop="userCode">

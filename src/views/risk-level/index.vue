@@ -191,16 +191,16 @@
       <div>
         <el-table :data="pageInfo" style="width: 100%">
           <el-table-column type="index" label="序号" width="120" align="center" />
-          <el-table-column prop="regionName" label="地域" width="120" align="center" />
-          <el-table-column prop="carTypeName" label="车辆类型" width="120" align="center" />
-          <el-table-column prop="insurerCodeName" label="保险公司" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="brandName" label="品牌" width="120" align="center" />
-          <el-table-column prop="carSystemName" label="车系" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="carsName" label="车组" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="modelName" label="车型" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="undrewRiskLevel" label="承保风险等级" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="payRiskLevel" label="赔付风险等级" width="120" show-overflow-tooltip align="center" />
-          <el-table-column prop="accidentLevel" label="出险风险等级" width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="regionName" label="地域" min-width="120" align="center" />
+          <el-table-column prop="carTypeName" label="车辆类型" min-width="120" align="center" />
+          <el-table-column prop="insurerCodeName" label="保险公司" min-width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="brandName" label="品牌" min-width="120" align="center" />
+          <el-table-column prop="carSystemName" label="车系" min-width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="carsName" label="车组" min-width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="modelName" label="车型" min-width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="undrewRiskLevel" label="承保风险等级" min-width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="payRiskLevel" label="赔付风险等级" min-width="120" show-overflow-tooltip align="center" />
+          <el-table-column prop="accidentLevel" label="出险风险等级" min-width="120" show-overflow-tooltip align="center" />
           <!--  <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
           <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
           <el-table-column prop="activeType" label="出险率" width="120" show-overflow-tooltip />
