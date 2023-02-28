@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="login-con">
-      <img src="../../assets/images/dashboard.jpg" class="login_con_left">
+      <img src="../../assets/images/dashboard_3.jpg" class="login_con_left">
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
         <div class="login_ciri">
           <div class="img_ciri" />
