@@ -399,6 +399,7 @@ export default {
         if (res.state === '0000') {
           this.compareList = res.standardPayDtoList ? res.standardPayDtoList : this.compareList
           this.compareList.filter(item => { item.sourceType === 'A' ? item.sourceTypeName = '目标车型' : item.sourceTypeName = '比较车型' })
+          this.$message.success('计算成功!')
         }
       })
     },
@@ -531,7 +532,7 @@ export default {
         return false
       }
       this.multipleSelection.forEach(item => {
-        this.compareList.push(item)
+        this.compareList.push(JSON.parse(JSON.stringify(item)))
       })
     },
     changeSelect() {

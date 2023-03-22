@@ -574,7 +574,7 @@ export default {
         return false
       }
       this.multipleSelection.forEach(item => {
-        this.compareList.push(item)
+        this.compareList.push(JSON.parse(JSON.stringify(item)))
       })
     },
     changeSelect() {
