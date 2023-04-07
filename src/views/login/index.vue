@@ -179,7 +179,6 @@ export default {
     getVerifyCode() {
       if (!this.canGetMsg) return
       verifyEmailCode(this.loginForm).then((res) => {
-        debugger
         if (res.state === '200') {
           this.$message.success('验证码发送成功')
           this.msgCodeFun()
