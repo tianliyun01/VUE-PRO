@@ -94,7 +94,7 @@
           </div>
         </el-form-item>
 
-        <el-button :loading="loading" type="primary" style="width:100%;margin-top:20px;height:40px" @click.native.prevent="handleLogin">Login</el-button>
+        <el-button :loading="loading" type="primary" style="width:100%;margin-top:20px;height:40px" @click.native.prevent="handleLogin">登 录</el-button>
 
       </el-form>
 
@@ -179,9 +179,8 @@ export default {
     getVerifyCode() {
       if (!this.canGetMsg) return
       verifyEmailCode(this.loginForm).then((res) => {
-        if (res.code === 200) {
-          this.wxVerifyKey = res.data.wxVerifyKey
-          this.userType = res.data.userType
+        debugger
+        if (res.state === '200') {
           this.$message.success('验证码发送成功')
           this.msgCodeFun()
         } else {
