@@ -459,7 +459,7 @@ export default {
     },
     queryData() {
       var param = {
-        pageNo: this.pageNo,
+        pageNo: this.currentPage,
         pageSize: this.pageSize,
         regionId: this.queryForm.regionId,
         insurerCode: this.queryForm.insurerCode,

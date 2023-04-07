@@ -375,7 +375,7 @@ export default {
         if (valid) {
           var param = {
             // globalUserCode: this.userCode,
-            pageNo: this.pageNo,
+            pageNo: this.currentPage,
             pageSize: this.pageSize,
             regionId: this.queryForm.regionId,
             insurerCode: this.queryForm.insurerCode,

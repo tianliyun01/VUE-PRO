@@ -724,7 +724,7 @@ export default {
     },
     queryData() {
       var param = {
-        pageNo: this.pageNo,
+        pageNo: this.currentPage,
         pageSize: this.pageSize,
         factoryId: this.queryForm.factoryId,
         brandId: this.queryForm.brandId,

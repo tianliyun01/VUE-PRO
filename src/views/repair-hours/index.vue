@@ -309,7 +309,7 @@ export default {
     queryData() {
       var param = {
         // globalUserCode: this.userCode,
-        pageNo: this.pageNo,
+        pageNo: this.currentPage,
         pageSize: this.pageSize,
         factoryId: this.queryForm.factoryId,
         brandId: this.queryForm.brandId,
