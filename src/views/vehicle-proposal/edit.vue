@@ -118,7 +118,7 @@
       <div class="query-header clearfix">
         <div class="header-title fl">比较车型</div>
       </div>
-      <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
+      <el-form ref="queryForm" :model="queryForm" :rules="queryFormRules" size="mini" label-position="right" label-width="108px" class="pdt-18">
         <el-row class="row-bg" justify="space-around">
           <!--<el-col :span="8">
             <el-form-item label="厂商">
@@ -137,7 +137,7 @@
             </el-form-item>
           </el-col>-->
           <el-col :span="8">
-            <el-form-item label="品牌">
+            <el-form-item label="品牌" prop="brandId">
               <el-select
                 v-model="queryForm.brandId"
                 class="quick-select"
@@ -154,7 +154,7 @@
           </el-col>
 
           <el-col v-if="dataType && dataType>=1" :span="8">
-            <el-form-item label="车系">
+            <el-form-item label="车系" prop="carSystemId">
               <el-select
                 v-model="queryForm.carSystemId"
                 class="quick-select"
@@ -171,7 +171,7 @@
             </el-form-item>
           </el-col>
           <el-col v-if="dataType && dataType>=2" :span="8">
-            <el-form-item label="车组">
+            <el-form-item label="车组" prop="carsId">
               <el-select
                 v-model="queryForm.carsId"
                 class="quick-select"
@@ -188,7 +188,7 @@
             </el-form-item>
           </el-col>
           <el-col v-if="dataType && dataType>=3" :span="8">
-            <el-form-item label="年款">
+            <el-form-item label="年款" prop="yearParagraph">
               <el-select
                 v-model="queryForm.yearParagraph"
                 class="quick-select"
@@ -321,6 +321,12 @@ export default {
       carsForbidden: true,
       modelForbidden: true,
       dialogVisible: false,
+      queryFormRules: {
+        brandId: [{ required: true, message: '请选择品牌', trigger: 'change' }],
+        carSystemId: [{ required: true, message: '请选择车系', trigger: 'change' }],
+        carsId: [{ required: true, message: '请选择车组', trigger: 'change' }],
+        yearParagraph: [{ required: true, message: '请选择年款', trigger: 'change' }]
+      },
       pageSize: 15,
       currentPage: 1,
       total: 0
@@ -497,38 +503,42 @@ export default {
       }
     },
     queryData() {
-      var param = {
-        // globalUserCode: this.userCode,
-        pageNo: this.currentPage,
-        pageSize: this.pageSize,
-        regionId: this.queryForm.regionId,
-        insurerCode: this.queryForm.insurerCode,
-        carType: this.queryForm.carType,
-        dataType: this.dataType,
-        factoryId: this.queryForm.factoryId,
-        brandId: this.queryForm.brandId,
-        carSystemId: this.queryForm.carSystemId,
-        carsId: this.queryForm.carsId,
-        modelId: this.queryForm.modelId,
-        carSystemEncode: this.queryForm.carSystemEncode,
-        modelEncode: this.queryForm.modelEncode,
-        yearParagraph: this.queryForm.yearParagraph,
-        menuId: this.menuId
-        // modelId: this.queryForm.modelId,
-        // modelId: this.queryForm.modelId,
-      }
-      queryLossByPage(param).then(res => {
-        if (res.state === '0000') {
-          if (res.content && res.content.length > 0) {
-            for (let i = 0; i < res.content.length; i++) {
-              res.content[i].sourceType = 'B'
-              res.content[i].sourceTypeName = '比较车型'
-            }
+      this.$refs['queryForm'].validate((valid) => {
+        if (valid) {
+          var param = {
+            // globalUserCode: this.userCode,
+            pageNo: this.currentPage,
+            pageSize: this.pageSize,
+            regionId: this.queryForm.regionId,
+            insurerCode: this.queryForm.insurerCode,
+            carType: this.queryForm.carType,
+            dataType: this.dataType,
+            factoryId: this.queryForm.factoryId,
+            brandId: this.queryForm.brandId,
+            carSystemId: this.queryForm.carSystemId,
+            carsId: this.queryForm.carsId,
+            modelId: this.queryForm.modelId,
+            carSystemEncode: this.queryForm.carSystemEncode,
+            modelEncode: this.queryForm.modelEncode,
+            yearParagraph: this.queryForm.yearParagraph,
+            menuId: this.menuId
+            // modelId: this.queryForm.modelId,
+            // modelId: this.queryForm.modelId,
           }
-          this.pageInfoList = res.content
-          this.total = res.totalCount
-        } else {
-          this.$message.error(res.msg)
+          queryLossByPage(param).then(res => {
+            if (res.state === '0000') {
+              if (res.content && res.content.length > 0) {
+                for (let i = 0; i < res.content.length; i++) {
+                  res.content[i].sourceType = 'B'
+                  res.content[i].sourceTypeName = '比较车型'
+                }
+              }
+              this.pageInfoList = res.content
+              this.total = res.totalCount
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
         }
       })
     },

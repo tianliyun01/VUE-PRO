@@ -267,7 +267,7 @@ export default {
       queryFormRules: {
         regionId: [{ required: true, message: '请选择区域', trigger: 'change' }],
         insurerCode: [{ required: true, message: '请选择保险公司', trigger: 'change' }],
-        carType: [{ required: true, message: '请选择车辆类别', trigger: 'change' }],
+        carType: [{ required: true, message: '请选择车辆类型', trigger: 'change' }],
         dataType: [{ required: true, message: '请选择数据维度', trigger: 'change' }],
         factoryId: [{ required: true, message: '请选择厂商', trigger: 'change' }],
         brandId: [{ required: true, message: '请选择品牌', trigger: 'change' }],

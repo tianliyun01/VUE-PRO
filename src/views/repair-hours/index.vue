@@ -3,7 +3,7 @@
     <div class="Notice">
       <el-tabs v-model="activeName" class="customcard">
         <el-tab-pane label="维修工时数据查询" name="first">
-          <el-form size="mini" label-position="right" label-width="108px" class="pdt-18">
+          <el-form ref="queryForm" :model="queryForm" :rules="queryFormRules" size="mini" label-position="right" label-width="108px" class="pdt-18">
             <!-- <el-row class="row-bg" justify="space-around">
               <el-col :span="8">
                 <el-form-item label="区域">
@@ -54,7 +54,7 @@
             <!--<el-divider style="    margin-top: 0;" />-->
             <el-row class="row-bg" justify="space-around">
               <el-col :span="8">
-                <el-form-item label="厂商">
+                <el-form-item label="厂商" prop="factoryId">
                   <el-select
                     v-model="queryForm.factoryId"
                     class="quick-select"
@@ -70,7 +70,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="品牌">
+                <el-form-item label="品牌" prop="brandId">
                   <el-select
                     v-model="queryForm.brandId"
                     class="quick-select"
@@ -88,7 +88,7 @@
               </el-col>
 
               <el-col :span="8">
-                <el-form-item label="车系">
+                <el-form-item label="车系" prop="carSystemId">
                   <el-select
                     v-model="queryForm.carSystemId"
                     class="quick-select"
@@ -105,7 +105,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="车组">
+                <el-form-item label="车组" prop="carsId">
                   <el-select
                     v-model="queryForm.carsId"
                     class="quick-select"
@@ -196,7 +196,12 @@ export default {
   data() {
     return {
       activeName: 'first',
-      queryForm: {},
+      queryForm: {
+        factoryId: null,
+        brandId: null,
+        carSystemId: null,
+        carsId: null
+      },
       regionList: [],
       carTypeList: [],
       dataTypeList: [],
@@ -210,16 +215,22 @@ export default {
       carsForbidden: true,
       modelForbidden: true,
       insurerCodeList: [],
-      menuId: '15',
+      // menuId: '15',
       pageInfo: [],
       loading: false,
+      queryFormRules: {
+        factoryId: [{ required: true, message: '请选择厂商', trigger: 'change' }],
+        brandId: [{ required: true, message: '请选择品牌', trigger: 'change' }],
+        carSystemId: [{ required: true, message: '请选择车系', trigger: 'change' }],
+        carsId: [{ required: true, message: '请选择车组', trigger: 'change' }]
+      },
       pageSize: 15,
       currentPage: 1,
       total: 0
     }
   },
   computed: {
-    ...mapGetters(['userName', 'userCode'])
+    ...mapGetters(['userName', 'userCode', 'menuId'])
   },
   created() {
     this.initData()
@@ -307,32 +318,32 @@ export default {
       return list
     },*/
     queryData() {
-      var param = {
-        // globalUserCode: this.userCode,
-        pageNo: this.currentPage,
-        pageSize: this.pageSize,
-        factoryId: this.queryForm.factoryId,
-        brandId: this.queryForm.brandId,
-        carSystemId: this.queryForm.carSystemId,
-        carsId: this.queryForm.carsId,
-        carSystemEncode: this.queryForm.carSystemEncode,
-        modelEncode: this.queryForm.modelEncode,
-        menuId: this.menuId
-        // modelId: this.queryForm.modelId,
-        // modelId: this.queryForm.modelId,
-      }
-      queryRepairByPage(param).then(res => {
-        if (res.state === '0000') {
-          if (res.content && res.content.length > 0) {
-            for (let i = 0; i < res.content.length; i++) {
-              res.content[i].sourceType = 'A'
-              res.content[i].sourceTypeName = '目标车组'
-            }
+      this.$refs['queryForm'].validate((valid) => {
+        if (valid) {
+          var param = {
+            // globalUserCode: this.userCode,
+            pageNo: this.currentPage,
+            pageSize: this.pageSize,
+            factoryId: this.queryForm.factoryId,
+            brandId: this.queryForm.brandId,
+            carSystemId: this.queryForm.carSystemId,
+            carsId: this.queryForm.carsId,
+            menuId: this.menuId
           }
-          this.pageInfo = res.content
-          this.total = res.totalCount
-        } else {
-          this.$message.error(res.msg)
+          queryRepairByPage(param).then(res => {
+            if (res.state === '0000') {
+              if (res.content && res.content.length > 0) {
+                for (let i = 0; i < res.content.length; i++) {
+                  res.content[i].sourceType = 'A'
+                  res.content[i].sourceTypeName = '目标车组'
+                }
+              }
+              this.pageInfo = res.content
+              this.total = res.totalCount
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
         }
       })
     },
@@ -341,7 +352,8 @@ export default {
         name: 'RepairHoursEdit',
         query: {
           // editType: 'EDIT',
-          info: JSON.stringify(item)
+          info: JSON.stringify(item),
+          menuId: this.menuId
         }
       })
     },

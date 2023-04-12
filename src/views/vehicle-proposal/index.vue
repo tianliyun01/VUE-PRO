@@ -36,7 +36,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="车辆类型">
+                <el-form-item label="车辆类型" prop="carType">
                   <el-select
                     v-model="queryForm.carType"
                     class="quick-select"
@@ -70,7 +70,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="厂商">
+                <el-form-item label="厂商" prop="factoryId">
                   <el-select
                     v-model="queryForm.factoryId"
                     class="quick-select"
@@ -86,7 +86,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8">
-                <el-form-item label="品牌">
+                <el-form-item label="品牌" prop="brandId">
                   <el-select
                     v-model="queryForm.brandId"
                     class="quick-select"
@@ -104,7 +104,7 @@
               </el-col>
 
               <el-col v-if="queryForm.dataType>=1" :span="8">
-                <el-form-item label="车系">
+                <el-form-item label="车系" prop="carSystemId">
                   <el-select
                     v-model="queryForm.carSystemId"
                     class="quick-select"
@@ -121,7 +121,7 @@
                 </el-form-item>
               </el-col>
               <el-col v-if="queryForm.dataType>=2" :span="8">
-                <el-form-item label="车组">
+                <el-form-item label="车组" prop="carsId">
                   <el-select
                     v-model="queryForm.carsId"
                     class="quick-select"
@@ -138,7 +138,7 @@
                 </el-form-item>
               </el-col>
               <el-col v-if="queryForm.dataType>=3" :span="8">
-                <el-form-item label="年款">
+                <el-form-item label="年款" prop="yearParagraph">
                   <el-select
                     v-model="queryForm.yearParagraph"
                     class="quick-select"
@@ -268,14 +268,14 @@ export default {
       total: 0,
       queryFormRules: {
         regionId: [{ required: true, message: '请选择区域', trigger: 'change' }],
-        insurerCode: [{ required: true, message: '请选择保险公司', trigger: 'change' }]
-        /* carType: [{ required: true, message: '请选择车辆类别', trigger: 'change' }],
+        insurerCode: [{ required: true, message: '请选择保险公司', trigger: 'change' }],
+        carType: [{ required: true, message: '请选择车辆类型', trigger: 'change' }],
         dataType: [{ required: true, message: '请选择数据维度', trigger: 'change' }],
         factoryId: [{ required: true, message: '请选择厂商', trigger: 'change' }],
         brandId: [{ required: true, message: '请选择品牌', trigger: 'change' }],
         carSystemId: [{ required: true, message: '请选择车系', trigger: 'change' }],
         carsId: [{ required: true, message: '请选择车组', trigger: 'change' }],
-        modelId: [{ required: true, message: '请选择车型', trigger: 'change' }]*/
+        yearParagraph: [{ required: true, message: '请选择年款', trigger: 'change' }]
         // userEname: [{ required: true, message: '人员英文名不能为空', trigger: 'blur' }],
       }
     }
